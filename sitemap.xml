@@ -3,39 +3,107 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/authors/admin/</loc>
+    <loc>/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/</loc>
+    <loc>/categories/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/authors/</loc>
+    <loc>/categories/data-science/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/categories/</loc>
+    <loc>/tags/data-science/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/post/</loc>
+    <loc>/2019/10/05/harvardx-data-science-course-first-final-project/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/publication_types/</loc>
+    <loc>/post/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/publication/</loc>
+    <loc>/tags/r/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/talk/</loc>
+    <loc>/tags/statistical-learning/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Emmanuel-R8.github.io/tags/</loc>
+    <loc>/tags/</loc>
+    <lastmod>2019-10-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/machine-learning/</loc>
+    <lastmod>2019-08-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/machine-learning/</loc>
+    <lastmod>2019-08-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/octave/</loc>
+    <lastmod>2019-08-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2019/08/02/stanford-online-machine-learning-c229/</loc>
+    <lastmod>2019-08-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/blogdown/</loc>
+    <lastmod>2019-08-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2019/08/01/hello-blogdown/</loc>
+    <lastmod>2019-08-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2019-08-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r-markdown/</loc>
+    <lastmod>2019-08-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rstudio/</loc>
+    <lastmod>2019-08-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2019-07-15T21:48:51-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/whoami/</loc>
+    <lastmod>2019-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/archives/</loc>
   </url>
   
 </urlset>
