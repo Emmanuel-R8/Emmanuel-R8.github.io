@@ -2,84 +2,102 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Back2Numbers</title>
-    <link>/tags/</link>
+    <link>/tags.html</link>
     <description>Recent content in Tags on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Sat, 05 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Machine Learning</title>
+      <link>/tags/machine-learning.html</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/machine-learning.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Neural Network</title>
+      <link>/tags/neural-network.html</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/neural-network.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>What About?</title>
+      <link>/tags/what-about.html</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/what-about.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Data Science</title>
-      <link>/tags/data-science/</link>
+      <link>/tags/data-science.html</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/data-science/</guid>
+      <guid>/tags/data-science.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>/tags/r.html</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>/tags/r.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>Statistical Learning</title>
-      <link>/tags/statistical-learning/</link>
+      <link>/tags/statistical-learning.html</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/statistical-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>/tags/machine-learning/</link>
-      <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/machine-learning/</guid>
+      <guid>/tags/statistical-learning.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>Octave</title>
-      <link>/tags/octave/</link>
+      <link>/tags/octave.html</link>
       <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/octave/</guid>
+      <guid>/tags/octave.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>blogdown</title>
-      <link>/tags/blogdown/</link>
+      <link>/tags/blogdown.html</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/blogdown/</guid>
+      <guid>/tags/blogdown.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>R Markdown</title>
-      <link>/tags/r-markdown/</link>
+      <link>/tags/r-markdown.html</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r-markdown/</guid>
+      <guid>/tags/r-markdown.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>RStudio</title>
-      <link>/tags/rstudio/</link>
+      <link>/tags/rstudio.html</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/rstudio/</guid>
+      <guid>/tags/rstudio.html</guid>
       <description></description>
     </item>
     

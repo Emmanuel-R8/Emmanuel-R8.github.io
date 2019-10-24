@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Back2Numbers</title>
-    <link>/tags/r/</link>
+    <link>/tags/r.html</link>
     <description>Recent content in R on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
@@ -13,10 +13,10 @@
     
     <item>
       <title>HarvardX Data Science course - First final project</title>
-      <link>/2019/10/05/harvardx-data-science-course-first-final-project/</link>
+      <link>/post/harvardx-data-science-course-first-final-project.html</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/10/05/harvardx-data-science-course-first-final-project/</guid>
+      <guid>/post/harvardx-data-science-course-first-final-project.html</guid>
       <description>I recently finished to penultimate final assignment for the HarvardX Data Science course. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.
 This time R is the centre tool of the course.</description>
     </item>

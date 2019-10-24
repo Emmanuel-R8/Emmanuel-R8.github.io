@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Neural Network on Back2Numbers</title>
+    <link>/categories/neural-network.html</link>
+    <description>Recent content in Neural Network on Back2Numbers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-au</language>
+    <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/neural-network/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Neural Network - Incremental Growth </title>
+      <link>/post/neural-network-incremental-growth.html</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/neural-network-incremental-growth.html</guid>
+      <description>|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
+We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</description>
+    </item>
+    
+  </channel>
+</rss>

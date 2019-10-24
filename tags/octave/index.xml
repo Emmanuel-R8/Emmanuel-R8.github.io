@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Octave on Back2Numbers</title>
-    <link>/tags/octave/</link>
+    <link>/tags/octave.html</link>
     <description>Recent content in Octave on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
@@ -13,10 +13,10 @@
     
     <item>
       <title>Stanford Online - Machine Learning C229 </title>
-      <link>/2019/08/02/stanford-online-machine-learning-c229/</link>
+      <link>/post/stanford-online-machine-learning-c229.html</link>
       <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/02/stanford-online-machine-learning-c229/</guid>
+      <guid>/post/stanford-online-machine-learning-c229.html</guid>
       <description>Review I recently completed the Stanford online version of the Machine Learning CS229 course taught by Andrew Ng. There is no need to introduce this course which has reached stardom.
 It often was a trip a trip down memory lane repeating what I studied in the late 90’ies. It was interesting that quite a bit has remained as relevant. Back then, and I am now talking early 90ies, neural networks were still fashionable but computationally intractable past what would hardly be considered a single layer nowadays.</description>
     </item>
