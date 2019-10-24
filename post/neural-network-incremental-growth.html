@@ -91,7 +91,7 @@ if (!doNotTrack) {
 <p>We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</p>
 <p>Back in 1993, I read a paper about growing neural networks neuron-by-neuron. I have no other precise recollection about this paper apart from the models considered being of the order of 10s of neurons and the weight optimisation being made on a global basis, i.e. not layer-by-layer like backpropagation. Nowadays, it is still too often the case that finding a network structure that solves a particular problem is a random walk: how many layers, with how many neurons, with which activation functions? Regularisation methods? Drop-out rate? Training batch size? The list goes on.</p>
 <p>This got me thinking about how a training heuristic could incrementally modify a network structure given a particular training set and, apart maybe from a few hyperparameters, do that with no external intervention. At regular training intervals, a layer<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> will be modified depending on what it <em>seems</em> able or not to achieve. As we will see, we will use unsupervised learning methods to do this: a layer modification will be independent of the actual learning problem and automatic.</p>
-<p>I have no doubt that others have looked into that. But they might have kept those ideas away from Google, as I could not find anything. In any event, it is interesting enough a question to research it.</p>
+<p>Many others have looked into that. But what I found regarding self-organising networks is pre-2000, and nothing in the context of deep learning. So it seems that the topic has gone out of fashion because of the current amounts of computing power, or has been set aside for reasons unknown. (See references at the end). In any event, it is interesting enough a question to research it.</p>
 </div>
 <div id="background" class="section level1">
 <h1>Background</h1>
@@ -234,9 +234,45 @@ O \Sigma I^\intercal =
 </ul>
 </div>
 </div>
-<div id="known-references" class="section level1">
-<h1>Known references</h1>
+<div id="litterature" class="section level1">
+<h1>Litterature</h1>
+<p>Here are a few summary litterature references related to the topic.</p>
+<div id="the-elements-of-statistical-learning" class="section level4">
+<h4>The Elements of Statistical Learning</h4>
 <p>The ESL top of p 409 proposes PCA to interpret layers, i.e. to improve the interpretability of the decisions made by a network.</p>
+</div>
+<div id="neural-network-implementations-for-pca-and-its-extensions" class="section level4">
+<h4>Neural Network Implementations for PCA and Its Extensions</h4>
+<p><a href="http://downloads.hindawi.com/archive/2012/847305.pdf" class="uri">http://downloads.hindawi.com/archive/2012/847305.pdf</a></p>
+<p>Uses neural networks as a substitute for PCA.</p>
+</div>
+<div id="an-incremental-neural-network-construction-algorithm-for-training-multilayer-perceptrons" class="section level4">
+<h4>An Incremental Neural Network Construction Algorithm for Training Multilayer Perceptrons</h4>
+<p>Aran, Oya, and Ethem Alpaydin. “An incremental neural network construction algorithm for training multilayer perceptrons.” Artificial Neural Networks and Neural Information Processing. Istanbul, Turkey: ICANN/ICONIP (2003).</p>
+<p><a href="https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf" class="uri">https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf</a></p>
+</div>
+<div id="kohonen-maps" class="section level4">
+<h4>Kohonen Maps</h4>
+<p><a href="https://en.wikipedia.org/wiki/Self-organizing_map" class="uri">https://en.wikipedia.org/wiki/Self-organizing_map</a></p>
+</div>
+<div id="self-organising-network" class="section level4">
+<h4>Self-Organising Network</h4>
+<div id="a-self-organising-network-that-grows-when-required-2002" class="section level5">
+<h5>A Self-Organising Network That Grows When Required (2002)</h5>
+<p><a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763" class="uri">https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763</a></p>
+</div>
+<div id="the-cascade-correlation-learning-architecture" class="section level5">
+<h5>The Cascade-Correlation Learning Architecture</h5>
+<p><a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421" class="uri">https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421</a></p>
+<p>Growth with quick freeze as a way to avoid the expense of back-propagation.</p>
+</div>
+<div id="soinnself-organizing-incremental-neural-network" class="section level5">
+<h5>SOINN：Self-Organizing Incremental Neural Network</h5>
+<p><a href="http://www.haselab.info/soinn-e.html" class="uri">http://www.haselab.info/soinn-e.html</a>
+<a href="https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf" class="uri">https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf</a></p>
+<p>Seems focused on neuron by neuron evolution.</p>
+</div>
+</div>
 </div>
 <div class="footnotes">
 <hr />
