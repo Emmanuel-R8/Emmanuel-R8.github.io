@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>What About? on Back2Numbers</title>
-    <link>/tags/what-about.html</link>
-    <description>Recent content in What About? on Back2Numbers</description>
+    <title>Quick Thought on Back2Numbers</title>
+    <link>/categories/quick-thought.html</link>
+    <description>Recent content in Quick Thought on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
     <lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/what-about/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/quick-thought/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -20,16 +20,6 @@
       <description>Quick Thoughts are random thoughts looking for comments
  Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
 Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.</description>
-    </item>
-    
-    <item>
-      <title>Neural Network - Incremental Growth </title>
-      <link>/post/neural-network-incremental-growth.html</link>
-      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/neural-network-incremental-growth.html</guid>
-      <description>|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
-We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</description>
     </item>
     
   </channel>

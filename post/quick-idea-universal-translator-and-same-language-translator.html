@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-au">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Quick Thought: Universal translator and same language translator - Back2Numbers</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-150743827-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Back2Numbers" rel="home">
+				<div class="logo__title">Back2Numbers</div>
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/whoami/">#&gt;whoami</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories">Categories</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/tags">Tags</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/archives">Archives</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">About this site</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/">Home</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Quick Thought: Universal translator and same language translator</h1>
+			
+		</header><div class="content post__content clearfix">
+			
+
+
+<blockquote>
+<p><strong>Quick Thoughts are random thoughts looking for comments</strong></p>
+</blockquote>
+<p>Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.</p>
+<p>Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation. What would be the consequences for the learning system inside the blackbox of being constrained that if the languages are the same, the output has to be identical to the input?</p>
+<p>Obviously, the blackbox could quickly learn that bypassing the translation does the trick. However, that would probably require the internal circuitry to allow for the bypass, and that could be constrained out. So:</p>
+<ul>
+<li>Could we expect any interesting result?</li>
+<li>Could the input to be eventually forced down to a language-independent universal representation?</li>
+<li>Let’s say there is a language-independent universal representation kernel. If the input comes in without information of which is the output language, and the output has no information of what the input language was, does it force the network to create a universal representation, or would it just withered away?</li>
+<li>Is it possible to <em>invert</em> a network? Probably not in a truly bijective way, but to model the fact that text representation <span class="math inline">\(\rightarrow\)</span> universal representation is the <em>inverse</em> (for some definition of the word) of universal representation <span class="math inline">\(\rightarrow\)</span> text representation of the same language?</li>
+</ul>
+<p><em><strong>Comments welcome</strong></em>.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/quick-thought/" rel="tag">Quick Thought</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/machine-learning/" rel="tag">Machine Learning</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/neural-network/" rel="tag">Neural Network</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/statistical-learning/" rel="tag">Statistical Learning</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/what-about/" rel="tag">What About?</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-emmanuel-r8-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 Back2Numbers.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

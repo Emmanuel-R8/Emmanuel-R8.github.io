@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Machine Learning</title>
       <link>/tags/machine-learning.html</link>
-      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/machine-learning.html</guid>
       <description></description>
@@ -23,16 +23,34 @@
     <item>
       <title>Neural Network</title>
       <link>/tags/neural-network.html</link>
-      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/neural-network.html</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Quick Thought</title>
+      <link>/tags/quick-thought.html</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/quick-thought.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistical Learning</title>
+      <link>/tags/statistical-learning.html</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/statistical-learning.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>What About?</title>
       <link>/tags/what-about.html</link>
-      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/what-about.html</guid>
       <description></description>
@@ -53,15 +71,6 @@
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/r.html</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Statistical Learning</title>
-      <link>/tags/statistical-learning.html</link>
-      <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/statistical-learning.html</guid>
       <description></description>
     </item>
     

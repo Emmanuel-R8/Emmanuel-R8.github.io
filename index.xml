@@ -6,10 +6,21 @@
     <description>Recent content on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Quick Thought: Universal translator and same language translator</title>
+      <link>/post/quick-idea-universal-translator-and-same-language-translator.html</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/quick-idea-universal-translator-and-same-language-translator.html</guid>
+      <description>Quick Thoughts are random thoughts looking for comments
+ Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
+Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.</description>
+    </item>
     
     <item>
       <title>Neural Network - Incremental Growth </title>

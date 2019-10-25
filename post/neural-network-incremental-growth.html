@@ -222,7 +222,7 @@ O \Sigma I^\intercal =
 <ul>
 <li><p>Only 1-D layers. Higher-order SVD is in principle feasible for higher order tensors. Other methods?</p></li>
 <li><p>We delete the eigenvectors associated to low eigenvalues and limited rotations. There are other forms of regularisations, e.g. random weight cancelling that would not care about anything eigen-.</p></li>
-<li><p>What is the real impact of ignoring the activation function?</p></li>
+<li><p>What is the real impact of ignoring the activation function? PCA requires centered values. Geometrically, uncentered values would mean more limited rotations since samples would be in quadrant far from 0.</p></li>
 </ul>
 </div>
 <div id="further-questions" class="section level2">
