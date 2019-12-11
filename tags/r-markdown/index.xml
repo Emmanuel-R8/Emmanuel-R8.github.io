@@ -13,10 +13,10 @@
     
     <item>
       <title>Hello Blogdown!</title>
-      <link>/post/2019-08-01-blogdown.html</link>
+      <link>/2019/08/01/hello-blogdown.html</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/2019-08-01-blogdown.html</guid>
+      <guid>/2019/08/01/hello-blogdown.html</guid>
       <description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
     </item>
     

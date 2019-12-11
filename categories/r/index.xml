@@ -6,17 +6,27 @@
     <description>Recent content in R on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Thu, 01 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>HarvardX Final Report - LendingClub dataset</title>
+      <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
+      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
+      <description>After 3 months of work, the final report for the HarvardX Data Science course was submitted.
+It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.</description>
+    </item>
+    
+    <item>
       <title>Hello Blogdown!</title>
-      <link>/post/2019-08-01-blogdown.html</link>
+      <link>/2019/08/01/hello-blogdown.html</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/2019-08-01-blogdown.html</guid>
+      <guid>/2019/08/01/hello-blogdown.html</guid>
       <description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
     </item>
     

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-au">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Neural Network - Incremental Growth  - Back2Numbers</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-150743827-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Back2Numbers" rel="home">
+				<div class="logo__title">Back2Numbers</div>
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/whoami/">
+				
+				<span class="menu__text">#&gt;whoami</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories">
+				<i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+				<span class="menu__text">Categories</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/tags">
+				<i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+				<span class="menu__text">Tags</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/archives">
+				<i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+				<span class="menu__text">Archives</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
+				<span class="menu__text">About this site</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				<i class="sidebar-button-icon fa fa-lg fa-home"></i>
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Neural Network - Incremental Growth </h1>
+			
+		</header><div class="content post__content clearfix">
+			
+
+
+<div id="section" class="section level1">
+<h1><strong><em>|</em></strong></h1>
+</div>
+<div id="draft-1" class="section level1">
+<h1><strong><em>| DRAFT 1</em></strong></h1>
+</div>
+<div id="section-1" class="section level1">
+<h1><strong><em>|</em></strong></h1>
+<p><strong>This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?</strong></p>
+<p>We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</p>
+<p>Back in 1993, I read a paper about growing neural networks neuron-by-neuron. I have no other precise recollection about this paper apart from the models considered being of the order of 10s of neurons and the weight optimisation being made on a global basis, i.e. not layer-by-layer like backpropagation. Nowadays, it is still too often the case that finding a network structure that solves a particular problem is a random walk: how many layers, with how many neurons, with which activation functions? Regularisation methods? Drop-out rate? Training batch size? The list goes on.</p>
+<p>This got me thinking about how a training heuristic could incrementally modify a network structure given a particular training set and, apart maybe from a few hyperparameters, do that with no external intervention. At regular training intervals, a layer<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> will be modified depending on what it <em>seems</em> able or not to achieve. As we will see, we will use unsupervised learning methods to do this: a layer modification will be independent of the actual learning problem and automatic.</p>
+<p>Many others have looked into that. But what I found regarding self-organising networks is pre-2000, and nothing in the context of deep learning. So it seems that the topic has gone out of fashion because of the current amounts of computing power, or has been set aside for reasons unknown. (See references at the end). In any event, it is interesting enough a question to research it.</p>
+</div>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>Let us look at a simple 1-D layer and decompose what it exactly does. Basically a layer does:</p>
+<p><span class="math display">\[
+\text{ouput} = f(M \times \text{input})
+\]</span>
+If the input <span class="math inline">\(I\)</span> has size <span class="math inline">\(n_I\)</span>, the output <span class="math inline">\(O\)</span> has size <span class="math inline">\(n_I\)</span>, and <span class="math inline">\(f\)</span> being the activation function, we have (where <span class="math inline">\(\odot\)</span> represents the matrix element-wise application of a function):</p>
+<p><span class="math display">\[
+O = f \odot (M \times I)
+\]</span></p>
+<p>Then, looking at <span class="math inline">\(M\)</span>, what does it really do? At one extreme, if <span class="math inline">\(M\)</span> was the identity matrix, it would essentially be useless (bar the activation function<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>). This would be a layer candidate for deletion. The question is then:</p>
+<blockquote>
+<p><strong>Looking at the matrix representing a layer, can we identify which parts are (1) useless, (2) useful and complex enough, or (3) useful but too simplistic?</strong>.</p>
+</blockquote>
+<p>Here, <em>complex enough</em> or <em>simplistic</em> is basically a synonym of “<em>one layer is enough</em>”, or “<em>more layers are necessary</em>”.</p>
+<p>The idea to look for important/complex information which where the network needs to grow more complex; and identify trivial information which can be discarded, or can be viewed as minor adjustments to improve error rates (basically overfitting…)</p>
+<p><em>Caveat</em>: Note that we ignore the activation function. They are key to introduce non-linearity. Without it, a network is only a linear function, i.e. no interest. They have a clear impact on the performance of a network.</p>
+</div>
+<div id="singular-matrix-decomposition" class="section level1">
+<h1>Singular matrix decomposition</h1>
+<p>There exists many ways to decompose a matrix. Singular matrix decomposition (<em>SVD</em>) <span class="math inline">\(M = O \Sigma I^\intercal\)</span> is an easy and efficient way to interpret what a given matrix does. SVD builds on the eigenvectors (expressed in an orthonormal basis), and eigenvalues. (Note that <span class="math inline">\(M\)</span> is real-valued, so we use the transpose notation <span class="math inline">\(M^\intercal\)</span> instead of the conjugate transpose <span class="math inline">\(M^*\)</span>.)</p>
+<p>In a statistical world, SVD (with eigenvalues ordered by decreasing value) is how to do principal component analysis(<em>PCA</em>).</p>
+<p>In a geometrical context, SVD:</p>
+<ul>
+<li>takes a vector (expressed in the orthonormal basis);</li>
+<li>re-expresses onto a new basis made of the eigenvectors (that would only exceptionally be orthonormal);</li>
+<li>dilates/compresses those components by the relevant eigenvalues;</li>
+<li>and returns this resulting vector expressed back onto the orthonormal basis.</li>
+</ul>
+<p>As presented here, this explanation requires a bit more intellectual gymnastic when the matrix is not square (i.e. when the input and output layers have different dimensions), but the principle remains identical.</p>
+<div id="where-next" class="section level3">
+<h3>Where next?</h3>
+<p>Taking the statistical and geometrical points of view together, the layer (matrix <span class="math inline">\(M\)</span>) shuffles the input vector in its original space space where some specific directions are more important than others. Those directions are linear combinations of the input neurons, each combinations is along the eigenvectors. Those combinations are given more or less importance as expressed by the eigenvalues. (Note that the squares of the eigenvalues expressed how much information each combination brings to the table.)</p>
+<p>Intuitively, the simplest and most useless <span class="math inline">\(M\)</span> would be the identity matrix (the input units are repeated), or zero matrix (the input units are dropped because useless). Let us repeat the caveat that the activation function is ignored.</p>
+<p>If compared to the identity matrix, the SVD shows that <span class="math inline">\(M\)</span> includes (at least) two types of important information identified:</p>
+<ul>
+<li>What are interesting combinations of the input units? This is expressed by how much the input vector is rotated in space.</li>
+<li>Independently from whether a combination is complicated or not (i.e. multiple units, or unit passthrough), how an input is amplified (as expressed by the eigenvalues).</li>
+</ul>
+<p>The idea is then produce a 2x2 decision matrix with high/low rotation mess and high/low eigenvalues.</p>
+<p>A picture is gives the intuition of what we are after:</p>
+<div class="figure">
+<img src="/post/2019-10-23-neural-network-incremental-growth_files/2019-10-23-Network-Incremental-Growth-Matrix-Split.png" alt="Transformation of the Layer Matrix" />
+<p class="caption">Transformation of the Layer Matrix</p>
+</div>
+<p>Looking from top to bottom at what the “after” matrices would be:</p>
+<ul>
+<li><p>Part of the original layer, immediately followed by a new one (we will see below what that would look like). The intuition is that this layer is really messing things up down the line, or seems very sensitive.</p></li>
+<li><p>Part of the original layer where the number of units would be increased (here doubled as an example).</p></li>
+<li><p>Part of the original layer kept <em>functionally</em> essentially as is.</p></li>
+<li><p>Delete the rest which is either not sensitive to input or outputs nothings. This would be within a certain precision. That is basically a form of regularisation preventing the overall model to be too sensitive. I am aware that there are other types of regularisations, but that will go in the limitations category.</p></li>
+</ul>
+<p>The next layer would take as input all the transformed outputs.</p>
+<p>In practice, the picture presents the matrices separated. This is for ease of understanding. In reality the same effect would be achieved if the three dark blue sub-layers are merged in a single layer.</p>
+</div>
+</div>
+<div id="back-to-svd" class="section level1">
+<h1>Back to SVD</h1>
+<p>Let us assume that there are <span class="math inline">\(n\)</span> input units and <span class="math inline">\(m\)</span> output units. <span class="math inline">\(M\)</span> then is of dimensions <span class="math inline">\(m \times n\)</span>. The matrices of the SVD have dimensions:</p>
+<p><span class="math display">\[
+\begin{matrix}
+M          &amp; = &amp; O          &amp; \Sigma     &amp; I^\intercal \\
+m \times n &amp;   &amp; m \times m &amp; m \times n &amp; n \times n \\
+\end{matrix}
+\]</span></p>
+<p>Note that instead of using <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> to name the sub-matrices of the SVD, we use <span class="math inline">\(I\)</span> and <span class="math inline">\(O\)</span> to represent <em>input</em> and <em>output</em>.</p>
+<p>The <span class="math inline">\(I\)</span> and <span class="math inline">\(O\)</span> can be written as:</p>
+<p><span class="math display">\[
+I =
+\begin{pmatrix} |   &amp;        &amp; |    \\ i_1 &amp; \cdots &amp; i_m  \\ |   &amp;        &amp; |    \\ \end{pmatrix} 
+\qquad \text{and} \qquad
+O =
+\begin{pmatrix} |   &amp;       &amp; | \\ o_1 &amp; \cdots &amp; o_n \\ |   &amp;       &amp; | \\ \end{pmatrix}
+\]</span></p>
+<p>Then:</p>
+<p><span class="math display">\[
+M =
+O \Sigma I^\intercal =
+\begin{pmatrix} | &amp;&amp; | \\ o_1 &amp; \dots &amp; o_m \\ | &amp; &amp; | \\ \end{pmatrix}
+\begin{pmatrix} \sigma_1 \\ &amp; \sigma_2 \\ &amp;&amp; \ddots \\ &amp;&amp;&amp; \sigma_r \\ &amp;&amp;&amp;&amp; 0 \\ &amp;&amp;&amp;&amp;&amp; \ddots \\ &amp;&amp;&amp;&amp;&amp;&amp; 0 \\ \end{pmatrix}
+\begin{pmatrix} - &amp; i_1 &amp; - \\ &amp; \vdots &amp; \\ -  &amp; i_n &amp; - \\ \end{pmatrix}
+\]</span></p>
+<p>where <span class="math inline">\(\Sigma\)</span> has <span class="math inline">\(r\)</span> non-zero eigenvalues.</p>
+</div>
+<div id="regularisation" class="section level1">
+<h1>Regularisation</h1>
+<p>At this stage, we can regularise all components.</p>
+<div id="vector-coordinates" class="section level2">
+<h2>Vector coordinates</h2>
+<p>For each vector <span class="math inline">\(i_k\)</span> or <span class="math inline">\(o_k\)</span>, we could zero its coordinates when below a certain threshold (in absolute value). All the coordinates will <span class="math inline">\(-\)</span> and <span class="math inline">\(1\)</span> since each vector has norm 1 (<span class="math inline">\(I\)</span> and <span class="math inline">\(O\)</span> are orthonormal), therefore all of them will be regularised in similar ways.</p>
+<p>After regularisation, the matrices will not be orthonormal anymore. They can easily be made normal by scaling up by <span class="math inline">\(\frac{1}{\sum_{k}i_k^2}\)</span> or <span class="math inline">\(\frac{1}{\sum_{k}o_k^2}\)</span>. There is no generic way to revert to an orthogonal basis and keep the zeros.</p>
+<p>We need a way to measure the <code>rotation messiness</code> of each vector. As a shortcut, we can use the proportion of non-zero vector coordinates (after <em>de minimis</em> regularisation).</p>
+</div>
+<div id="eigenvalues" class="section level2">
+<h2>Eigenvalues</h2>
+<p>The same can be done for the <span class="math inline">\(\sigma\)</span>s. As an avenue of experimentation, those values can not only be zero-ed in places, but also rescale the large values in some non-linear way (e.g. logarithmic or square root rescaling).</p>
+</div>
+<div id="threshold" class="section level2">
+<h2>Threshold</h2>
+<p>Where to set the threshold is to be experimented with. Mean? Median since more robust? Some quartile?</p>
+</div>
+<div id="by-2-decision-matrix" class="section level2">
+<h2>2-by-2 decision matrix</h2>
+<p>Based on those regularisation, we would propose the following:</p>
+<p><span class="math display">\[ 
+\begin{matrix}
+                    &amp; \text{low rotation messiness} &amp; \text{high rotation messiness} \\
+\text{high } \sigma &amp; \text{Double height}          &amp; \text{Double depth}            \\
+\text{low } \sigma  &amp; \text{Delete}                 &amp; \text{Keep identical}          \\
+\end{matrix}
+\]</span></p>
+</div>
+</div>
+<div id="todo-other-principal-components-methods" class="section level1">
+<h1>[TODO] Other Principal Components methods</h1>
+<p>SVD is PCA. Projects information on hyperplanes.</p>
+<p>Reflect on non-linear versions: Principal Curves, Kernel Principal Components, Sparse Principal Components, Independent Component Analysis. (_Elements of Statistical Learning s. 14.5 seq.).</p>
+</div>
+<div id="todo-proof-of-the-pudding" class="section level1">
+<h1>[TODO] Proof of the pudding…</h1>
+<p>Implementations!!!</p>
+</div>
+<div id="limitations-and-further-questions" class="section level1">
+<h1>Limitations and further questions</h1>
+<div id="limitations" class="section level2">
+<h2>Limitations</h2>
+<ul>
+<li><p>Only 1-D layers. Higher-order SVD is in principle feasible for higher order tensors. Other methods?</p></li>
+<li><p>We delete the eigenvectors associated to low eigenvalues and limited rotations. There are other forms of regularisations, e.g. random weight cancelling that would not care about anything eigen-.</p></li>
+<li><p>What is the real impact of ignoring the activation function? PCA requires centered values. Geometrically, uncentered values would mean more limited rotations since samples would be in quadrant far from 0.</p></li>
+</ul>
+</div>
+<div id="further-questions" class="section level2">
+<h2>Further questions</h2>
+<ul>
+<li><p>The final structure is a direct product of the training set. What if the training is done differently (batches sized or ordered differently)?</p></li>
+<li><p>What about training many variants with different subsets of the training set and using ensemble methods?</p></li>
+<li><p>The eigenvalues could be modified when creating the new layers. By decreasing the highest eigevalues (in absolute value), we effectively regularise the layers outputs. This decrease could bring additional non-linearity if the compression ratio depends on the eigengevalue (e.g. replacing it by it square root). And this non-linearty would not bring additional complexity to the back-propagation algorithm, or auto-differentiated functions: it only modifies the final values if the new matrices.</p></li>
+</ul>
+</div>
+</div>
+<div id="litterature" class="section level1">
+<h1>Litterature</h1>
+<p>Here are a few summary litterature references related to the topic.</p>
+<div id="the-elements-of-statistical-learning" class="section level4">
+<h4>The Elements of Statistical Learning</h4>
+<p>The ESL top of p 409 proposes PCA to interpret layers, i.e. to improve the interpretability of the decisions made by a network.</p>
+</div>
+<div id="neural-network-implementations-for-pca-and-its-extensions" class="section level4">
+<h4>Neural Network Implementations for PCA and Its Extensions</h4>
+<p><a href="http://downloads.hindawi.com/archive/2012/847305.pdf" class="uri">http://downloads.hindawi.com/archive/2012/847305.pdf</a></p>
+<p>Uses neural networks as a substitute for PCA.</p>
+</div>
+<div id="an-incremental-neural-network-construction-algorithm-for-training-multilayer-perceptrons" class="section level4">
+<h4>An Incremental Neural Network Construction Algorithm for Training Multilayer Perceptrons</h4>
+<p>Aran, Oya, and Ethem Alpaydin. “An incremental neural network construction algorithm for training multilayer perceptrons.” Artificial Neural Networks and Neural Information Processing. Istanbul, Turkey: ICANN/ICONIP (2003).</p>
+<p><a href="https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf" class="uri">https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf</a></p>
+</div>
+<div id="kohonen-maps" class="section level4">
+<h4>Kohonen Maps</h4>
+<p><a href="https://en.wikipedia.org/wiki/Self-organizing_map" class="uri">https://en.wikipedia.org/wiki/Self-organizing_map</a></p>
+</div>
+<div id="self-organising-network" class="section level4">
+<h4>Self-Organising Network</h4>
+<div id="a-self-organising-network-that-grows-when-required-2002" class="section level5">
+<h5>A Self-Organising Network That Grows When Required (2002)</h5>
+<p><a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763" class="uri">https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763</a></p>
+</div>
+<div id="the-cascade-correlation-learning-architecture" class="section level5">
+<h5>The Cascade-Correlation Learning Architecture</h5>
+<p><a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421" class="uri">https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421</a></p>
+<p>Growth with quick freeze as a way to avoid the expense of back-propagation.</p>
+</div>
+<div id="soinnself-organizing-incremental-neural-network" class="section level5">
+<h5>SOINN：Self-Organizing Incremental Neural Network</h5>
+<p><a href="http://www.haselab.info/soinn-e.html" class="uri">http://www.haselab.info/soinn-e.html</a>
+<a href="https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf" class="uri">https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf</a></p>
+<p>Seems focused on neuron by neuron evolution.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>We will only consider modifying the network layer by layer, not neuron by neuron.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>This could actually be a big limitation of this discussion. In reality, even an identity matrix yields changes by piping the inputs through a new round of non-linearity, which is not necessarily identical to the preceding layer<a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/machine-learning/" rel="tag">Machine Learning</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/neural-network/" rel="tag">Neural Network</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/what-about/" rel="tag">What About?</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-emmanuel-r8-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 Back2Numbers.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

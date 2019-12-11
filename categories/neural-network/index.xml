@@ -13,10 +13,10 @@
     
     <item>
       <title>Neural Network - Incremental Growth </title>
-      <link>/post/neural-network-incremental-growth.html</link>
+      <link>/2019/10/23/neural-network-incremental-growth.html</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/neural-network-incremental-growth.html</guid>
+      <guid>/2019/10/23/neural-network-incremental-growth.html</guid>
       <description>|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
 We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</description>
     </item>

@@ -6,17 +6,27 @@
     <description>Recent content in Posts on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>HarvardX Final Report - LendingClub dataset</title>
+      <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
+      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
+      <description>After 3 months of work, the final report for the HarvardX Data Science course was submitted.
+It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.</description>
+    </item>
+    
+    <item>
       <title>Quick Thought: Universal translator and same language translator</title>
-      <link>/post/quick-idea-universal-translator-and-same-language-translator.html</link>
+      <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/quick-idea-universal-translator-and-same-language-translator.html</guid>
+      <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
       <description>Quick Thoughts are random thoughts looking for comments
  Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
 Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.</description>
@@ -24,40 +34,40 @@ Let’s give the blackbox universal translator three inputs: a source text, the 
     
     <item>
       <title>Neural Network - Incremental Growth </title>
-      <link>/post/neural-network-incremental-growth.html</link>
+      <link>/2019/10/23/neural-network-incremental-growth.html</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/neural-network-incremental-growth.html</guid>
+      <guid>/2019/10/23/neural-network-incremental-growth.html</guid>
       <description>|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
 We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</description>
     </item>
     
     <item>
       <title>HarvardX Data Science course - First final project</title>
-      <link>/post/harvardx-data-science-course-first-final-project.html</link>
+      <link>/2019/10/05/harvardx-data-science-course-first-final-project.html</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/harvardx-data-science-course-first-final-project.html</guid>
+      <guid>/2019/10/05/harvardx-data-science-course-first-final-project.html</guid>
       <description>I recently finished to penultimate final assignment for the HarvardX Data Science course. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.
 This time R is the centre tool of the course.</description>
     </item>
     
     <item>
       <title>Stanford Online - Machine Learning C229 </title>
-      <link>/post/stanford-online-machine-learning-c229.html</link>
+      <link>/2019/08/02/stanford-online-machine-learning-c229.html</link>
       <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/stanford-online-machine-learning-c229.html</guid>
+      <guid>/2019/08/02/stanford-online-machine-learning-c229.html</guid>
       <description>Review I recently completed the Stanford online version of the Machine Learning CS229 course taught by Andrew Ng. There is no need to introduce this course which has reached stardom.
 It often was a trip a trip down memory lane repeating what I studied in the late 90’ies. It was interesting that quite a bit has remained as relevant. Back then, and I am now talking early 90ies, neural networks were still fashionable but computationally intractable past what would hardly be considered a single layer nowadays.</description>
     </item>
     
     <item>
       <title>Hello Blogdown!</title>
-      <link>/post/2019-08-01-blogdown.html</link>
+      <link>/2019/08/01/hello-blogdown.html</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/2019-08-01-blogdown.html</guid>
+      <guid>/2019/08/01/hello-blogdown.html</guid>
       <description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
     </item>
     
