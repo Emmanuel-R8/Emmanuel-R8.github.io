@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Wed, 11 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Data Science</title>
       <link>/tags/data-science.html</link>
-      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/data-science.html</guid>
       <description></description>
@@ -23,7 +23,7 @@
     <item>
       <title>Machine Learning</title>
       <link>/tags/machine-learning.html</link>
-      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/machine-learning.html</guid>
       <description></description>
@@ -32,16 +32,25 @@
     <item>
       <title>R</title>
       <link>/tags/r.html</link>
-      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/r.html</guid>
       <description></description>
     </item>
     
     <item>
+      <title>R Markdown</title>
+      <link>/tags/r-markdown.html</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r-markdown.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Statistical Learning</title>
       <link>/tags/statistical-learning.html</link>
-      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/statistical-learning.html</guid>
       <description></description>
@@ -89,15 +98,6 @@
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/blogdown.html</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R Markdown</title>
-      <link>/tags/r-markdown.html</link>
-      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r-markdown.html</guid>
       <description></description>
     </item>
     

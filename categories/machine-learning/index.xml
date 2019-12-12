@@ -6,10 +6,21 @@
     <description>Recent content in Machine Learning on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Wed, 11 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>HarvardX Gitbooks available</title>
+      <link>/2019/12/12/harvardx-gitbooks-available.html</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
+      <description>Both capstones for the HarvardX certificates are now available. Just click on the links!
+If Gitbooks are not your thing, at the top of their main page, there is a download link to a pdf version.
+They make for a good knock-me-asleep reading…</description>
+    </item>
     
     <item>
       <title>HarvardX Final Report - LendingClub dataset</title>
