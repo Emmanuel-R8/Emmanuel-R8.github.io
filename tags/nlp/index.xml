@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NLP on Back2Numbers</title>
+    <link>/tags/nlp.html</link>
+    <description>Recent content in NLP on Back2Numbers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-au</language>
+    <lastBuildDate>Thu, 20 Feb 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Progressive description of RNNs</title>
+      <link>/2020/02/20/progressive-description-of-rnns.html</link>
+      <pubDate>Thu, 20 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/20/progressive-description-of-rnns.html</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
