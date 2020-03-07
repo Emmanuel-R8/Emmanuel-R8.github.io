@@ -6,10 +6,23 @@
     <description>Recent content in Machine Learning on Back2Numbers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
-    <lastBuildDate>Fri, 06 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RNN Compressive Memory Part 1: A high level introduction.</title>
+      <link>/2020/03/07/rnn-progressive-memory.html</link>
+      <pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/03/07/rnn-progressive-memory.html</guid>
+      <description>This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
+Currently, the ambition of the series is to follow this plan:
+ A high level introduction to Compressive Memory mechanics starting from basic RNNS;
+ a detailed explanation of the algorithm and its tricky details;
+ a walk-through of an implementation made in Sonnet (Deepmind’s high level framework on top of Tensorflow);</description>
+    </item>
     
     <item>
       <title>RNN Compressive Memory Part 2: The algorithm</title>
@@ -20,19 +33,6 @@
       <description>This is part 2 of a discussion of the DeepMind paper about Compressive Memory of Recurrent Neural Networks.
 This post lays out the exact algorithm which is presented at a high level in the paper. It will also draw on the details of the Transformer-XL model as presented in June 2019.
 High-level algorithm Background From the last post, recall that compressive transformer are an extension to the Transformer-XL. Recall that Transformer-XL trains using a segment of all the sequences available and hidden states calculated when training previous segments.</description>
-    </item>
-    
-    <item>
-      <title>RNN Compressive Memory Part 1: A high level introduction.</title>
-      <link>/2020/03/05/rnn-progressive-memory.html</link>
-      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/03/05/rnn-progressive-memory.html</guid>
-      <description>This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
-Currently, the ambition of the series is to follow this plan:
- A high level introduction to Compressive Memory mechanics starting from basic RNNS;
- a detailed explanation of the algorithm and its tricky details;
- a walk-through of an implementation made in Sonnet (Deepmind’s high level framework on top of Tensorflow);</description>
     </item>
     
     <item>
