@@ -115,6 +115,36 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
+			<a href="/2020/03/06/rnn-compressive-memory-part-2-the-algorithm.html" rel="bookmark">
+			RNN Compressive Memory Part 2: The algorithm
+			</a>
+		</h3>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		This is part 2 of a discussion of the DeepMind paper about Compressive Memory of Recurrent Neural Networks.
+This post lays out the exact algorithm which is presented at a high level in the paper. It will also draw on the details of the Transformer-XL model as presented in June 2019.
+High-level algorithm Background From the last post, recall that compressive transformer are an extension to the Transformer-XL. Recall that Transformer-XL trains using a segment of all the sequences available and hidden states calculated when training previous segments.
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/2020/03/05/rnn-progressive-memory.html" rel="bookmark">
+			RNN Compressive Memory Part 1: A high level introduction.
+			</a>
+		</h3>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
+Currently, the ambition of the series is to follow this plan:
+ A high level introduction to Compressive Memory mechanics starting from basic RNNS;
+ a detailed explanation of the algorithm and its tricky details;
+ a walk-through of an implementation made in Sonnet (Deepmind’s high level framework on top of Tensorflow);
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
 			<a href="/2019/12/12/harvardx-gitbooks-available.html" rel="bookmark">
 			HarvardX Gitbooks available
 			</a>
@@ -153,32 +183,6 @@ It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. Thi
  Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
 Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/2019/10/23/neural-network-incremental-growth.html" rel="bookmark">
-			Neural Network - Incremental Growth 
-			</a>
-		</h3>
-		
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
-We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/2019/10/05/harvardx-data-science-course-first-final-project.html" rel="bookmark">
-			HarvardX Data Science course - First final project
-			</a>
-		</h3>
-		
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		I recently finished to penultimate final assignment for the HarvardX Data Science course. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.
-This time R is the centre tool of the course.
-	</div>
 </article>
 </main>
 
@@ -203,6 +207,8 @@ This time R is the centre tool of the course.
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/2020/03/06/rnn-compressive-memory-part-2-the-algorithm.html">RNN Compressive Memory Part 2: The algorithm</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2020/03/05/rnn-progressive-memory.html">RNN Compressive Memory Part 1: A high level introduction.</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2019/12/12/harvardx-gitbooks-available.html">HarvardX Gitbooks available</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2019/12/11/harvardx-final-report-lendingclub-dataset.html">HarvardX Final Report - LendingClub dataset</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html">Quick Thought: Universal translator and same language translator</a></li>
@@ -257,7 +263,7 @@ This time R is the centre tool of the course.
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">
-			&copy; 2019 Back2Numbers.
+			&copy; 2020 Back2Numbers.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>
