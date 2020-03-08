@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>R on Back2Numbers</title>
-    <link>/categories/r.html</link>
-    <description>Recent content in R on Back2Numbers</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-au</language>
-    <lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>HarvardX Gitbooks available</title>
-      <link>/2019/12/12/harvardx-gitbooks-available.html</link>
-      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
-      <description>Both capstones for the HarvardX certificates are now available. Just click on the links!
+	<channel>
+		<title>R on Back2Numbers</title>
+		<link>/categories/r.html</link>
+		<description>Recent content in R on Back2Numbers</description>
+		<generator>Hugo -- gohugo.io</generator>
+		<language>en-au</language>
+		<copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
+		<lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
+		
+		<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+		
+		
+		<item>
+		<title>HarvardX Gitbooks available</title>
+			<link>/2019/12/12/harvardx-gitbooks-available.html</link>
+				<pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
+				<description>Both capstones for the HarvardX certificates are now available. Just click on the links!
 If Gitbooks are not your thing, at the top of their main page, there is a download link to a pdf version.
 They make for a good knock-me-asleep reading…</description>
-    </item>
-    
-    <item>
-      <title>HarvardX Final Report - LendingClub dataset</title>
-      <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
-      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
-      <description>After 3 months of work, the final report for the HarvardX Data Science course was submitted.
+			</item>
+			
+		<item>
+		<title>HarvardX Final Report - LendingClub dataset</title>
+			<link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
+				<pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
+				<description>After 3 months of work, the final report for the HarvardX Data Science course was submitted.
 It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.</description>
-    </item>
-    
-    <item>
-      <title>Hello Blogdown!</title>
-      <link>/2019/08/01/hello-blogdown.html</link>
-      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/01/hello-blogdown.html</guid>
-      <description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
-    </item>
-    
-  </channel>
-</rss>
+			</item>
+			
+		<item>
+		<title>Hello Blogdown!</title>
+			<link>/2019/08/01/hello-blogdown.html</link>
+				<pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/08/01/hello-blogdown.html</guid>
+				<description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
+			</item>
+			
+		</channel>
+	</rss>
+

@@ -1,99 +1,101 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on Back2Numbers</title>
-    <link>/post.html</link>
-    <description>Recent content in Posts on Back2Numbers</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-au</language>
-    <lastBuildDate>Sat, 07 Mar 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>RNN Compressive Memory Part 1: A high level introduction.</title>
-      <link>/2020/03/07/rnn-progressive-memory.html</link>
-      <pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/03/07/rnn-progressive-memory.html</guid>
-      <description>This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
+	<channel>
+		<title>Posts on Back2Numbers</title>
+		<link>/post.html</link>
+		<description>Recent content in Posts on Back2Numbers</description>
+		<generator>Hugo -- gohugo.io</generator>
+		<language>en-au</language>
+		<copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
+		<lastBuildDate>Sat, 07 Mar 2020 00:00:00 +0000</lastBuildDate>
+		
+		<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+		
+		
+		<item>
+		<title>RNN Compressive Memory Part 1: A high level introduction.</title>
+			<link>/2020/03/07/rnn-progressive-memory.html</link>
+				<pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
+				
+				<guid>/2020/03/07/rnn-progressive-memory.html</guid>
+				<description>This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
 Currently, the ambition of the series is to follow this plan:
  A high level introduction to Compressive Memory mechanics starting from basic RNNS;
  a detailed explanation of the algorithm and its tricky details;
  a walk-through of an implementation made in Sonnet (Deepmind’s high level framework on top of Tensorflow);</description>
-    </item>
-    
-    <item>
-      <title>HarvardX Gitbooks available</title>
-      <link>/2019/12/12/harvardx-gitbooks-available.html</link>
-      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
-      <description>Both capstones for the HarvardX certificates are now available. Just click on the links!
+			</item>
+			
+		<item>
+		<title>HarvardX Gitbooks available</title>
+			<link>/2019/12/12/harvardx-gitbooks-available.html</link>
+				<pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
+				<description>Both capstones for the HarvardX certificates are now available. Just click on the links!
 If Gitbooks are not your thing, at the top of their main page, there is a download link to a pdf version.
 They make for a good knock-me-asleep reading…</description>
-    </item>
-    
-    <item>
-      <title>HarvardX Final Report - LendingClub dataset</title>
-      <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
-      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
-      <description>After 3 months of work, the final report for the HarvardX Data Science course was submitted.
+			</item>
+			
+		<item>
+		<title>HarvardX Final Report - LendingClub dataset</title>
+			<link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
+				<pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
+				<description>After 3 months of work, the final report for the HarvardX Data Science course was submitted.
 It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.</description>
-    </item>
-    
-    <item>
-      <title>Quick Thought: Universal translator and same language translator</title>
-      <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
-      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
-      <description>Quick Thoughts are random thoughts looking for comments
+			</item>
+			
+		<item>
+		<title>Quick Thought: Universal translator and same language translator</title>
+			<link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
+				<pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
+				<description>Quick Thoughts are random thoughts looking for comments
  Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
 Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.</description>
-    </item>
-    
-    <item>
-      <title>Neural Network - Incremental Growth </title>
-      <link>/2019/10/23/neural-network-incremental-growth.html</link>
-      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/10/23/neural-network-incremental-growth.html</guid>
-      <description>|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
+			</item>
+			
+		<item>
+		<title>Neural Network - Incremental Growth </title>
+			<link>/2019/10/23/neural-network-incremental-growth.html</link>
+				<pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/10/23/neural-network-incremental-growth.html</guid>
+				<description>|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
 We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</description>
-    </item>
-    
-    <item>
-      <title>HarvardX Data Science course - First final project</title>
-      <link>/2019/10/05/harvardx-data-science-course-first-final-project.html</link>
-      <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/10/05/harvardx-data-science-course-first-final-project.html</guid>
-      <description>I recently finished to penultimate final assignment for the HarvardX Data Science course. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.
+			</item>
+			
+		<item>
+		<title>HarvardX Data Science course - First final project</title>
+			<link>/2019/10/05/harvardx-data-science-course-first-final-project.html</link>
+				<pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/10/05/harvardx-data-science-course-first-final-project.html</guid>
+				<description>I recently finished to penultimate final assignment for the HarvardX Data Science course. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.
 This time R is the centre tool of the course.</description>
-    </item>
-    
-    <item>
-      <title>Stanford Online - Machine Learning C229 </title>
-      <link>/2019/08/02/stanford-online-machine-learning-c229.html</link>
-      <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/02/stanford-online-machine-learning-c229.html</guid>
-      <description>Review I recently completed the Stanford online version of the Machine Learning CS229 course taught by Andrew Ng. There is no need to introduce this course which has reached stardom.
+			</item>
+			
+		<item>
+		<title>Stanford Online - Machine Learning C229 </title>
+			<link>/2019/08/02/stanford-online-machine-learning-c229.html</link>
+				<pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/08/02/stanford-online-machine-learning-c229.html</guid>
+				<description>Review I recently completed the Stanford online version of the Machine Learning CS229 course taught by Andrew Ng. There is no need to introduce this course which has reached stardom.
 It often was a trip a trip down memory lane repeating what I studied in the late 90’ies. It was interesting that quite a bit has remained as relevant. Back then, and I am now talking early 90ies, neural networks were still fashionable but computationally intractable past what would hardly be considered a single layer nowadays.</description>
-    </item>
-    
-    <item>
-      <title>Hello Blogdown!</title>
-      <link>/2019/08/01/hello-blogdown.html</link>
-      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/01/hello-blogdown.html</guid>
-      <description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
-    </item>
-    
-  </channel>
-</rss>
+			</item>
+			
+		<item>
+		<title>Hello Blogdown!</title>
+			<link>/2019/08/01/hello-blogdown.html</link>
+				<pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+				
+				<guid>/2019/08/01/hello-blogdown.html</guid>
+				<description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
+			</item>
+			
+		</channel>
+	</rss>
+
