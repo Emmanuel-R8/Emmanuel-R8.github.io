@@ -13,16 +13,29 @@
 		
 		
 		<item>
+		<title>RNN Compressive Memory Part 2: The Compression algorithm</title>
+			<link>/2020/03/10/rnn-compressive-memory-part-2.html</link>
+				<pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
+				
+				<guid>/2020/03/10/rnn-compressive-memory-part-2.html</guid>
+				<description>This is part 2 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling.
+ Part 1: A high level introduction to Compressive Memory mechanics starting from basic RNNS;
+ Part 2 (here): a detailed explanation of the algorithm and its interesting details;
+ Part 3: an implementation using PyTorch;
+ Part 4: finally, its application to time series.
+  This post goes through the algorithm which is presented at a high level in the paper.</description>
+			</item>
+			
+		<item>
 		<title>RNN Compressive Memory Part 1: A high level introduction.</title>
-			<link>/2020/03/07/rnn-progressive-memory.html</link>
+			<link>/2020/03/07/rnn-compressive-memory-part-1.html</link>
 				<pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
 				
-				<guid>/2020/03/07/rnn-progressive-memory.html</guid>
+				<guid>/2020/03/07/rnn-compressive-memory-part-1.html</guid>
 				<description>This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
 Currently, the ambition of the series is to follow this plan:
- A high level introduction to Compressive Memory mechanics starting from basic RNNS;
- a detailed explanation of the algorithm and its tricky details;
- a walk-through of an implementation made in Sonnet (Deepmind’s high level framework on top of Tensorflow);</description>
+ Part 1 (here): A high level introduction to Compressive Memory mechanics starting from basic RNNS;
+ Part 2: a detailed explanation of the algorithm and its interesting details;</description>
 			</item>
 			
 		<item>

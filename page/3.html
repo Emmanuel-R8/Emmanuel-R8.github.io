@@ -1,331 +1,214 @@
 <!DOCTYPE html>
-<html><head>
-	<meta name="generator" content="Hugo 0.66.0" />
-<title>Back2Numbers</title>
-
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="google-site-verification" content="">
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-<meta content="telephone=no" name="format-detection">
-<meta name="renderer" content="webkit">
-<meta name="theme-color" content="#ffffff">
-
-
-
-
+<html class="no-js" lang="en-au">
+<head>
+	<meta name="generator" content="Hugo 0.67.0" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Back2Numbers</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="alternate" type="application/rss+xml" href="/index.xml" title="Back2Numbers">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 	ga('create', 'UA-150743827-1', 'auto');
 	
 	ga('send', 'pageview');
 }
 </script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
-
-
-<script src="/vendor/js/jquery.min.js" ></script>
-<script src="/vendor/js/popper.min.js" ></script>
-<script src="/vendor/js/bootstrap.min.js" ></script>
-<script src="/vendor/js/smooth-scroll.polyfills.min.js" ></script>
-<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
-<script src="/vendor/js/vue.min.js" ></script>
-
-
-
-
-<link rel="stylesheet" href="/scss/journal.min.f9aa2ef90b19ac8d29363dbd51d4350621537cb3340dd7c6bacf18e3c426f4d5.css" integrity="sha256-&#43;aou&#43;QsZrI0pNj29UdQ1BiFTfLM0DdfGus8Y48Qm9NU=" media="screen">
-
-<script src="//js/loadCSS.js"></script>
-<script src="//js/table.js"></script>
-
-
-
-<script>
-    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Noto+Serif+SC|Material+Icons");
-</script>
-
-
-
-
-
-
-</head><body>
-    	<div id="app"><div ref="sideContainer" class="side-container">
-    
-    <a class="a-block nav-head active" href="/">
-    
-        <div class="nav-title">
-            Back2Numbers
-        </div>
-        
-    </a>
-
-    <div class="nav-link-list">
-        
-        
-            
-                
-                
-                <a class="a-block nav-link-item false" href="/whoami/">
-                    #&gt;whoami
-                </a>
-        
-            
-                
-                
-                <a class="a-block nav-link-item false" href="/categories">
-                    Categories
-                </a>
-        
-            
-                
-                
-                <a class="a-block nav-link-item false" href="/tags">
-                    Tags
-                </a>
-        
-            
-                
-                
-                <a class="a-block nav-link-item false" href="/archives">
-                    Archives
-                </a>
-        
-            
-                
-                
-                <a class="a-block nav-link-item false" href="/about">
-                    About this site
-                </a>
-        
-            
-                
-                
-                <a class="a-block nav-link-item false" href="/gitbooks/movielens/introduction.html">
-                    Gitbook Movielens
-                </a>
-        
-            
-                
-                
-                <a class="a-block nav-link-item false" href="/gitbooks/lendingclub/introduction.html">
-                    Gitbook LendingClub
-                </a>
-        
-            
-                
-                
-                    
-                
-                <a class="a-block nav-link-item active" href="/">
-                    Home
-                </a>
-        
-    </div>
-
-    
-
-    <div class="nav-footer">
-        Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
-<br>
-Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
-<br>
-&copy;
-	
-	This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
-	
-    </div>
-    
-</div><div ref="extraContainer" class="extra-container">
-    
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-        
-        
-            <div class="pagination-indicator">
-                <span style="text-align: center">
-                    3<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>3
-                </span>
-            </div>
-            
-            
-            <a class="pagination-action" href="/page/2.html">
-                <i class="material-icons pagination-action-icon">
-                    chevron_left
-                </i>
-            </a>
-            
-
-            
-        
-        
-    </div>
-</div><div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            
-            
-                
-                    
-                    
-                    <a class="a-block drawer-menu-item false" href="/whoami/">
-                        #&gt;whoami
-                    </a>
-            
-                
-                    
-                    
-                    <a class="a-block drawer-menu-item false" href="/categories">
-                        Categories
-                    </a>
-            
-                
-                    
-                    
-                    <a class="a-block drawer-menu-item false" href="/tags">
-                        Tags
-                    </a>
-            
-                
-                    
-                    
-                    <a class="a-block drawer-menu-item false" href="/archives">
-                        Archives
-                    </a>
-            
-                
-                    
-                    
-                    <a class="a-block drawer-menu-item false" href="/about">
-                        About this site
-                    </a>
-            
-                
-                    
-                    
-                    <a class="a-block drawer-menu-item false" href="/gitbooks/movielens/introduction.html">
-                        Gitbook Movielens
-                    </a>
-            
-                
-                    
-                    
-                    <a class="a-block drawer-menu-item false" href="/gitbooks/lendingclub/introduction.html">
-                        Gitbook LendingClub
-                    </a>
-            
-                
-                    
-                    
-                        
-                    
-                    <a class="a-block drawer-menu-item active" href="/">
-                        Home
-                    </a>
-            
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            Back2Numbers
-        </a>
-    </div>
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Back2Numbers" rel="home">
+				<div class="logo__title">Back2Numbers</div>
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/whoami/">
+				
+				<span class="menu__text">#&gt;whoami</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories">
+				<i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+				<span class="menu__text">Categories</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/tags">
+				<i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+				<span class="menu__text">Tags</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/archives">
+				<i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+				<span class="menu__text">Archives</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
+				<span class="menu__text">About this site</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/gitbooks/movielens/introduction.html">
+				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
+				<span class="menu__text">Gitbook Movielens</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/gitbooks/lendingclub/introduction.html">
+				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
+				<span class="menu__text">Gitbook LendingClub</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/">
+				<i class="sidebar-button-icon fa fa-lg fa-home"></i>
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
 </nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">Back2Numbers</div>
-        
 
-    </a>
-</div>
-            <div id="content">
-
-<div ref="streamContainer" class="stream-container">
-    <div class="post-list-container post-list-container-no-background">
-        
-            
-            <a href="/whoami.html" class="a-block">
-                <div class="post-item-wrapper">
-                    <div class="post-item post-item-no-divider">
-                        <div class="post-item-info-wrapper">
-                            <div class="post-item-title">
-                                
-                            </div>
-                            <div class="post-item-summary">
-                                
-                            </div>
-                            <div class="post-item-meta">
-                                2019-07-15
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                </div>
-            
-        
-        </a>
-    </div>
-</div>
-
-            </div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/2019/08/01/hello-blogdown.html" rel="bookmark">
+			Hello Blogdown!
+			</a>
+		</h3>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.
+	</div>
+</article>
+</main>
 
 <div class="pagination">
-    
-    <a class="pagination-action" href="/page/2.html" style="opacity:1">
-    
-        <i class="material-icons pagination-action-icon">
-            chevron_left
-        </i>
-    </a>
-
-        <div class="pagination-indicator">
-            <span>3/3</span>
-        </div>
-
-        
-            <a class="pagination-action" style="opacity:0">
-        
-                <i class="material-icons pagination-action-icon">
-                    chevron_right
-                </i>
-            </a>
+	<a class="pagination__item pagination__item--prev btn" href="/page/2.html">«</a>
+	<span class="pagination__item pagination__item--current">3/3</span>
 </div>
 
 
-<div id="single-column-footer">Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
-<br>
-Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
-<br>
-&copy;
-	
-	This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
+			</div>
+			<aside class="sidebar sidebar--left"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/2020/03/07/rnn-compressive-memory-1.html">RNN Compressive Memory Part 1: A high level introduction.</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2020/03/07/rnn-compressive-memory-1.html">RNN Compressive Memory Part 1: A high level introduction.</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2020/03/06/rnn-compressive-memory-2.html">RNN Compressive Memory Part 2: The algorithm</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2020/03/06/rnn-compressive-memory-2.html">RNN Compressive Memory Part 2: The algorithm</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2019/12/12/harvardx-gitbooks-available.html">HarvardX Gitbooks available</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2019/12/11/harvardx-final-report-lendingclub-dataset.html">HarvardX Final Report - LendingClub dataset</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html">Quick Thought: Universal translator and same language translator</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2019/10/23/neural-network-incremental-growth.html">Neural Network - Incremental Growth </a></li>
+			<li class="widget__item"><a class="widget__link" href="/2019/10/05/harvardx-data-science-course-first-final-project.html">HarvardX Data Science course - First final project</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2019/08/02/stanford-online-machine-learning-c229.html">Stanford Online - Machine Learning C229 </a></li>
+		</ul>
 	</div>
-    	</div>
-    <script src="//js/journal.js"></script>
-    </body>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/data-science.html">Data Science</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/machine-learning.html">Machine Learning</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/neural-network.html">Neural Network</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/quick-thought.html">Quick Thought</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/r.html">R</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown.html" title="blogdown">blogdown</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/data-science.html" title="Data Science">Data Science</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/machine-learning.html" title="Machine Learning">Machine Learning</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/neural-network.html" title="Neural Network">Neural Network</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/octave.html" title="Octave">Octave</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/quick-thought.html" title="Quick Thought">Quick Thought</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r.html" title="R">R</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r-markdown.html" title="R Markdown">R Markdown</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rstudio.html" title="RStudio">RStudio</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/statistical-learning.html" title="Statistical Learning">Statistical Learning</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/what-about.html" title="What About?">What About?</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Back2Numbers.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
 </html>

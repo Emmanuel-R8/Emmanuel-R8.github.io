@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-au">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>RNN Compressive Memory Part 2: The Compression algorithm - Back2Numbers</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-150743827-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Back2Numbers" rel="home">
+				<div class="logo__title">Back2Numbers</div>
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/whoami/">
+				
+				<span class="menu__text">#&gt;whoami</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories">
+				<i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+				<span class="menu__text">Categories</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/tags">
+				<i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+				<span class="menu__text">Tags</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/archives">
+				<i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+				<span class="menu__text">Archives</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
+				<span class="menu__text">About this site</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/gitbooks/movielens/introduction.html">
+				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
+				<span class="menu__text">Gitbook Movielens</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/gitbooks/lendingclub/introduction.html">
+				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
+				<span class="menu__text">Gitbook LendingClub</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				<i class="sidebar-button-icon fa fa-lg fa-home"></i>
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">RNN Compressive Memory Part 2: The Compression algorithm</h1>
+			
+		</header><div class="content post__content clearfix">
+			
+
+
+<p>This is part 2 of a discussion of the DeepMind paper about <a href="https://arxiv.org/abs/1911.05507">Compressive Transformers for Long-Range Sequence Modelling</a>.</p>
+<ul>
+<li><p><a href="../07/rnn-compressive-memory-part-1.html">Part 1</a>: A high level introduction to Compressive Memory mechanics starting from basic RNNS;</p></li>
+<li><p>Part 2 (here): a detailed explanation of the algorithm and its interesting details;</p></li>
+<li><p>Part 3: an implementation using PyTorch;</p></li>
+<li><p>Part 4: finally, its application to time series.</p></li>
+</ul>
+<p>This post goes through the algorithm which is presented at a high level in the paper. It will also draw on the details of the <a href="https://arxiv.org/abs/1901.02860">Transformer-XL</a> model as presented in June 2019.</p>
+<div id="high-level-algorithm" class="section level2">
+<h2>High-level algorithm</h2>
+<div id="background" class="section level3">
+<h3>Background</h3>
+<p>From the last post, recall that compressive transformer are an extension to the TransformerXL. TransformerXL trains using segments extracted from all the sequences available in the dataset. It also uses hidden states calculated when training prior segments. In a sense, it seeks to indirectly increase the size of the training segments. Naturally, the model stores past hidden states (past memories) in a buffer of limited size. It has to discard discarding the oldest memories from that primary memory when moving from a segment to the next.</p>
+<p>The key addition of the compressive model is to avoid immediately the discarding by compressing those past states in a compressed representation (which itself will eventually be discarded). The training needs to cover the original TransformerXL and the quality of the compression mechanics. When training a typical network, the values of all the parameters are simultaneously optimised using the gradients calculated for each of those parameters. Instead, this model is trained as 2 separate models:</p>
+<ul>
+<li><p>The Transformer-XL layers are trained using a current segment, and the primary and compressed memories to train the cells’ parameters (and only those!). During that stage, the compressed memory parameters is given as a constant: no gradients are calculated. Conceptually, this is the normal TransformerXL where the inputs are the concatenation of the segment embeddings and all the memories (primary and compressed).</p></li>
+<li><p><em>Separately</em>, another training process looks for an optimal compressed representation of past memories that would otherwise be discarded. Training the compression mechanism assumes that the transformer cells’ parameters are fixed and constant. This stage is only concerned with the efficiency of the representation. Note that certain compression mechanics, like pooling, have no parameters to optimise (although some hyperparameters might be involved).</p></li>
+</ul>
+</div>
+<div id="model-overall-structure" class="section level3">
+<h3>Model overall structure</h3>
+<p>The authors describe the overall algorithm at a high level. We will retain the same notations, which are summarised at the end of of the post, but we will use a slightly different vocabulary. In particular, a <em>training set</em> (for example a full text) is split into ordered <em>sequences</em> that for a conceptual whole (a full sentence). Each sequence is fed into the model which has a limited number of inputs. If the size of a sequence is too large, it is split into <em>segments</em>. The size of a segment is the number of input of the model. The key attraction of the compressive memory is to lengthen the memory of a TransformerXL: for an identical computation budget, the paper shows that it is valuable to shorten the segments (fewer self-attention heads), in exchange for keeping longer compressed past memories (the self-attention heads become larger to give attention to compressed memories).</p>
+<div class="figure">
+<img src="/post/2020-03-RNN-compressive-memory/Compressive-template.png" alt="" />
+<p class="caption">Compressive TransformerXL</p>
+</div>
+<p>To complete the notation, we use the following form of indices: <span class="math inline">\(h^{(l), v}_t\)</span> which should be read as <span class="math inline">\(h^{(\text{Layer index}), \text{Segment index}}_{\text{Time step}}\)</span>. In addition, <span class="math inline">\(h^{(1)}\)</span> represents the inputs into the first layer, i.e. equals the current training segment <span class="math inline">\(x\)</span>.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The model starts with transformer layers (<span class="math inline">\(l\)</span> layers). (see step (a) on the diagram).</p></li>
+<li><p>Each layer takes a number of entries (a segment of <span class="math inline">\(n_s\)</span> inputs), each being a vector of dimension <span class="math inline">\(d\)</span>. Note that <span class="math inline">\(d\)</span> is the dimension of the initial input embeddings, and of all input/output vectors of further layers. This could however be a flexible model parameter.</p></li>
+<li><p>Each individual transformer layer has an identical structure with the same number of self-attention heads (<span class="math inline">\(n_{head}\)</span> heads). Recall that an attention head is a triplet of matrices <span class="math inline">\((W^{(i)}_q, W^{(i)}_k, W^{(i)}_v)\)</span> and a multi-layer perceptron. <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p></li>
+<li><p>At each iteration, the self-attention heads are trained using the outputs from the previous layer, and primary and compressed memories.</p></li>
+<li><p>After an input is processed by a layer, it is pushed into memory. The memory size <span class="math inline">\(n_m\)</span> has the capacity to store a number <span class="math inline">\(n_{slots}\)</span> of segments. Therefore <span class="math inline">\(n_m = n_{slots} \times n_s\)</span>.</p></li>
+<li><p>The new memory pushes the oldest one out, which is compressed into a compressed memory with a <span class="math inline">\(c\)</span> compression ratio. the compressed memory can hold <span class="math inline">\(n_{old}\)</span> compressed memories. <span class="math inline">\(n_{cm}\)</span> is a multiple of <span class="math inline">\(n_{old}\)</span>.</p></li>
+</ol>
+</div>
+</div>
+<div id="memory-compression" class="section level2">
+<h2>Memory compression</h2>
+<p>Let’s focus on Step (f). The compression mechanics are optimised independently from the TransformerXL layers and require choosing a compression scheme (function <span class="math inline">\(f_c\)</span>) and, if there are parameters to be trained, a loss function to minimise.</p>
+<div id="compression-function" class="section level3">
+<h3>Compression function</h3>
+<p>The authors reviewed several choices for the function <span class="math inline">\(f^{(i)}_c\)</span>.</p>
+<div id="pooling" class="section level4">
+<h4>Pooling</h4>
+<p>The simplest is <em>Max and/or mean pooling</em>, where the kernel and stride is set to the compression rate c. This is fast, requires no training (no parameters) and was used as a simple baseline.</p>
+</div>
+<div id="convolution" class="section level4">
+<h4>Convolution</h4>
+<p><em>1D-convolution</em> also with kernel and stride set to c. This is defined by parameters which require training.</p>
+</div>
+<div id="dilated-convolution" class="section level4">
+<h4>Dilated convolution</h4>
+<p><em>Dilated convolutions</em> which were proposed in 2016 as an alternative to traditional image convolution (for image classification) when dealing with semantic networks. See <a href="https://arxiv.org/abs/1511.07122">Multi-Scale Context Aggregation by Dilated Convolutions</a>. In essence, dilated convolutions are large scale convolutions (large kernel) defined with the same number of parameters as a small kernel. They are better suited to capture distant relationships present in semantic networks.</p>
+</div>
+<div id="most-used-compression" class="section level4">
+<h4>Most-used compression</h4>
+<p><em>Most-used</em> compression where the memories are sorted by their average attention(usage) and the most-used are preserved. The most-used compression scheme is inspired from the garbage collection mechanism in the Differentiable Neural Computer (<em>DNC</em>) where low-usage memories are erased. This is described in the 2016 DeepMind paper <a href="https://www.gwern.net/docs/rl/2016-graves.pdf">Hybrid computing using a neural network with dynamic external memory</a>. A DNC is network augmented with memory, where a controller can read and write memory banks. The DNC article is very detailed on the technical aspects. We understand that most-used algorithm is presented in appendix under the <em>Dynamic memory allocation</em> subsection.</p>
+</div>
+<div id="auto-encoders" class="section level4">
+<h4>Auto-encoders</h4>
+<p>As we understand, the authors did not consider auto-encoding networks with <span class="math inline">\(c\)</span> fewer parameters. It might be that they were considered but rejected.</p>
+</div>
+<div id="compression-ratio" class="section level4">
+<h4>Compression ratio</h4>
+<p>If the compression ratio is <span class="math inline">\(c\)</span>, what are the dimensions of the compressed memory tensors?</p>
+<p>The paper leaves this unspecified.</p>
+<ul>
+<li><p>Pooling and 1D-convolution will produce tensors where the dimension of the attention heads (along the <span class="math inline">\(d\)</span> axis) are divided by <span class="math inline">\(c\)</span>.</p></li>
+<li><p>Our understanding of the most-used algorithm would be to zero all values save for a <span class="math inline">\(1 / c\)</span> proportion, but retaining identical dimensions.</p></li>
+<li><p>However, we do not see <span class="math inline">\(c\)</span> memory attention heads compressed into a single vector (compression along the <span class="math inline">\(n_s\)</span> axis).</p></li>
+</ul>
+</div>
+</div>
+<div id="loss-function" class="section level3">
+<h3>Loss function</h3>
+<p>Several loss functions were considered.</p>
+<ol style="list-style-type: decimal">
+<li><p>A whole-model optimisation where all parameters (compression mechanics + TransformerXL Layers) are trained at once using the training set error. However they found the size overwhelming, especially when old compressed memories were unrolled into full-form memories. They then used <em>backpropagating-through-time</em> (BPTT), which by definition does not do full-model optimisation to avoid vanishing/exploding gradients. See <a href="https://d2l.ai/chapter_recurrent-neural-networks/bptt.html">BPTT</a> for a good overview. Note that this is not what we introduced as a two-step optimisation.</p></li>
+<li><p>The compression is a form of representation learning / auto-encoding which optimises an encoder (presumably <span class="math inline">\(c\)</span> fewer parameters) by simultaneously training a decoder. The paper tried a <span class="math inline">\(\mathcal{L}_2\)</span> (square) error on the ability to reconstruct the memory tensors. It does not go into detail aside from mentioning it. The posts will not explore this.</p></li>
+<li><p>The paper goes into more detail about the two-step training of an <em>attention-reconstruction loss</em>. Transformers optimise attention parameters (the attention head matrices). Optimising for the ability of retaining that information makes complete sense. This loss function is the <span class="math inline">\(\mathcal{L}_2\)</span> error between the attention matrix of a memory slot and reconstructed attention. Next section focuses on the loss function.</p></li>
+</ol>
+</div>
+<div id="model-timing" class="section level3">
+<h3>Model timing</h3>
+<p>Let’s be clearer about the details of what takes place as time goes by (as segments are presented) and how the compression optimisation proceeds (at the risk of being repetitive).</p>
+<ul>
+<li><p>The set of the model’s state vectors (the <span class="math inline">\(h^{(i)}\)</span>) is the model’s reaction to a particular input. They are an immediate reaction to an current input. They reflect the values of the current attention heads’ parameters.</p></li>
+<li><p>A memory slot is a set of a layer’s state vectors created in the past for a past input when the model’s parameters were different.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> It is the past model’s reaction to something that happened in the past (the input at that time).</p></li>
+<li><p>That memory slot reflects the experience of the model at that time (the attention heads parameters). Since then, the model has been trained further. The recent updated model would have yielded a different set of state vectors for that past input.</p></li>
+<li><p>Attention heads are not state vectors. They are functions to be trained.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> Those functions, for any input state vectors, will produce a different answer, a different set of state vectors.</p></li>
+<li><p>Attention heads are trained and after training they will eventually be constants. However, the the state vectors will change as and when the inputs do.</p></li>
+<li><p>The compression is also a function that will be frozen after training which will use (if it relies on parameters).</p></li>
+</ul>
+<p>Those precisions are relevant because a compression takes place now (i.e. at the time of a current segment). It is applied to a past memory which reflects a past reaction to a past input with a past model. We optimise compression parameters <em>now</em> using values and parameters that are all from the past.</p>
+<p>Optimising for attention reconstruction means:</p>
+<ul>
+<li><p>Right now, the model gives a particular set of current state vectors for a given current input.</p></li>
+<li><p>This model has a past memory that is about to be lost (as in a normal TransformerXL).</p></li>
+<li><p>In this model, the old memory is about to be compressed. If compressed, the original memory could be reconstructed.</p></li>
+<li><p>If the compression (and reconstruction) algorithm is perfect, it should not matter whether the compressed memory (after reconstruction) or the old memory is used.</p></li>
+</ul>
+<p>The optimisation is therefore to minimise the difference what the model does with the past memory (not yet discarded) and what would happen if the past memory was reconstructed from its compressed form.</p>
+<p>The difference between the 2 situations is the loss function to be minimised. Transformers are about attention; the compression algorithm is judged by its ability to retain past attention (what was worthy of attention in the past).</p>
+<p>As the paper indicates, this is a lossy objective. The reconstruction is not optimised to replicate the old memory. It is instead optimised to reconstruct an <em>alternative memory</em> that gives a better reconstruction of the attentions. The paper asserts that this gives superior results to the reconstruction of the memory. Keeping in mind that the ultimate purpose of the model is to optimise self-attentions, possible explanations are:</p>
+<ul>
+<li><p>Memories are used as input into the attention heads to determine the self-attention. So will a reconstructed memory. Therefore, primary memory reconstruction errors are then compounded with the modelling errors of the attention heads’ matrices. Skipping the intermediary avoids this.</p></li>
+<li><p>Maybe more interesting, the past memory is mechanically imperfect: it is based on old model parameters. Optimising the reconstruction to reproduce an imperfect memory implicitly means incorporating attention heads’ parameters that were used at the time the memory was created. The reconstructed memory includes the errors of the past attention heads which have since been reduced (hopefully). In other words, the reconstructed memory is an <em>alternative memory</em> which might include later corrections to the model attention heads.</p></li>
+</ul>
+</div>
+<div id="attention-reconstruction-loss" class="section level3">
+<h3>Attention-Reconstruction Loss</h3>
+<p>For sake of completeness, we include the <em>attention-reconstruction loss</em> algorithm detailed in the paper (<em>Algorithm 2</em> on page 4). <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>.</p>
+<p>Its overall organisation is independent from the actual loss calculation (the stop-gradient mechanics), therefore remains of value. It is replicated here with slight modifications for type consistency. Note that at Step 6 the published algorithm uses a <span class="math inline">\(\sigma\)</span>. This could suggest that a sigmoid activation is used, but it would make no sense to compare attentions calculated with different activation functions (<span class="math inline">\(softmax\)</span> in the layers vs. <span class="math inline">\(sigmoid\)</span> in the the reconstruction).</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+&amp; \textit{Reset the attention loss} \\
+&amp; \hline \\
+1: &amp; \mathcal{L} \leftarrow 0 \\
+\\
+&amp; \textit{Main Loop} \\
+&amp; \hline \\
+&amp; \text{Now that the loss is reset, loop through the layers, one at a time} \\
+2: &amp; \textit{for layer }i = 1, 2, \cdots , l \textit{ do} \\
+\\
+&amp; \textit{Stop all gradients for anything but the compression function parameters} \\
+&amp; \hline \\
+&amp; \text{TensorFlow uses stop_gradient()} \\
+&amp; \text{PyTorch uses .detach()} \\
+&amp; \text{We&#39;ll use DetachGradient() to make both happy!} \\
+3:  &amp;  DetachGradient(h^{(i)}) \\
+4:  &amp;  DetachGradient(M^{(i)}_{t-n_{slots}}) \text{ --- oldest Primary memory slot about to be discarded}  \\
+5:  &amp;  DetachGradient(Q, K, V) \text{ --- parameters of all the attention heads matrices}  \\
+\\
+&amp; \textit{Define the content-based attention being the same calculation as inside the layers}\\
+&amp; \hline \\
+6: &amp;   Attention(h, m) \leftarrow softmax((hQ).(mK))(mV)  \\
+\\
+&amp; \textit{Calculate the new compressed memory}\\
+&amp; \hline \\
+7: &amp;   CM^{(i)}_{1} \leftarrow f^{(i)}_c(M^{(i)}_{t-n_{slots}})   \\
+\\
+&amp; \textit{Calculate a reconstructed attention from the proposed compressed memory}\\
+&amp; \hline \\
+7: &amp;   R^{(i)} \leftarrow Reconstruction(CM^{(i)}_{1})  \\
+\\
+&amp; \textit{Update the loss for the loss at the current layer}\\
+&amp; \hline \\
+8: &amp;   \mathcal{L} \leftarrow \mathcal{L} + \left| Attention(h^{(i)}, M^{(i)}_{t-n_{slots}}) - Attention(h^{(i)}, R^{(i)}) \right|_2 \\
+\\
+&amp; \hline \\
+&amp; \textit{End loop} \\
+&amp; \hline \\
+\end{array}
+\]</span></p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>This post presents the Compressive Transformers_ in more details, including the articulation between training the attention heads and training the compression mechanics.</p>
+<p>To come in part 3, the code.</p>
+</div>
+<div id="notation-summary" class="section level2">
+<h2>Notation summary</h2>
+<p><strong>Size parameters</strong></p>
+<p><span class="math display">\[
+\begin{array}{ll}
+l:        &amp;   \text{number of layers, starting from 1} \\
+d:        &amp;   \text{dimension of all input (including embeddings) AND output vectors passed from a layer to the next} \\
+n_{head}: &amp;   \text{number of self-attention heads in a TransformerXL layer} \\
+n_s:      &amp;   \text{size of a training segment = number of inputs into and outputs from a layer} \\
+s = n_s:  &amp;   s \text{ will be used as index name to represent the input dimension when using named tensors,}  \\
+&amp; \text{i.e. Einstein summation.}  \\
+b:        &amp;   \text{size of a training batch, i.e. number of segments in a batch. Used in named tensors as well} \\
+\\
+n_m:      &amp;   \text{number of hidden states kept in the primary memory. n_m is a multiple of n_s} \\
+c:        &amp;   \text{memory compression ratio} \\
+n_{cm}:   &amp;   \text{number of states kept in the compressed memory. n_{cm} }  \\
+\end{array}
+\]</span></p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>We only consider a wide self-attention model, in part having in mind the application to time series where we will work with embeddings of smaller size. We therefore ignore the narrow self-attention model variant.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>We ignore the possible impact of training in batches.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>We ignore the multi-perceptrons.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Forgive the algorithm formatting. R markdown resisted naive efforts to use Latex algorithms.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/machine-learning/" rel="tag">Machine Learning</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/neural-network/" rel="tag">Neural Network</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-emmanuel-r8-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Back2Numbers.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>Quick Thought on Back2Numbers</title>
-		<link>/tags/quick-thought.html</link>
-		<description>Recent content in Quick Thought on Back2Numbers</description>
-		<generator>Hugo -- gohugo.io</generator>
-		<language>en-au</language>
-		<copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-		<lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
-		
-		<atom:link href="/tags/quick-thought/index.xml" rel="self" type="application/rss+xml" />
-		
-		
-		<item>
-		<title>Quick Thought: Universal translator and same language translator</title>
-			<link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
-				<pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-				
-				<guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
-				<description>Quick Thoughts are random thoughts looking for comments
+  <channel>
+    <title>Quick Thought on Back2Numbers</title>
+    <link>/tags/quick-thought.html</link>
+    <description>Recent content in Quick Thought on Back2Numbers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-au</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/quick-thought/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Quick Thought: Universal translator and same language translator</title>
+      <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
+      <description>Quick Thoughts are random thoughts looking for comments
  Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
 Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.</description>
-			</item>
-			
-		</channel>
-	</rss>
-
+    </item>
+    
+  </channel>
+</rss>
