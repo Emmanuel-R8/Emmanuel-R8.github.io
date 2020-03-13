@@ -39,18 +39,6 @@ Currently, the ambition of the series is to follow this plan:
 			</item>
 			
 		<item>
-		<title>RNN Compressive Memory Part 1: A high level introduction.</title>
-			<link>/2020/03/07/rnn-compressive-memory-part-1.html</link>
-				<pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
-				
-				<guid>/2020/03/07/rnn-compressive-memory-part-1.html</guid>
-				<description>This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
-Currently, the ambition of the series is to follow this plan:
- Part 1 (here): A high level introduction to Compressive Memory mechanics starting from basic RNNS;
- Part 2: a detailed explanation of the algorithm and its interesting details;</description>
-			</item>
-			
-		<item>
 		<title>HarvardX Gitbooks available</title>
 			<link>/2019/12/12/harvardx-gitbooks-available.html</link>
 				<pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
