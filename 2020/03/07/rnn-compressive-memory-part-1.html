@@ -127,21 +127,22 @@ if (!doNotTrack) {
 </ul>
 <p>Most likely, this will be fine-tuned over time.</p>
 <p><strong>Big thanks to <a href="https://gmarti.gitlab.io/">Gautier Marti</a> and <a href="http://zoonek.free.fr/blosxom/">Vincent Zoonekynd</a> for their suggestions and proof-reading!</strong></p>
+<p><strong>Update:</strong> Additional diagrams (14 March 2020)</p>
 <div id="recurrent-neural-networks-rnn" class="section level2">
 <h2>Recurrent Neural Networks (<em>RNN</em>)</h2>
 <div id="from-simple-rnns-to-lstms" class="section level3">
 <h3>From simple RNNs to LSTMs</h3>
 <p>Traditional neural networks were developed to train/run on information provided in a single step in a consistent format (e.g. images with identical resolution). Conceptually, a neural network could similarly be taught on sequential information (e.g. a video as a series of images) looking at it as a single sample, but that would require (1) being trained on the full sequence (e.g. an entire video), (2) being able to cope with information of variable length (i.e. short vs. long video). (1) is computationally intractable, and (2) means that units analysing later parts of the video would not be receiving as much training as earlier units when ideally they should be all share the same amount of training .</p>
+<div class="figure">
+<img src="/post/2020-03-RNN-compressive-memory/Recurrent_neural_network_unfold.svg" alt="" />
+<p class="caption"><strong>Basic RNN</strong> (source: <em>Wikipedia</em>)</p>
+</div>
 <p>The original RNN address those issues:</p>
 <ul>
 <li><p>Sequences are chopped in small consistent sub-sequences (say, a <em>segment</em> of 10 images, or a group of 20 words).</p></li>
 <li><p>An RNN layer is a group of blocks (or <em>cells</em>), each receiving a single element of the segment as input. Note that here <em>layer</em> does not have the traditional meaning of a layer of neural units fully connected to a previous layer of units. It is a layer of RNN cells. Within each cell, quite a few things happen, including using layers of neural units. From here on, a <em>layer</em> will refer to an <em>RNN layer</em> and not a layer of neural units..</p></li>
 <li><p>Within a layer, cells are identical: they have the same parameters.</p></li>
 </ul>
-<div class="figure">
-<img src="/post/2020-03-RNN-compressive-memory/Basic_LSTM.png" alt="" />
-<p class="caption">Basic RNN Layer</p>
-</div>
 <p>Although each element of a sequence might be of interest on its own, it only becomes really meaningful in the context of the other elements. Each cell contains a state vector (called <em>hidden state</em>). Each cell is trained using an individual element from a segment and the hidden state from the preceding cell. Training the network means training the creation of those states. Passing of the hidden state transfers some context or memory from prior elements of the segment. The cells receiving a segment form a single layer. Each cell would typically (but not necessarily) also include an additional sub-cell to create an output as a function of the hidden step. In that case, the output of a layer can then be used as input of new RNN layer.</p>
 <p>A layer is trained passing hidden states from prior cells to later cells. The hidden state from prior elements is used to contextualise a current element. To use context from later elements (e.g. in English, a noun giving context to a preceding adjective), a separate layer is trained where context instead passes from later to prior elements. Those forward and backward layers jointly create a <em>bidirectional RNN</em> .</p>
 <p>Historically, RNNs applied to NLP deal with elements which are either one-hot encoded (either letters, or, more efficient, tokens), or word embeddings often normalised as unit vectors (for example see <a href="https://nlp.stanford.edu/projects/glove/">Word2Vec</a> and <a href="https://nlp.stanford.edu/projects/glove/">GloVe</a>). RNN cells therefore deal with values between 0 and 1. Typically, non-linearity is brought by <span class="math inline">\(tanh\)</span> or <span class="math inline">\(sigmoid\)</span> activations which guarantee unit values within that range. Those activation functions quickly have very flat gradients. Segments often have 10s or 100s of elements. Because of vanishing gradients, a hidden state receives little information from distant cells (training gradients are hardly influenced by gradients of distant cells).</p>
@@ -149,19 +150,29 @@ if (!doNotTrack) {
 <div id="longshort-term-memory-rnns" class="section level3">
 <h3>Long/Short Term Memory RNNs</h3>
 <div class="figure">
-<img src="/post/2020-03-RNN-compressive-memory/Basic_LSTM.png" alt="" />
-<p class="caption">Basic LSTM Layer</p>
+<img src="/post/2020-03-RNN-compressive-memory/Long_Short-Term_Memory.svg" alt="" />
+<p class="caption"><strong>Basic LSTM RNN</strong> (source: <em>Wikipedia</em>)</p>
 </div>
 <p>Long/Short Term Memory RNNs (<em>LSTM</em>) address this by passing two states:</p>
 <ul>
-<li><p>a hidden state as described above trained with non-linearity: this is the <em>short-term memory</em>; and,</p></li>
-<li><p>another hidden state (called <em>context</em>) weighting previous contexts with a simple exponential moving average (in <em>Gated Recurrent Units</em>) or a slightly more complicated version thereof in the original LSTM model structure. Determining the optimal exponential decay is part of the training process. This minimally processed state is the <em>long-term memory</em>.</p></li>
+<li><p>a hidden state <span class="math inline">\(h\)</span> as described above trained with non-linearity: this is the <em>short-term memory</em>; and,</p></li>
+<li><p>another hidden state <span class="math inline">\(c\)</span> (called <em>context</em>) weighting previous contexts with a simple exponential moving average (in <em>Gated Recurrent Units</em>) or a slightly more complicated version thereof in the original LSTM model structure. Determining the optimal exponential decay is part of the training process. This minimally processed state is the <em>long-term memory</em>.</p></li>
 </ul>
 <p>LTSM can also be made bidirectional.</p>
+<p>Without going into further details, note that each <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(\tanh\)</span> orange block represents matrix of parameters to be learned.</p>
+</div>
+<div id="attention" class="section level3">
+<h3>Attention</h3>
+<div class="figure">
+<img src="/post/2020-03-RNN-compressive-memory/Attention_RNN.svg" alt="" />
+<p class="caption"><strong>Attention RNN</strong></p>
+</div>
+<p>RNN were further extended with an <em>attention mechanism</em>. Blog posts on attention by <a href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">Jay Alammar</a> and <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">Lilian Weng</a> are good introductions.</p>
+<p>A multi-layer RNN takes the output a layer and uses it as input for the next. With the attention mechanism, the outputs go through an attention unit.</p>
 </div>
 <div id="beyond-lstm-transformers" class="section level3">
 <h3>Beyond LSTM: Transformers</h3>
-<p>LSTM were further extended with an <em>attention mechanism</em>, and were then simplified (insert large air quotes) with <em>Transformers</em> (using what is called <em>self-attention</em>) that significantly reduce the number of model parameters and can be efficiently parallelised with minimum model performance impact. For an extremely clear introduction to those significant improvements, you cannot do better than reading blog posts by Jay Alammar on <a href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">attention</a> and by Peter Bloem’s on <a href="http://www.peterbloem.nl/blog/transformers">transformers</a>. The following assumes that you are broadly familiar with those ideas.</p>
+<p>, and were then simplified (insert large air quotes) with <em>Transformers</em> (using what is called <em>self-attention</em>) that significantly reduce the number of model parameters and can be efficiently parallelised with minimum model performance impact. For an extremely clear introduction to those significant improvements, you cannot do better than reading , and by <a href="http://www.peterbloem.nl/blog/transformers">Peter Bloem</a> on transformers. The following assumes that you are broadly familiar with those ideas.</p>
 <p>The basic transformer structure uses self-attention where, for a given element (the <em>query</em>), the transformer looks at the other elements of the segment (the <em>keys</em>) to determine how much ‘attention’ other elements of the segment influence the role of the query in changing the hidden state.</p>
 <p>Broadly:</p>
 <ul>

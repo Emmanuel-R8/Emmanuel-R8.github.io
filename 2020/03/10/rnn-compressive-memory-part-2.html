@@ -124,10 +124,22 @@ if (!doNotTrack) {
 <li><p>Part 3: an implementation using PyTorch;</p></li>
 <li><p>Part 4: finally, its application to time series.</p></li>
 </ul>
-<p>This post goes through the algorithm which is presented at a high level in the paper. It will also draw on the details of the <a href="https://arxiv.org/abs/1901.02860">Transformer-XL</a> model as presented in June 2019.</p>
+<p>This post first sets the scene with the building blocks of what makes a <a href="https://arxiv.org/abs/1901.02860">TransformerXL</a> model as presented in June 2019. Next, the compression is introduced at a high level. And then it goes into more details of the algorithm.</p>
+<div id="the-transformerxl" class="section level2">
+<h2>The TransformerXL</h2>
+<div id="background" class="section level3">
+<h3>Background</h3>
+<p>The previous part introduced a chronological introduction starting with RNNs. However, it would have been more accurate to present those models as Sequential Neural Network: They are concerned with dealing with sequential pieces of information (individual elements) and capturing their respective interactions. <em>Recurrent</em> networks are but one type of sequential networks.</p>
+<p>The first generation Recurrent Neural Networks passes contextual information from one sequential unit to the next within a layer. A unit does not see anything past its preceding neighbour. Bidirectional networks do not feed a unit with information coming from both sides within a single layer, they are a combination of two layers going in opposite directions. RNNs do not capture information as a whole.</p>
+<p>The addition of <em>attention</em> is the first mechanism that captured the entire sequence. First, within an RNN layer, each unit receives an input from the preceding layer (or a training segment). Then, an attention layer (an <em>attention head</em>) is fed with each and every output produced by the RNN layer. Each hidden state is weighted by trained parameters and the attention layer produces
+Several attention heads can be trained in parallel and combine their results using trained parameters into a final output.</p>
+<p>The number of parameters for this type of model is extremely large.</p>
+<p>Before the series of Transformer model, RNN</p>
+</div>
+</div>
 <div id="high-level-algorithm" class="section level2">
 <h2>High-level algorithm</h2>
-<div id="background" class="section level3">
+<div id="background-1" class="section level3">
 <h3>Background</h3>
 <p>From the last post, recall that compressive transformer are an extension to the TransformerXL. TransformerXL trains using segments extracted from all the sequences available in the dataset. It also uses hidden states calculated when training prior segments. In a sense, it seeks to indirectly increase the size of the training segments. Naturally, the model stores past hidden states (past memories) in a buffer of limited size. It has to discard discarding the oldest memories from that primary memory when moving from a segment to the next.</p>
 <p>The key addition of the compressive model is to avoid immediately the discarding by compressing those past states in a compressed representation (which itself will eventually be discarded). The training needs to cover the original TransformerXL and the quality of the compression mechanics. When training a typical network, the values of all the parameters are simultaneously optimised using the gradients calculated for each of those parameters. Instead, this model is trained as 2 separate models:</p>
@@ -141,7 +153,7 @@ if (!doNotTrack) {
 <p>The authors describe the overall algorithm at a high level. We will retain the same notations, which are summarised at the end of of the post, but we will use a slightly different vocabulary. In particular, a <em>training set</em> (for example a full text) is split into ordered <em>sequences</em> that for a conceptual whole (a full sentence). Each sequence is fed into the model which has a limited number of inputs. If the size of a sequence is too large, it is split into <em>segments</em>. The size of a segment is the number of input of the model. The key attraction of the compressive memory is to lengthen the memory of a TransformerXL: for an identical computation budget, the paper shows that it is valuable to shorten the segments (fewer self-attention heads), in exchange for keeping longer compressed past memories (the self-attention heads become larger to give attention to compressed memories).</p>
 <div class="figure">
 <img src="/post/2020-03-RNN-compressive-memory/Compressive-template.png" alt="" />
-<p class="caption">Compressive TransformerXL</p>
+<p class="caption"><strong>Compressive TransformerXL</strong></p>
 </div>
 <p>To complete the notation, we use the following form of indices: <span class="math inline">\(h^{(l), v}_t\)</span> which should be read as <span class="math inline">\(h^{(\text{Layer index}), \text{Segment index}}_{\text{Time step}}\)</span>. In addition, <span class="math inline">\(h^{(1)}\)</span> represents the inputs into the first layer, i.e. equals the current training segment <span class="math inline">\(x\)</span>.</p>
 <ol style="list-style-type: lower-alpha">
