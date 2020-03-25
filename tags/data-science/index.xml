@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/data-science/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Forecasting the progression of COVID-19</title>
+      <link>/2020/03/25/2020-03-25-forecasting-covid-19.html</link>
+      <pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/03/25/2020-03-25-forecasting-covid-19.html</guid>
+      <description>Jump there if in a hurry for maths
+This post is about an effort to replicate the model made available by NeherLab.
+While it is an nice piece of work, it is entirely written in Javascript which makes the model itself difficult to audit and modify. This is a re-implementation in Julia. Why Julia? Because it is clear to read, matches mathematical notation and it is fast. Very fast. This will be necessary when doing parameter estimation to improve its quality.</description>
+    </item>
     
     <item>
       <title>HarvardX Gitbooks available</title>

@@ -776,13 +776,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-112.63322,474.27827)">
-    <path
-       style="display:inline;fill:none;fill-rule:evenodd;stroke:#8585ff;stroke-width:12.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4)"
-       d="m 246.88321,-230.95667 492.78537,2.79027"
-       id="path8513-4"
-       inkscape:connector-curvature="0"
-       inkscape:connector-type="polyline"
-       inkscape:connection-end="#rect4136-5-8" />
     <g
        transform="translate(23.53298,-17.10469)"
        id="g5792">
@@ -1514,5 +1507,12 @@
        inkscape:connector-curvature="0"
        inkscape:connection-start="#circle5815-3"
        inkscape:connection-end="#g2544-5" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#8585ff;stroke-width:12.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4)"
+       d="m 246.88321,-230.95667 492.78537,2.79027"
+       id="path8513-4"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       inkscape:connection-end="#rect4136-5-8" />
   </g>
 </svg>
