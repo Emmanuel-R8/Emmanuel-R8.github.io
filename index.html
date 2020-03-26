@@ -121,9 +121,27 @@ if (!doNotTrack) {
 		
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		Jump there if in a hurry for maths
-This post is about an effort to replicate the model made available by NeherLab.
-While it is an nice piece of work, it is entirely written in Javascript which makes the model itself difficult to audit and modify. This is a re-implementation in Julia. Why Julia? Because it is clear to read, matches mathematical notation and it is fast. Very fast. This will be necessary when doing parameter estimation to improve its quality.
+		The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning. It was born after reading a report from Imperial College London and finding a forecasting model by NeherLab. The numbers produced by those models can only be described as terrifying.
+How do those models work? How are they calibrated?
+BUT
+Remember that whatever concerns one can have about their precision, those models are all absolutely clear that social-distancing, quarantining have a massive impact on death rates.
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/2020/03/18/rnn-compressive-memory-part-2.html" rel="bookmark">
+			RNN Compressive Memory Part 2: The Compression algorithm
+			</a>
+		</h3>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		This is part 2 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling.
+ Part 1: A high level introduction to Compressive Memory mechanics starting from basic RNNS;
+ Part 2 (here): a detailed explanation of the algorithm and its interesting details;
+ Part 3: an implementation using PyTorch;
+ Part 4: finally, its application to time series.
+  This post first sets the scene with the building blocks of what makes a TransformerXL model as presented in June 2019.
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
@@ -167,20 +185,6 @@ They make for a good knock-me-asleep reading…
 		After 3 months of work, the final report for the HarvardX Data Science course was submitted.
 It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html" rel="bookmark">
-			Quick Thought: Universal translator and same language translator
-			</a>
-		</h3>
-		
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		Quick Thoughts are random thoughts looking for comments
- Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
-Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.
-	</div>
 </article>
 </main>
 
@@ -205,6 +209,7 @@ Let’s give the blackbox universal translator three inputs: a source text, the 
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="/2020/03/25/2020-03-25-forecasting-covid-19.html">Forecasting the progression of COVID-19</a></li>
+			<li class="widget__item"><a class="widget__link" href="/2020/03/18/rnn-compressive-memory-part-2.html">RNN Compressive Memory Part 2: The Compression algorithm</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2020/03/07/rnn-compressive-memory-part-1.html">RNN Compressive Memory Part 1: A high level introduction.</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2019/12/12/harvardx-gitbooks-available.html">HarvardX Gitbooks available</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2019/12/11/harvardx-final-report-lendingclub-dataset.html">HarvardX Final Report - LendingClub dataset</a></li>

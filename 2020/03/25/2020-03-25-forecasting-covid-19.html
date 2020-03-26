@@ -117,10 +117,729 @@ if (!doNotTrack) {
 			
 
 
-<p><a href="/post/COVID-19.html">Jump there if in a hurry for maths</a></p>
-<p>This post is about an effort to replicate the model made available by <a href="https://neherlab.org/covid19/">NeherLab</a>.</p>
-<p>While it is an nice piece of work, it is entirely written in Javascript which makes the model itself difficult to audit and modify. This is a <a href="/post/COVID-19.html">re-implementation in Julia</a>. Why <a href="https://julialang.org/">Julia</a>? Because it is clear to read, matches mathematical notation and it is fast. Very fast. This will be necessary when doing parameter estimation to improve its quality.</p>
-<p>The code is available on <a href="https://github.com/Emmanuel-R8/COVID-19-Julia">Github</a>. Contributions welcome.</p>
+<div id="the-neherlab-covid-19-forecast-model" class="section level1">
+<h1>The <a href="https://neherlab.org/covid19/">Neherlab COVID-19</a> forecast model</h1>
+<pre class="julia"><code>using CSV, Dates;
+using DataFrames, DataFramesMeta;
+using Plots, PyPlot;
+using DifferentialEquations;</code></pre>
+<p>This is more a data science post than machine learning. It was born after reading a <a href="https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf">report</a> from Imperial College London and finding a forecasting model by <a href="https://neherlab.org/covid19/">NeherLab</a>. The numbers produced by those models can only be described as terrifying.</p>
+<p>How do those models work? How are they calibrated?</p>
+<p><strong>BUT</strong></p>
+<p>Remember that whatever concerns one can have about their precision, those models are all absolutely clear that social-distancing, quarantining have a massive impact on death rates. Being careful saves lives. If anybody feels like ignoring those precautions out of excess testosterone, they are at risk of killing others.</p>
+<p>This post started from one of the pages of the NeherLab site describing their methodology. The work that team is achieving deserves more credit than I can give them.</p>
+<p>The NeherLab website, including the model, is entirely written in Javascript. This is difficul to understand and audit.</p>
+</div>
+<div id="basic-assumptions" class="section level1">
+<h1>Basic assumptions</h1>
+<p><strong>WARNING</strong>: This is not an introduction to SEIR (and variant) compartment modelling of epidemies. For an introduction (difficult to avoid the maths), see a presentation by the <a href="http://indico.ictp.it/event/7960/session/3/contribution/19/material/slides/0.pdf">Swiss Tropical and Public Health Institute</a>. <a href="https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology">Wikipedia</a> is always an option.</p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>The model works as follows:</p>
+<ul>
+<li>susceptible individuals are exposed/infected through contact with infectious individuals. Each infectious individual causes on average <span class="math inline">\(R_0\)</span> secondary infections while they are infectious.</li>
+</ul>
+<p>Transmissibility of the virus could have seasonal variation which is parameterized with the parameter “seasonal forcing” (amplitude) and “peak month” (month of most efficient transmission).</p>
+<ul>
+<li><p>exposed individuals progress to a symptomatic/infectious state after an average latency</p></li>
+<li><p>infectious individuals recover or progress to severe disease. The ratio of recovery to severe progression depends on age</p></li>
+<li><p>severely sick individuals either recover or deteriorate and turn critical. Again, this depends on the age</p></li>
+<li><p>critically ill individuals either return to regular hospital or die. Again, this depends on the age</p></li>
+</ul>
+<p>The individual parameters of the model can be changed to allow exploration of different scenarios.</p>
+</div>
+<div id="age-cohorts" class="section level3">
+<h3>Age cohorts</h3>
+<p>COVID-19 is much more severe in the elderly and proportion of elderly in a community is therefore an important determinant of the overall burden on the health care system and the death toll. We collected age distributions for many countries from data provided by the UN and make those available as input parameters. Furthermore, we use data provided by the epidemiology group by the <a href="http://weekly.chinacdc.cn/en/article/id/e53946e2-c6c4-41e9-9a9b-fea8db1a8f51">Chinese CDC</a> to estimate the fraction of severe and fatal cases by age group.</p>
+</div>
+<div id="severity" class="section level3">
+<h3>Severity</h3>
+<p>The basic model deals with 3 levels of severity: slow, moderate and fast transmissions.</p>
+<pre class="julia"><code># severityLevel = :slow;
+severityLevel = :moderate;
+# severityLevel = :fast;</code></pre>
+</div>
+<div id="seasonality" class="section level2">
+<h2>Seasonality</h2>
+<p>Many respiratory viruses such as influenza, common cold viruses (including other coronaviruses) have a pronounced seasonal variation in incidence which is in part driven by climate variation through the year. We model this seasonal variation using a sinusoidal function with an annual period. This is a simplistic way to capture seasonality. Furthermore, we don’t know yet how seasonality will affect COVID-19 transmission.</p>
+<pre class="julia"><code># Northern or southern hemisphere
+latitude = :north;
+# latitude = :tropical;
+# latitude = :south;</code></pre>
+<pre class="julia"><code># The time unit is days (as floating point)
+# Day 0 is taken at 1 March 2020
+BASE_DATE = Date(2020, 3, 1);
+BASE_DAYS = 0;
+
+function date2days(d) 
+    return convert(Float64, datetime2rata(d) - datetime2rata(BASE_DATE))
+end;
+
+function days2date(d) 
+    return BASE_DATE + Day(d)
+end;    </code></pre>
+<pre class="julia"><code># Default values for R_0
+baseR₀ = Dict( (:north,    :slow)     =&gt; 2.2, 
+               (:north,    :moderate) =&gt; 2.7, 
+               (:north,    :fast)     =&gt; 3.2, 
+               (:tropical, :slow)     =&gt; 2.0, 
+               (:tropical, :moderate) =&gt; 2.5, 
+               (:tropical, :fast)     =&gt; 3.0,
+               (:south,    :slow)     =&gt; 2.2, 
+               (:south,    :moderate) =&gt; 2.7, 
+               (:south,    :fast)     =&gt; 3.2);</code></pre>
+<pre class="julia"><code># Peak date
+peakDate = Dict( :north     =&gt; date2days(Date(2020, 1, 1)), 
+                 :tropical  =&gt; date2days(Date(2020, 1, 1)),    # although no impact
+                 :south     =&gt; date2days(Date(2020, 7, 1)));</code></pre>
+<pre class="julia"><code># Seasonal forcing parameter \epsilon
+ϵ = Dict( (:north,    :slow)     =&gt; 0.2, 
+          (:north,    :moderate) =&gt; 0.2, 
+          (:north,    :fast)     =&gt; 0.1, 
+          (:tropical, :slow)     =&gt; 0.0, 
+          (:tropical, :moderate) =&gt; 0.0, 
+          (:tropical, :fast)     =&gt; 0.0,
+          (:south,    :slow)     =&gt; 0.2, 
+          (:south,    :moderate) =&gt; 0.2, 
+          (:south,    :fast)     =&gt; 0.1);</code></pre>
+<pre class="julia"><code># Gives R_0 at a given date
+function R₀(d; r_0 = missing, latitude = :north, severity = :moderate)
+    if ismissing(r_0)
+        r₀ = baseR₀[(latitude, severity)]
+    else
+        r₀ = r_0
+    end
+    eps = ϵ[(latitude, severity)]
+    peak = peakDate[latitude]
+    
+    return r₀ * (1 + eps * cos(2.0 * π * (d - peak) / 365.25))
+end;</code></pre>
+</div>
+<div id="transmission-reduction" class="section level2">
+<h2>Transmission reduction</h2>
+<p>The tool allows one to explore temporal variation in the reduction of transmission by infection
+control measures. This is implemented as a curve through time that can be dragged by the mouse to
+modify the assumed transmission. The curve is read out and used to change the transmission relative
+to the base line parameters for <span class="math inline">\(R_0\)</span> and seasonality. Several studies attempt to estimate the
+effect of different aspects of social distancing and infection control on the rate of transmission.
+A report by <a href="https://www.medrxiv.org/content/10.1101/2020.03.03.20030593v1">Wang et al</a> estimates a
+step-wise reduction of <span class="math inline">\(R_0\)</span> from above three to around 1 and then to around 0.3 due to successive
+measures implemented in Wuhan. <a href="https://www.pnas.org/content/116/27/13174">This study</a> investigates
+the effect of school closures on influenza transmission.</p>
+<p>This curve is presented as a list of tuples: (days from start date, ratio). The month starts from the start date. Between dates, the ration is interpolated linearly. After the last date, the ration remains constant.</p>
+<pre class="julia"><code>startDate = date2days(Date(2020, 3, 1));
+
+mitigationRatio = [(0, 1.00), (30, 0.80), (60, 0.20), (150, 0.50)];
+
+function getCurrentRatio(d; start = BASE_DAYS, schedule = mitigationRatio)
+    l = length(schedule)
+    
+    # If l = 1, ratio will be the only one
+    if l == 1 
+        return schedule[1][2]
+    else
+        for i in 2:l
+            d1 = schedule[i-1][1]
+            d2 = schedule[i  ][1]
+            
+            if d &lt; d2 
+                deltaR = schedule[i][2] - schedule[i-1][2]
+                return schedule[i-1][2] + deltaR * (d - d1) / (d2 - d1)
+            end
+        end
+    
+        # Last possible choice
+        return schedule[l][2]
+    end
+end;</code></pre>
+</div>
+<div id="details-of-the-model" class="section level2">
+<h2>Details of the model</h2>
+<p>Age strongly influences an individual’s response to the virus. The general population is sub-divided in to age classes, indexed by <span class="math inline">\(a\)</span>, to allow for variable transition rates dependent upon age.</p>
+<pre class="julia"><code># The population will be modeled as a single vector. 
+# The vector will be a stack of several vectors, each of them represents a compartment.
+# Each compartment vector has a size $nAgeGroup$ representing each age group.
+# The compartments are: S, E, I, H, C, R, D, K, L
+
+# We also track the hospital bed usage BED and ICU
+
+# Population to compartments
+function Pop2Comp(P)
+    
+    # To make copy/paste less prone to error 
+    g = 0
+    
+    S = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    E = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    I = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    J = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    H = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    C = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    R = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    D = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    K = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    L = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    
+    BED = P[ g*nAgeGroup + 1: g*nAgeGroup + 1]
+    ICU = P[ g*nAgeGroup + 2: g*nAgeGroup + 2]
+    
+    return S, E, I, J, H, C, R, D, K, L, BED, ICU
+end;</code></pre>
+<div id="population-compartments" class="section level3">
+<h3>Population compartments</h3>
+<p>Qualitatively, the epidemy model dynamics tracks several sub-groups (compartments):</p>
+<p><img src="/post/images/States.svg"></p>
+<ul>
+<li><p>Susceptible individuals (<span class="math inline">\(S\)</span>) are healthy and susceptible to being exposed to the virus by contact with an infected individual.</p></li>
+<li><p>Exposed individuals (<span class="math inline">\(E\)</span>) are infected but asymptomatic. They progress towards a symptomatic state on average time <span class="math inline">\(t_l\)</span>. Reports are that asymptomatic individuals are contagious. We will assume that they are proportionally less contagious than symptomatic individuals as a percentage <span class="math inline">\(\gamma_E\)</span> of <span class="math inline">\(R_0\)</span>. For the purposes of modelling we will assume (without supporting evidence, but will be the object of parameter estimation):</p></li>
+</ul>
+<pre class="julia"><code>γₑ = 0.50;</code></pre>
+<ul>
+<li>Infected individuals (<span class="math inline">\(I\)</span>) infect an average of <span class="math inline">\(R_0\)</span> secondary infections. On a time-scale of <span class="math inline">\(t_i\)</span>, infected individuals either recover or progress towards severe infection.</li>
+</ul>
+<p>From here on, the compartments differ from the NeherLab model is that we split compartments depending on the severity of the symptoms (Severe or Critical) and the location of the individual (out of the hospital infrastructure, isolated in hospital, or isolated in intensive care units). The transitions reflect the following assumptions:</p>
+<ul>
+<li><p>Transition between locations is purely a function of bed availability: as soon as beds are available, they are filled by all age groups in their respective proportions.</p></li>
+<li><p>Transition from severe to critical is assumed to be independent from the location of the patient. For severe patients, the relevance of the location is whether they are isolated or not, that is the possibility to infect susceptible individual. The same way an asymptomatic individual’s attracts a ratio <span class="math inline">\(\gamma_e\)</span>, the other compartments will. The transition from <span class="math inline">\(J\)</span> and <span class="math inline">\(H\)</span> to recovery or criticality has a time-scale of <span class="math inline">\(t_h\)</span>.</p></li>
+</ul>
+<pre class="julia"><code># R_0 multipliers depending on severity. Subscript matches the compartment&#39;s name.
+# Infected / symptomatic individuals
+γᵢ=1.0;
+
+# Severe symptoms
+γⱼ=1.0;
+
+# Critical symptoms
+γₖ = 2.0;</code></pre>
+<ul>
+<li>Once critical, the location of a patient influences their chances of recovery. Although we will assume that the time to recovery is identical in all cases, we will assume that the risks will double and triple if a patient is in simple isolation (receiving care but without ICU equipmment) or out of hospital.</li>
+</ul>
+<pre class="julia"><code># Fatality mulitplier.
+
+# In ICU
+δᵤ = 1.0;
+
+# In hospital
+δₗ = 2.0;
+
+# Out of hospital
+δₖ = 3.0;</code></pre>
+<ul>
+<li><p>The time-scale to recovery (<span class="math inline">\(R\)</span>) or death (<span class="math inline">\(D\)</span>) is <span class="math inline">\(t_u\)</span>.</p></li>
+<li><p>Recovering and recovered individuals [<span class="math inline">\(R\)</span>] can not be infected again. We will assume that recovering individual are not contagious (no medical experience for this assumption for recovering individual).</p></li>
+</ul>
+</div>
+<div id="model-parameters" class="section level3">
+<h3>Model parameters</h3>
+<ul>
+<li>Many estimates of <span class="math inline">\(R_0\)</span> are in the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7001239/">range of 2-3</a> with some estimates pointing to considerably <a href="https://www.medrxiv.org/content/10.1101/2020.02.10.20021675v1">higher values</a>.</li>
+<li>The serial interval, that is the time between subsequent infections in a transmission chain, was <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2001316">estimated to be 7-8 days</a>.</li>
+<li>The China CDC compiled <a href="http://weekly.chinacdc.cn/en/article/id/e53946e2-c6c4-41e9-9a9b-fea8db1a8f51">extensive data on severity and fatality of more than 40 thousand confirmed cases</a>.
+In addition, we assume that a substantial fraction of infections, especially in the young, go unreported. This is encoded in the columns “Confirmed [% of total]”.</li>
+<li>Seasonal variation in transmission is common for many respiratory viruses but the strength of seasonal forcing for COVID19 are uncertain. For more information, see a <a href="https://smw.ch/article/doi/smw.2020.20224">study by us</a> and by <a href="https://www.medrxiv.org/content/10.1101/2020.03.04.20031112v1">Kissler et al</a>.
+The parameters of this model fall into three categories: transition time scales, age-specfic parameters and a time-dependent infection rate.</li>
+</ul>
+<div id="transition-time-scales" class="section level4">
+<h4>Transition time scales</h4>
+<p>The time scales of transition from a compartment to the next: <span class="math inline">\(t_l\)</span>, <span class="math inline">\(t_i\)</span>, <span class="math inline">\(t_h\)</span>, <span class="math inline">\(t_c\)</span>.</p>
+<ul>
+<li><span class="math inline">\(t_l\)</span>: latency time from infection to infectiousness</li>
+<li><span class="math inline">\(t_i\)</span>: the time an individual is infectious after which he/she either recovers or falls severely ill</li>
+<li><span class="math inline">\(t_h\)</span>: the time a sick person recovers or deteriorates into a critical state</li>
+<li><span class="math inline">\(t_u\)</span>: the time a person remains critical before dying or stabilizing (Neherlab uses <span class="math inline">\(t_c\)</span> instead of <span class="math inline">\(t_u\)</span>)</li>
+</ul>
+<pre class="julia"><code># Time to infectiousness (written t\_l)
+tₗ = Dict(  :slow     =&gt; 5.0, 
+            :moderate =&gt; 5.0, 
+            :fast     =&gt; 4.0);
+
+# Time to infectiousness (written t\_i)
+tᵢ = Dict(  :slow     =&gt; 3.0, 
+            :moderate =&gt; 3.0, 
+            :fast     =&gt; 3.0);
+
+# Time in hospital bed (not ICU)
+tₕ = 4.0;
+
+# Time in ICU 
+tᵤ = 14.0;</code></pre>
+</div>
+<div id="age-specfic-parameters" class="section level4">
+<h4>Age-specfic parameters</h4>
+<p>The age-specific parameters <span class="math inline">\(z_a\)</span>, <span class="math inline">\(m_a\)</span>, <span class="math inline">\(c_a\)</span> and <span class="math inline">\(f_a\)</span> that determine relative rates of different outcomes.</p>
+<ul>
+<li><span class="math inline">\(z_a\)</span>: a set of numbers reflecting to which extent an age group is susceptible to initial contagion. Note that NeherLab denotes this vector by <span class="math inline">\(I_a\)</span> which is confusing with the compartmment evolution <span class="math inline">\(I_a(t)\)</span> notation. (This sort of defeats the purpose of <span class="math inline">\(R_0\)</span>.)</li>
+<li><span class="math inline">\(m_a\)</span>: fraction of infectious becoming severe (<strong>Hospitalisation Rate</strong>) or recovers immediately (<strong>Recovery Rate</strong>)</li>
+<li><span class="math inline">\(c_a\)</span>: fraction of severe cases that turn critical (<strong>Critical Rate</strong>) or can leave hospital (<strong>Discharge Rate</strong>)</li>
+<li><span class="math inline">\(f_a\)</span>: fraction of critical cases that are fatal (<strong>Death Rate</strong>) or recover (<strong>Stabilisation Rate</strong>)</li>
+</ul>
+<pre class="julia"><code>AgeGroup = [&quot;0-9&quot;, &quot;10-19&quot;, &quot;20-29&quot;, &quot;30-39&quot;, &quot;40-49&quot;, &quot;50-59&quot;, &quot;60-69&quot;, &quot;70-79&quot;, &quot;80+&quot;];
+zₐ =       [0.05,   0.05,   0.10,    0.15,    0.20,    0.25,    0.30,    0.40,    0.50];
+mₐ =       [0.01,   0.03,   0.03,    0.03,    0.06,    0.10,    0.25,    0.35,    0.50];
+cₐ =       [0.05,   0.10,   0.10,    0.15,    0.20,    0.25,    0.35,    0.45,    0.55];
+fₐ =       [0.30,   0.30,   0.30,    0.30,    0.30,    0.40,    0.40,    0.50,    0.50];
+
+nAgeGroup = length(AgeGroup);</code></pre>
+</div>
+<div id="infrastruture" class="section level4">
+<h4>Infrastruture</h4>
+<p>The number of beds available is assumed as a fixed resource in time. The number of hospital (resp. ICU) beds in use will be denoted <span class="math inline">\(\mathscr{H}(t)\)</span> (resp. <span class="math inline">\(\mathscr{U}(t)\)</span>) up to a maximum of <span class="math inline">\(\mathscr{H}_{max}\)</span> (resp. <span class="math inline">\(\mathscr{U}_{max}\)</span>).</p>
+<p>Although the initial infections took place via dommestic and international travellers (apart from the initial infections in Wuhan obviously), we will assume no net flow of population in and out of a country of interest.</p>
+</div>
+</div>
+<div id="infection" class="section level3">
+<h3>Infection</h3>
+<div id="susceptible" class="section level4">
+<h4>Susceptible:</h4>
+<p>The <em>base</em> rate of contagion is denoted as <span class="math inline">\(R_0\)</span>. The actual rate varies with time (to reflect seasons and impact of temperature on virus resilience) and the effectiveness of the mitigation measures such as social distancing. Separately, each age group will have a different sensitivity to infection.</p>
+<p>The infection rate <span class="math inline">\(\beta_a(t)\)</span> is age- and time-dependent. It is given by:</p>
+<p><span class="math display">\[\beta_a(t) = z_a M(t) R_0 \left( 1+\varepsilon \cos \left( 2\pi \frac{t-t_{max}}{t_i} \right) \right) \]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(z_a\)</span> is the degree to which particular age groups are sensitive to initial infection. It reflects bioligical sensitivity and to which degree it is isolated from the rest of the population (denoted <span class="math inline">\(I_a\)</span> in NeherLab).</li>
+<li><span class="math inline">\(M(t)\)</span> is a time-dependent ratio reflecting the effectiveness of mitigation measures.</li>
+<li><span class="math inline">\(\varepsilon\)</span> is the amplitude of seasonal variation in transmissibility.</li>
+<li><span class="math inline">\(t_{max}\)</span> is the time of the year of peak transmission.</li>
+</ul>
+<p>Susceptible individuals are exposed to a number of contagious individuals:</p>
+<ul>
+<li>asymptomatic infected: <span class="math display">\[\gamma_e \beta_a(t) E_a(t)\]</span></li>
+<li>symptomatic infected: <span class="math display">\[\gamma_i \beta_a(t) I_a(t)\]</span></li>
+<li>severe not in hospital: <span class="math display">\[\gamma_j \beta_a(t) J_a(t)\]</span></li>
+<li>critical not in hospital: <span class="math display">\[\gamma_k \beta_a(t) K_a(t)\]</span></li>
+</ul>
+<p>The sum of those will be a flow from susceptible (<span class="math inline">\(S\)</span>) to (<span class="math inline">\(E\)</span>) exposed individuals.</p>
+<p><span class="math display">\[
+\begin{aligned}
+S2E_a(t) &amp; = \gamma_e \beta_a(t) E_a(t) + \gamma_i \beta_a(t) I_a(t) + \gamma_j \beta_a(t) K_a(t) + \gamma_k \beta_a(t) L_a(t) \\ 
+S2E_a(t) &amp; = \beta_a(t) \left( \gamma_e  E_a(t) + \gamma_i I_a(t) + \gamma_j J_a(t) + \gamma_k K_a(t) \right) \\
+E2S_a(t) &amp; = -S2E_a(t) \\
+\end{aligned}
+\]</span></p>
+<p>and therefore:</p>
+<p><span class="math display">\[
+\frac{dS_{a}(t)}{dt} = - S2E_a(t) = E2S_a(t)
+\]</span></p>
+</div>
+</div>
+<div id="after-infection" class="section level3">
+<h3>After infection</h3>
+<p>Quantitatively, the model expresses how many individuals transfer from one situation/compartment to another. Flows from compartment X to Y are written as <span class="math inline">\(X2Y\)</span> (obviously <span class="math inline">\(X2Y = - Y2X\)</span>).</p>
+<p>Note that the compartments are split into age groups.</p>
+<div class="figure">
+<img src="/post/images/Transitions.svg" alt="" />
+<p class="caption">Transitions between compartments</p>
+</div>
+<div id="epidemiology" class="section level4">
+<h4>Epidemiology</h4>
+<p>Instead of expressing the sum of the flows at each node, it is easier to express the arrows, and summing them afterwards. For example, arrow from <span class="math inline">\(J\)</span> to <span class="math inline">\(K\)</span> will be:</p>
+<p><span class="math display">\[JK_a(t) = \frac{c_a}{t_h} J_a(t)\]</span></p>
+<p>with a positive flow following the direction of the arrow.</p>
+<p>In {julia}, this will become:</p>
+<pre><code>        JK = cₐ .* J / tₕ</code></pre>
+<p>where <code>J</code> is a vector representing an age group, <code>.*</code> is the element-wise multiplication.</p>
+<p>After defining the arrows <span class="math inline">\(IJ\)</span>, <span class="math inline">\(JK\)</span> and <span class="math inline">\(JH\)</span>, the change in <span class="math inline">\(J\)</span> will simply be:</p>
+<pre><code>        dJ = IJ - JK - JH</code></pre>
+</div>
+<div id="bed-transfers" class="section level4">
+<h4>Bed transfers</h4>
+<p>Individuals are transferred into hospital beds then into ICU beds in the order indicated by the red numbers.</p>
+<p>Critical patients already in hospital go into ICU as spots become available. The freed bed are first made available to critical patients out of hospital (<span class="math inline">\(K\)</span>). Then, any free beds will receive patients in severe condition.</p>
+</div>
+<div id="safeguards" class="section level4">
+<h4>Safeguards:</h4>
+<p>Note the need to ensure a few common sense rules:</p>
+<ul>
+<li><p>No compartment can have a negative number of people.</p></li>
+<li><p>The total population figure should remain unchanged. This is done by adjusting the number of susceptible individuals.</p></li>
+<li><p>Careful accounting of the use of fixed number of hospital beds.</p></li>
+<li><p>The number of infected people should always be above the number of reported cases.</p></li>
+</ul>
+<pre class="julia"><code># Helper function to never change the number of individuals in a compartment in a way that would 
+# make it below 0.1 (to avoid rounding errors around 0)
+function ensurePositive(d,s)
+    return max.(d .+ s, 0.1) .- s
+end;
+
+    
+    
+# The dynamics of the epidemy is a function that mutates its argument with a precise signature
+# Don&#39;t pay too much attetion to the print debugs/
+
+function epiDynamics!(dP, P, params, t)
+    
+    S, E, I, J, H, C, R, D, K, L, BED, ICU = Pop2Comp(P)
+    
+    BED = BED[1]
+    ICU = ICU[1]
+    
+    r₀, tₗ, tᵢ, tₕ, tᵤ, γₑ, γᵢ, γⱼ, γₖ, δₖ, δₗ, δᵤ, startDays = params 
+    
+    
+    ####################################
+    # Arrows reflecting epidemiology - Check signs (just in case)
+    EI = ones(nAgeGroup) .* E / tₗ;  EI = max.(EI, 0.0); IE = -EI; 
+    IJ = mₐ              .* I / tᵢ;  IJ = max.(IJ, 0.0); JI = -IJ
+    JK = cₐ              .* J / tₕ;  JK = max.(JK, 0.0); KJ = -JK
+    HL = cₐ              .* H / tₕ;  HL = max.(HL, 0.0); LH = -HL
+    
+    # Recovery arrows
+    IR = (1 .- mₐ)       .* I / tᵢ;  IR = max.(IR, 0.0); RI = -IR
+    JR = (1 .- cₐ)       .* J / tₕ;  JR = max.(JR, 0.0); RJ = -JR
+    HR = (1 .- cₐ)       .* H / tₕ;  HR = max.(HR, 0.0); RH = -HR
+    KR = (1 .- δₖ .* fₐ) .* K / tᵤ;  KR = max.(KR, 0.0); RK = -KR
+    LR = (1 .- δₗ .* fₐ) .* L / tᵤ;  LR = max.(LR, 0.0); RL = -LR
+    CR = (1 .- δᵤ .* fₐ) .* C / tᵤ;  CR = max.(CR, 0.0); RC = -CR
+    
+    # Deaths
+    KD = δₖ .* fₐ        .* K / tᵤ;  KD = max.(KD, 0.0); DK = -KD
+    LD = δₗ .* fₐ        .* L / tᵤ;  LD = max.(LD, 0.0); DL = -LD
+    CD = δᵤ .* fₐ        .* C / tᵤ;  CD = max.(CD, 0.0); DC = -CD
+    
+    
+    ####################################
+    # Bed transfers
+    
+    ####### Step 1:
+    # Decrease in bed usage is (recall that CD and CR are vectors over the age groups) 
+    dICU = - (sum(CD) + sum(CR));                 dICU = ensurePositive(dICU, ICU)
+    
+    # ICU beds available
+    ICU_free = ICU_max - (ICU + dICU)
+    
+    # Move as many patients as possible from $L$ to $C$ in proportion of each group
+    ICU_transfer = min(sum(L), ICU_free)
+    LC = ICU_transfer / sum(L) .* L;    CL = -LC
+    
+    # Overall change in ICU bed becomes
+    dICU = dICU + ICU_transfer;                   dICU = ensurePositive(dICU, ICU)
+    
+    # And some normal beds are freed
+    dBED = -ICU_transfer;                         dBED = ensurePositive(dBED, BED)
+    #print(&quot; dBed step 1 &quot;); println(floor.(sum(dBED)))
+
+    ####### Step 2:
+    # Beds available
+    BED_free = BED_max - (BED + dBED)
+    
+    # Move as many patients as possible from $K$ to $L$ in proportion of each group
+    BED_transfer = min(sum(K), BED_free)
+    KL = BED_transfer / sum(K) .* K;   LK = -KL
+    
+    # Overall change in normal bed becomes
+    dBED = dBED + BED_transfer;                   dBED = ensurePositive(dBED, BED)
+    #print(&quot; dBed step 2 &quot;); println(floor.(sum(dBED)))
+    
+
+    ####### Step 3:
+    # Beds available
+    BED_free = BED_max - (BED + dBED)
+    
+    # Move as many patients as possible from $J$ to $H$ in proportion of each group
+    BED_transfer = min(sum(J), BED_free)
+    JH = BED_transfer / sum(J) .* J;   HJ = -JH 
+    
+    # Overall change in ICU bed becomes
+    dBED = dBED + BED_transfer;                   dBED = ensurePositive(dBED, BED)
+    #print(&quot; dBed step 3 &quot;); println(floor.(sum(dBED)))
+    
+
+    ####################################
+    # Sum of all flows + Check never negative compartment
+    
+    # Susceptible    
+    # Calculation of β
+    β = getCurrentRatio(t; start = BASE_DAYS, schedule = mitigationRatio) .* zₐ .* 
+        R₀(t; r_0 = r₀, latitude = Latitude, severity = SeverityLevel)
+    
+    #print(&quot;r₀&quot;); println(r₀); println(&quot;R₀&quot;); 
+    #println(R₀(t; r_0 = r₀, latitude = Latitude, severity = SeverityLevel)); print()
+    
+    dS = -β .* (γₑ.*E + γᵢ.*I + γⱼ.*J + γₖ.*K);   dS = min.(-0.01, dS); dS = ensurePositive(dS, S)
+    
+    #print(&quot;dS&quot;); println(floor.(dS)); println(); 
+    
+    # Exposed
+    dE = -dS + IE;                                dE = ensurePositive(dE, E)
+    
+    # Infected. 
+    dI = EI + JI + RI;                            dI = ensurePositive(dI, I)
+    
+    # Infected no hospital
+    dJ = IJ + HJ + KJ + RJ;                       dJ = ensurePositive(dJ, J)
+    
+    #print(&quot;I &quot;); println(floor.(IJ)); print(&quot;H &quot;); println(floor.(HJ))
+    #print(&quot;K &quot;); println(floor.(KJ)); print(&quot;R &quot;); println(floor.(RJ))
+    
+    # Infected in hospital
+    dH = JH + LH + RH ;                           dH = ensurePositive(dH, H)
+    
+    # Critical no hospital
+    dK = JK + LK + DK + RK;                       dK = ensurePositive(dK, K)
+    
+    # Critical in hospital
+    dL = KL + HL + CL + DL + RL;                  dL = ensurePositive(dL, L)
+    
+    # Critical in ICU
+    dC = LC + DC + RC;                            dC = ensurePositive(dC, C)
+    
+    # Recovery (can only increase)
+    dR = IR + JR + HR + KR + LR + CR;             dR = max.(dR, 0.01)
+    
+    # Dead (can only increase)
+    dD = KD + LD + CD;                            dD = max.(dD, 0.01)
+    
+    # Vector change of population and update in place
+    result = vcat(dS, dE, dI, dJ, dH, dC, dR, dD, dK, dL, [dBED], [dICU])
+    #print(&quot; dS &quot;); print(floor.(sum(dS))); print(&quot; dE &quot;); print(floor.(sum(dE))); 
+    #print(&quot; dI &quot;); print(floor.(sum(dI))); print(&quot; dJ &quot;); println(floor.(sum(dJ))); 
+    #print(&quot; dH &quot;); print(floor.(sum(dH))); print(&quot; dC &quot;); print(floor.(sum(dC))); 
+    #print(&quot; dR &quot;); print(floor.(sum(dR))); print(&quot; dD &quot;); print(floor.(sum(dD))); 
+    #print(&quot; dK &quot;); print(floor.(sum(dK))); print(&quot; dL &quot;); println(floor.(sum(dL))); println(); 
+    for i = 1:length(result)
+        dP[i] = result[i]
+    end
+
+end;
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="load-data" class="section level1">
+<h1>Load data</h1>
+<p>The data comes from Neherlab’s data repository on <a href="https://github.com/neherlab/covid19_scenarios_data">Github</a>.</p>
+<pre><code>## &quot;/home/emmanuel/Development/github-blog/Back2Numbers-blogdown/content/post&quot;</code></pre>
+<p>We will use Italy as an example</p>
+<pre class="julia"><code>country = &quot;Italy&quot;;</code></pre>
+<p>This file contains a record of cases day by day.</p>
+<pre class="julia"><code>cases = DataFrame(CSV.read(&quot;data/World.tsv&quot;, header = 4));
+cases = @where(cases, occursin.(country, :location));
+sort!(cases, :time);
+
+# Add a time column in the same format as the other dataframes
+cases = hcat(DataFrame(t = date2days.(cases[:, :time])), cases);
+
+# Remove any row with no recorded death
+cases = cases[cases.deaths .&gt; 0, :];
+
+last(cases[:, [:time, :cases, :deaths]], 6)</code></pre>
+<pre><code>## 6×3 DataFrame
+## │ Row │ time       │ cases │ deaths │
+## │     │ Date       │ Int64 │ Int64  │
+## ├─────┼────────────┼───────┼────────┤
+## │ 1   │ 2020-03-17 │ 27980 │ 2158   │
+## │ 2   │ 2020-03-18 │ 31506 │ 2505   │
+## │ 3   │ 2020-03-19 │ 35713 │ 2978   │
+## │ 4   │ 2020-03-20 │ 41035 │ 3407   │
+## │ 5   │ 2020-03-21 │ 47021 │ 4032   │
+## │ 6   │ 2020-03-22 │ 53578 │ 4827   │</code></pre>
+<p>The last rows shows the number of cases and deaths up to the last date in the dataset.</p>
+<p>Plotting the number of death shows an almost exponential increase in numbers (straight line in logarithmic scale).</p>
+<pre class="julia"><code>using PyPlot;
+
+pyplot();
+clf();
+ioff();
+plot_x = cases.time;
+plot_y = cases.deaths;
+
+fig, ax = PyPlot.subplots();
+
+ax.plot(plot_x, plot_y, &quot;ro&quot;);
+ax.fill_between(plot_x, plot_y, color=&quot;red&quot;, linewidth=2, label=&quot;Deaths&quot;, alpha=0.3);
+ax.legend(loc=&quot;upper left&quot;);
+ax.set_xlabel(&quot;time&quot;);
+ax.set_ylabel(&quot;Deaths&quot;);
+ax.set_yscale(&quot;log&quot;);
+
+PyPlot.savefig(&quot;images/Deaths.png&quot;);</code></pre>
+<div class="figure">
+<img src="/post/images/Deaths.png" alt="" />
+<p class="caption">Deaths</p>
+</div>
+<p>This file contains ICU beds figures.</p>
+<pre class="julia"><code>ICU_capacity = select(CSV.read(&quot;data/ICU_capacity.tsv&quot;; delim = &quot;\t&quot;), :country, :CriticalCare);
+ICU_capacity = @where(ICU_capacity, occursin.(country, :country))[!, :CriticalCare][1];
+ICU_capacity = convert(Float64, ICU_capacity);</code></pre>
+<p>Country codes are necessary to load the another file.</p>
+<pre class="julia"><code>country_codes = select(CSV.read(&quot;data/country_codes.csv&quot;), :name, Symbol(&quot;alpha-3&quot;));
+country_codes = @where(country_codes, occursin.(country, :name));
+countryShort = country_codes[:, Symbol(&quot;alpha-3&quot;)][1];</code></pre>
+<p>This file contains hospital beds figures.</p>
+<pre class="julia"><code>hospital_capacity = select(CSV.read(&quot;data/hospital_capacity.csv&quot;, 
+                                    types = Dict(:COUNTRY =&gt; String), limit = 1267), :COUNTRY, :YEAR, :VALUE);
+hospital_capacity = @where(hospital_capacity, Not(ismissing.(:COUNTRY)));
+hospital_capacity = last(@where(hospital_capacity, occursin.(countryShort, :COUNTRY)), 1)[!, :VALUE][1];
+hospital_capacity = convert(Float64, hospital_capacity);</code></pre>
+<p>This file contains a distribution of the population in age groups.</p>
+<pre class="julia"><code>age_distribution = CSV.read(&quot;data/country_age_distribution.csv&quot;);
+age_distribution = @where(age_distribution, occursin.(country, :_key))[!, 2:10];
+
+# Convert to simple matrix
+age_distribution = Matrix(age_distribution);
+show(age_distribution);</code></pre>
+</div>
+<div id="initialise-parameters" class="section level1">
+<h1>Initialise parameters</h1>
+<div id="fixed-constants" class="section level2">
+<h2>Fixed constants</h2>
+<pre class="julia"><code>SeverityLevel = :moderate;
+Latitude = :north;
+
+StartDate = Date(2020, 3, 1);
+StartDays = date2days(StartDate);
+
+EndDate = Date(2020, 9, 1);
+EndDays = date2days(EndDate);
+
+tSpan = (StartDays, EndDays);</code></pre>
+</div>
+<div id="infrastructure" class="section level2">
+<h2>Infrastructure</h2>
+<pre class="julia"><code>BED_max = hospital_capacity</code></pre>
+<pre><code>## 165384.0</code></pre>
+<pre class="julia"><code>ICU_max = ICU_capacity</code></pre>
+<pre><code>## 7550.0</code></pre>
+</div>
+<div id="parameter-vector" class="section level2">
+<h2>Parameter vector</h2>
+<pre class="julia"><code># r₀, tₗ, tᵢ, tₕ, tᵤ, γᵢ, γⱼ, γₖ, δₖ, δₗ, δᵤ, startDate = params 
+
+parameters = [  baseR₀[Latitude, SeverityLevel], 
+                tₗ[SeverityLevel], tᵢ[SeverityLevel], tₕ, tᵤ, 
+                γₑ, γᵢ, γⱼ, γₖ, 
+                δₖ, δₗ, δᵤ, 
+                StartDays];</code></pre>
+</div>
+<div id="population" class="section level2">
+<h2>Population</h2>
+<pre class="julia"><code>Age_Pyramid = transpose(age_distribution);
+Age_Pyramid_frac = Age_Pyramid / sum(Age_Pyramid);</code></pre>
+<p>We do not know the number of actual number of infections cases at the start of the model. We only know confirmed cases (almost certainly far below the number of actual infections).</p>
+<p>We assume that actual infections are 3 time more numerous.</p>
+<pre class="julia"><code>DeathsAtStart = @where(cases, :time .== StartDate)[!, :deaths][1];
+ConfirmedAtStart = @where(cases, :time .== StartDate)[!, :cases][1];
+EstimatedAtStart = 3.0 * ConfirmedAtStart;</code></pre>
+</div>
+<div id="parameters-vector" class="section level2">
+<h2>Parameters vector</h2>
+<pre class="julia"><code># Note that values are inintialised at 1 to avoid division by zero
+
+S0 = Age_Pyramid;
+E0 = ones(nAgeGroup);
+I0 = EstimatedAtStart * Age_Pyramid_frac;
+J0 = ones(nAgeGroup);
+H0 = ones(nAgeGroup);
+C0 = ones(nAgeGroup);
+R0 = ones(nAgeGroup);
+D0 = DeathsAtStart * Age_Pyramid_frac;
+K0 = ones(nAgeGroup);
+L0 = ones(nAgeGroup);
+
+# Everybody confirmed is in hospital
+BED = [ConfirmedAtStart];
+ICU = [1.0];
+
+P0 = vcat(S0, E0, I0, J0, H0, C0, R0, D0, K0, L0, BED, ICU);
+dP = 0 * P0;</code></pre>
+</div>
+</div>
+<div id="differential-equation-solver" class="section level1">
+<h1>Differential equation solver</h1>
+<pre class="julia"><code>model = ODEProblem(epiDynamics!, P0, tSpan, parameters);</code></pre>
+<pre class="julia"><code># Note: progress steps might be too quick to see!
+sol = solve(model, Tsit5(); progress = false, progress_steps = 5);</code></pre>
+<pre class="julia"><code># The solutions are returned as an Array of Arrays: 
+#  - it is a vector of size the number of timesteps
+#  - each element of the vector is a vector of all the variables
+nSteps = length(sol.t);
+nVars  = length(sol.u[1]);
+
+# Empty dataframe to contain all the numbers
+# (When running a loop at top-level, the global keywrod is necessary to modify global variables.)
+solDF = zeros((nSteps, nVars));
+for i = 1:nSteps
+    global solDF
+    solDF[i, :] = sol.u[i]
+end;
+
+solDF = hcat(DataFrame(t = sol.t), DataFrame(solDF));
+
+# Let&#39;s clean the names
+compartments =  [&quot;S&quot;, &quot;E&quot;, &quot;I&quot;, &quot;J&quot;, &quot;H&quot;, &quot;C&quot;, &quot;R&quot;, &quot;D&quot;, &quot;K&quot;, &quot;L&quot;];
+solnames = vcat([:t], [Symbol(c * repr(n)) for c in compartments for n in 0:(nAgeGroup-1)], [:Beds], [:ICU]);
+rename!(solDF, solnames);</code></pre>
+<pre class="julia"><code># Create sums for each compartment
+# (Consider solDF[!, r&quot;S&quot;])
+# 
+for c in compartments
+    col =  [Symbol(c * repr(n)) for n in 0:(nAgeGroup-1)]
+    s = DataFrame(C = sum.(eachrow(solDF[:, col])))
+    rename!(s, [Symbol(c)])
+        
+    global solDF = hcat(solDF, s)
+end;
+
+# The D column gives the final number of dead.
+println(last(solDF[:, Symbol.(compartments)], 5))</code></pre>
+<pre><code>## 5×10 DataFrame
+## │ Row │ S         │ E       │ I       │ J       │ H        │ C       │ R         │ D         │ K       │ L       │
+## │     │ Float64   │ Float64 │ Float64 │ Float64 │ Float64  │ Float64 │ Float64   │ Float64   │ Float64 │ Float64 │
+## ├─────┼───────────┼─────────┼─────────┼─────────┼──────────┼─────────┼───────────┼───────────┼─────────┼─────────┤
+## │ 1   │ 2.34204e7 │ 266.055 │ 161.2   │ 7.32202 │ 0.900005 │ 76.5626 │ 3.38881e7 │ 3.15639e6 │ 1.02912 │ 1.03034 │
+## │ 2   │ 2.34203e7 │ 265.399 │ 160.137 │ 7.24439 │ 0.900003 │ 63.8564 │ 3.38883e7 │ 3.15639e6 │ 1.02623 │ 1.02726 │
+## │ 3   │ 2.34201e7 │ 266.063 │ 159.801 │ 7.19297 │ 0.900003 │ 53.1721 │ 3.38885e7 │ 3.1564e6  │ 1.02414 │ 1.02496 │
+## │ 4   │ 2.34199e7 │ 268.188 │ 160.31  │ 7.17442 │ 0.900002 │ 44.8176 │ 3.38887e7 │ 3.1564e6  │ 1.0232  │ 1.02367 │
+## │ 5   │ 2.34198e7 │ 270.842 │ 161.291 │ 7.18298 │ 0.9      │ 39.6763 │ 3.38888e7 │ 3.15641e6 │ 1.02324 │ 1.02338 │</code></pre>
+<p>The last row shows the final sizes of the various compartments.</p>
+<p>Next is the evolution of the over time.</p>
+<pre class="julia"><code>pyplot();
+clf();
+ioff();
+
+fig, ax = PyPlot.subplots();
+
+ax.plot(solDF.t, solDF.D, label = &quot;Recoveries&quot;);
+ax.plot(solDF.t, solDF.R, label = &quot;Forecast&quot;);
+ax.plot(cases.t, cases.deaths, &quot;ro&quot;, label = &quot;Actual&quot;, alpha = 0.3);
+
+ax.legend(loc=&quot;lower right&quot;);
+ax.set_xlabel(&quot;time&quot;);
+ax.set_ylabel(&quot;Individuals&quot;);
+ax.set_yscale(&quot;log&quot;);
+
+PyPlot.savefig(&quot;images/DeathsForecast.png&quot;);</code></pre>
+<div class="figure">
+<img src="/post/images/DeathsForecast.png" alt="" />
+<p class="caption">Increase in Recoveries and Deaths over time</p>
+</div>
+<p>It is clear the model forecasts a faster growth than reality. A parameter estimation is necessary.</p>
+<pre class="julia"><code>pyplot();
+clf();
+ioff();
+
+fig, ax = PyPlot.subplots();
+
+ax.plot(solDF.t, solDF.Beds, label = &quot;Beds&quot;);
+ax.plot(solDF.t, solDF.ICU, label = &quot;ICU&quot;);
+
+ax.legend(loc=&quot;lower right&quot;);
+ax.set_xlabel(&quot;time&quot;);
+ax.set_ylabel(&quot;Number of beds&quot;);
+ax.set_yscale(&quot;linear&quot;);
+
+PyPlot.savefig(&quot;images/BedUsage.png&quot;);</code></pre>
+<div class="figure">
+<img src="/post/images/BedUsage.png" alt="" />
+<p class="caption">Bed Usage over time</p>
+</div>
+<p>It is clear that the requirements for beds quickly hits the available capacity</p>
+</div>
+<div id="bilibliography" class="section level1">
+<h1>Bilibliography</h1>
+<p>The Novel Coronavirus Pneumonia Emergency Response Epidemiology Team. The Epidemiological Characteristics of an Outbreak of 2019 Novel Coronavirus Diseases (COVID-19) — China, 2020[J]. China CDC Weekly, 2020, 2(8): 113-122. <a href="http://weekly.chinacdc.cn/en/article/id/e53946e2-c6c4-41e9-9a9b-fea8db1a8f51">LINK</a></p>
+</div>
 
 		</div>
 		<footer class="post__footer">
