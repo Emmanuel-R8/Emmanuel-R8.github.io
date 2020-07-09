@@ -118,7 +118,7 @@ if (!doNotTrack) {
 <p>This is part 2 of a discussion of the DeepMind paper about <a href="https://arxiv.org/abs/1911.05507">Compressive Transformers for Long-Range Sequence Modelling</a>.</p>
 <ul>
 <li><p><a href="../../03/07/rnn-compressive-memory-part-1.html">Part 1</a>: A high level introduction to Compressive Memory mechanics starting from basic RNNS;</p></li>
-<li><p>Part 2 (here): a detailed explanation of the TransformerXL;</p></li>
+<li><p>Part 2 (here): more details about the TransformerXL;</p></li>
 <li><p>Part 3: an implementation using PyTorch (soon);</p></li>
 <li><p>Part 4: finally, its application to time series (soon).</p></li>
 </ul>
@@ -145,18 +145,18 @@ l &amp; \text{index of a layer} \\
 </div>
 <div id="algorithm-for-a-single-layer-with-matrix-dimension" class="section level2">
 <h2>Algorithm for a single layer with matrix dimension</h2>
-<p>The implementation will use the <a href="https://pytorch-lightning.readthedocs.io/en/latest/">Pytorch Lightning</a> library.</p>
-<pre class="python"><code># Standard imports
-import os, copy, math, random
-from argparse import ArgumentParser
+<p>The implementation will use the <a href="https://pytorch-lightning.readthedocs.io/en/latest/">Pytorch Lightning</a> library. The entire code is on <a href="https://github.com/Emmanuel-R8/Time_Series_Transformers">Github</a>.</p>
+<pre class="python"><code>import sys
+import inspect
+
+from typing import *
 
 import torch
-from torch.nn import functional as F
-from torch import nn
-from pytorch_lightning.core.lightning import LightningModule</code></pre>
-<pre class="python"><code>def repeatModule(module, n):
-    &quot;Return a list of N identical modules.&quot;
-    return nn.ModuleList([copy.deepcopy(module) for _ in range(n)])</code></pre>
+import torch.nn as nn
+
+from pytorch_lightning.core.lightning import LightningModule
+
+from utils.exp_utils import logging</code></pre>
 <pre class="python"><code># From https://github.com/harvardnlp/annotated-transformer
 class PositionalEncoding(LightningModule):
     &quot;Implement the edited PE function, depends on sequence length rather than input dimensionnality.&quot;
