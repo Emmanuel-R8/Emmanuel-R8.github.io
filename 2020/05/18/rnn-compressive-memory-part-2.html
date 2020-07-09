@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RNN Compressive Memory Part 3: The Compression algorithm - Back2Numbers</title>
+	<title>RNN Compressive Memory Part 2: The TransformerXL - Back2Numbers</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -109,18 +109,18 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">RNN Compressive Memory Part 3: The Compression algorithm</h1>
+			<h1 class="post__title">RNN Compressive Memory Part 2: The TransformerXL</h1>
 			
 		</header><div class="content post__content clearfix">
 			
 
 
-<p>This is part 3 of a discussion of the DeepMind paper about <a href="https://arxiv.org/abs/1911.05507">Compressive Transformers for Long-Range Sequence Modelling</a>.</p>
+<p>This is part 2 of a discussion of the DeepMind paper about <a href="https://arxiv.org/abs/1911.05507">Compressive Transformers for Long-Range Sequence Modelling</a>.</p>
 <ul>
-<li><p><a href="../07/rnn-compressive-memory-part-1.html">Part 1</a>: A high level introduction to Compressive Memory mechanics starting from basic RNNS;</p></li>
+<li><p><a href="../../03/07/rnn-compressive-memory-part-1.html">Part 1</a>: A high level introduction to Compressive Memory mechanics starting from basic RNNS;</p></li>
 <li><p>Part 2 (here): a detailed explanation of the TransformerXL;</p></li>
-<li><p>Part 3: an implementation using PyTorch;</p></li>
-<li><p>Part 4: finally, its application to time series.</p></li>
+<li><p>Part 3: an implementation using PyTorch (soon);</p></li>
+<li><p>Part 4: finally, its application to time series (soon).</p></li>
 </ul>
 <p>This post describes the building blocks up to what makes a <a href="https://arxiv.org/abs/1901.02860">TransformerXL</a> model as presented in June 2019. The compression mechanics are an add-on to the TransformerXL which therefore need to be detailed. Along the way, it will become clear that, in many ways, the implementation described only applies to embeddings, i.e. one-hot encodings, and not to to truly multi-dimensional variable inputs.</p>
 <div id="the-transformerxl" class="section level2">
