@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Fri, 31 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Jan 2030 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>/categories/machine-learning.html</link>
+      <pubDate>Tue, 01 Jan 2030 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/machine-learning.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Neural Network</title>
+      <link>/categories/neural-network.html</link>
+      <pubDate>Tue, 01 Jan 2030 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/neural-network.html</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Julia</title>
@@ -22,29 +40,11 @@
     </item>
     
     <item>
-      <title>Machine Learning</title>
-      <link>/categories/machine-learning.html</link>
-      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/machine-learning.html</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Neural ODEs</title>
       <link>/categories/neural-odes.html</link>
       <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/neural-odes.html</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Neural Network</title>
-      <link>/categories/neural-network.html</link>
-      <pubDate>Tue, 30 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/neural-network.html</guid>
       <description></description>
     </item>
     

@@ -4,12 +4,52 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/machine-learning.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/machine-learning.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/neural-network.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/neural-network.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2030/01/01/rnn-compressive-memory-part-2.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2030/01/01/rnn-compressive-memory-part-2.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags.html</loc>
+    <lastmod>2030-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -19,16 +59,6 @@
   
   <url>
     <loc>/categories/julia.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/machine-learning.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/machine-learning.html</loc>
     <lastmod>2020-07-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -45,36 +75,6 @@
   <url>
     <loc>/2020/07/31/neural-ordinary-differential-equations.html</loc>
     <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/neural-network.html</loc>
-    <lastmod>2020-06-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/neural-network.html</loc>
-    <lastmod>2020-06-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/06/30/rnn-compressive-memory-part-2.html</loc>
-    <lastmod>2020-06-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/05/20/rnn-compressive-memory-part-2.html</loc>
-    <lastmod>2020-05-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
