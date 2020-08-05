@@ -7,36 +7,36 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 01 Jan 2030 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Jan 2030 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/neural-network/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>RNN Compressive Memory Part 2: The TransformerXL</title>
-      <link>/2030/01/01/rnn-compressive-memory-part-2.html</link>
-      <pubDate>Tue, 01 Jan 2030 00:00:00 +0000</pubDate>
-      
-      <guid>/2030/01/01/rnn-compressive-memory-part-2.html</guid>
-      <description>This is part 2 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling.
- Part 1: A high level introduction to Compressive Memory mechanics starting from basic RNNS;
- Part 2 (here): more details about the TransformerXL;
- Part 3: an implementation using PyTorch (soon);
- Part 4: finally, its application to time series (soon).
-  This post describes the building blocks up to what makes a TransformerXL model as presented in June 2019.</description>
-    </item>
-    
-    <item>
       <title>RNN Compressive Memory Part 3: The Compression algorithm</title>
-      <link>/2030/01/01/rnn-compressive-memory-part-2.html</link>
-      <pubDate>Tue, 01 Jan 2030 00:00:00 +0000</pubDate>
+      <link>/2030/01/03/rnn-compressive-memory-part-2.html</link>
+      <pubDate>Thu, 03 Jan 2030 00:00:00 +0000</pubDate>
       
-      <guid>/2030/01/01/rnn-compressive-memory-part-2.html</guid>
+      <guid>/2030/01/03/rnn-compressive-memory-part-2.html</guid>
       <description>This is part 3 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling.
  Part 1: A high level introduction to Compressive Memory mechanics starting from basic RNNS;
  Part 2 (here): a detailed explanation of the TransformerXL;
  Part 3: an implementation using PyTorch;
  Part 4: finally, its application to time series.
+  This post describes the building blocks up to what makes a TransformerXL model as presented in June 2019.</description>
+    </item>
+    
+    <item>
+      <title>RNN Compressive Memory Part 2: The TransformerXL</title>
+      <link>/2030/01/02/rnn-compressive-memory-part-2.html</link>
+      <pubDate>Wed, 02 Jan 2030 00:00:00 +0000</pubDate>
+      
+      <guid>/2030/01/02/rnn-compressive-memory-part-2.html</guid>
+      <description>This is part 2 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling.
+ Part 1: A high level introduction to Compressive Memory mechanics starting from basic RNNS;
+ Part 2 (here): more details about the TransformerXL;
+ Part 3: an implementation using PyTorch (soon);
+ Part 4: finally, its application to time series (soon).
   This post describes the building blocks up to what makes a TransformerXL model as presented in June 2019.</description>
     </item>
     
