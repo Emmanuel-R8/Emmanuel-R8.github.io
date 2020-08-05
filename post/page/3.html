@@ -30,13 +30,16 @@ if (!doNotTrack) {
 <body class="body">
 	<div class="container container--outer">
 		<header class="header">
-	<div class="container">
-		<div class="logo">
-			<a class="logo__link" href="/" title="Back2Numbers" rel="home">
-				<div class="logo__title">Back2Numbers</div>
-				
-			</a>
-		</div>
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="Back2Numbers" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">Back2Numbers</div>
+					
+				</div>
+		</a>
+	</div>
 		
 <nav class="menu">
 	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
@@ -44,7 +47,7 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
-			<a class="menu__link" href="/whoami/">
+			<a class="menu__link" href="/whoami.html">
 				
 				<span class="menu__text">#&gt;whoami</span>
 				
@@ -72,7 +75,7 @@ if (!doNotTrack) {
 			</a>
 		</li>
 		<li class="menu__item">
-			<a class="menu__link" href="/about">
+			<a class="menu__link" href="/about.html">
 				<i class="sidebar-button-icon fa fa-lg fa-question"></i>
 				<span class="menu__text">About this site</span>
 				
@@ -111,6 +114,19 @@ if (!doNotTrack) {
 	<header class="main__header">
 		<h1 class="main__title">Posts</h1>
 	</header><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/2019/10/05/harvardx-data-science-course-first-final-project.html" rel="bookmark">
+			HarvardX Data Science course - First final project
+			</a>
+		</h3>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		I recently finished to penultimate final assignment for the HarvardX Data Science course. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.
+This time R is the centre tool of the course.
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
 			<a href="/2019/08/02/stanford-online-machine-learning-c229.html" rel="bookmark">
@@ -158,6 +174,7 @@ It often was a trip a trip down memory lane repeating what I studied in the late
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/2020/07/31/neural-ordinary-differential-equations.html">Neural Ordinary Differential Equations</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2020/06/30/rnn-compressive-memory-part-2.html">RNN Compressive Memory Part 3: The Compression algorithm</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2020/05/20/rnn-compressive-memory-part-2.html">RNN Compressive Memory Part 2: The TransformerXL</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html">Presentation at the Kong Kong Machine Learning meetup</a></li>
@@ -167,7 +184,6 @@ It often was a trip a trip down memory lane repeating what I studied in the late
 			<li class="widget__item"><a class="widget__link" href="/2019/12/11/harvardx-final-report-lendingclub-dataset.html">HarvardX Final Report - LendingClub dataset</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html">Quick Thought: Universal translator and same language translator</a></li>
 			<li class="widget__item"><a class="widget__link" href="/2019/10/23/neural-network-incremental-growth.html">Neural Network - Incremental Growth </a></li>
-			<li class="widget__item"><a class="widget__link" href="/2019/10/05/harvardx-data-science-course-first-final-project.html">HarvardX Data Science course - First final project</a></li>
 		</ul>
 	</div>
 </div>
@@ -188,6 +204,9 @@ It often was a trip a trip down memory lane repeating what I studied in the late
 				<a class="widget__link" href="/categories/neural-network.html">Neural Network</a>
 			</li>
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/neural-odes.html">Neural ODEs</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/quick-thought.html">Quick Thought</a>
 			</li>
 			<li class="widget__item">
@@ -205,6 +224,7 @@ It often was a trip a trip down memory lane repeating what I studied in the late
 		<a class="widget-taglist__link widget__link btn" href="/tags/julia.html" title="Julia">Julia</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/machine-learning.html" title="Machine Learning">Machine Learning</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/neural-network.html" title="Neural Network">Neural Network</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/neural-odes.html" title="Neural ODEs">Neural ODEs</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/octave.html" title="Octave">Octave</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/quick-thought.html" title="Quick Thought">Quick Thought</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/r.html" title="R">R</a>

@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-au</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 30 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Julia</title>
       <link>/categories/julia.html</link>
-      <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/julia.html</guid>
       <description></description>
@@ -24,9 +24,27 @@
     <item>
       <title>Machine Learning</title>
       <link>/categories/machine-learning.html</link>
-      <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/machine-learning.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Neural ODEs</title>
+      <link>/categories/neural-odes.html</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/neural-odes.html</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Neural Network</title>
+      <link>/categories/neural-network.html</link>
+      <pubDate>Tue, 30 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/neural-network.html</guid>
       <description></description>
     </item>
     
@@ -36,15 +54,6 @@
       <pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/data-science.html</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Neural Network</title>
-      <link>/categories/neural-network.html</link>
-      <pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/neural-network.html</guid>
       <description></description>
     </item>
     
