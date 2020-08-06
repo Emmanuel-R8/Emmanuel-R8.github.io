@@ -4,81 +4,46 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/machine-learning.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/machine-learning.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/neural-network.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/neural-network.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/12/31/rnn-compressive-memory-part-3-the-compression-algorithm.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html</loc>
-    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/julia.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/julia.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/neural-odes.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <loc>/tags/machine-learning.html</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/neural-odes.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <loc>/categories/machine-learning.html</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2020/07/31/neural-ordinary-differential-equations.html</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <loc>/post.html</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags.html</loc>
     <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
@@ -100,6 +65,16 @@
   <url>
     <loc>/2020/03/25/2020-03-25-forecasting-covid-19.html</loc>
     <lastmod>2020-03-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/neural-network.html</loc>
+    <lastmod>2020-03-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/neural-network.html</loc>
+    <lastmod>2020-03-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
