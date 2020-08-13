@@ -30,10 +30,10 @@
   
     
   
-  <meta name="description" content="Recent talk to the Hong Kong Machine Learning Meetup about the Julia programming language and an example COVID-19 model optimisation">
+  <meta name="description" content="The TransformerXL Algorithm for a single layer with matrix dimension Notation summary Useful references   This is part 2 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling.">
 
   
-  <link rel="alternate" hreflang="en-us" href="/talk/hkml202004.html">
+  <link rel="alternate" hreflang="en-us" href="/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html">
 
   
 
@@ -272,7 +272,7 @@
   <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="/talk/hkml202004.html">
+  <link rel="canonical" href="/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html">
 
   
   
@@ -282,28 +282,34 @@
   
   
     
+    
   
   
-  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="Back2Numbers">
-  <meta property="og:url" content="/talk/hkml202004.html">
-  <meta property="og:title" content="An Introduction to Julia | Back2Numbers">
-  <meta property="og:description" content="Recent talk to the Hong Kong Machine Learning Meetup about the Julia programming language and an example COVID-19 model optimisation"><meta property="og:image" content="/talk/hkml202004/featured.jpg">
-  <meta property="twitter:image" content="/talk/hkml202004/featured.jpg"><meta property="og:locale" content="en-us">
+  <meta property="og:url" content="/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html">
+  <meta property="og:title" content="RNN Compressive Memory Part 2: The TransformerXL | Back2Numbers">
+  <meta property="og:description" content="The TransformerXL Algorithm for a single layer with matrix dimension Notation summary Useful references   This is part 2 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-04-30T20:17:27&#43;08:00">
+      <meta property="article:published_time" content="2020-12-30T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-04-30T20:17:27&#43;08:00">
+    <meta property="article:modified_time" content="2020-12-30T00:00:00&#43;00:00">
   
 
   
 
 
-
-  
     
+
+
+
+
+
+
+  
 
 
 
@@ -311,43 +317,48 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Event",
+  "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/talk/hkml202004.html"
+    "@id": "/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html"
   },
-  "name": "An Introduction to Julia",
+  "headline": "RNN Compressive Memory Part 2: The TransformerXL",
   
+  "datePublished": "2020-12-30T00:00:00Z",
+  "dateModified": "2020-12-30T00:00:00Z",
   
-  "image": [
-    "/talk/hkml202004/featured.jpg"
-  ],
-  
-  "startDate": "2020-04-30T20:17:27+08:00",
-  
-  
-  "performer": {
+  "author": {
     "@type": "Person",
     "name": "Emmanuel Rialland"
   },
   
-  "description": "Recent talk to the Hong Kong Machine Learning Meetup about the Julia programming language and an example COVID-19 model optimisation"
+  "publisher": {
+    "@type": "Organization",
+    "name": "Back2Numbers",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "The TransformerXL Algorithm for a single layer with matrix dimension Notation summary Useful references   This is part 2 of a discussion of the DeepMind paper about Compressive Transformers for Long-Range Sequence Modelling."
 }
 </script>
 
   
 
-
   
 
 
   
 
 
+  
 
 
 
-  <title>An Introduction to Julia | Back2Numbers</title>
+
+
+  <title>RNN Compressive Memory Part 2: The TransformerXL | Back2Numbers</title>
 
 </head>
 <body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="dark">
@@ -609,7 +620,7 @@
 </nav>
 
 
-  <div class="pub">
+  <article class="article">
 
   
 
@@ -624,106 +635,67 @@
 
 
 
-
-
-
-
-
-
-
+  
 
   
+  
+  
+<div class="article-container pt-3">
+  <h1>RNN Compressive Memory Part 2: The TransformerXL</h1>
+
+  
+
   
     
-  
-
-
-<div class="article-container pt-3">
-  <h1>An Introduction to Julia</h1>
-
-  
-
-  
 
 
 <div class="article-metadata">
 
   
   
+
   
-  
-  <div>
+  <span class="article-date">
     
-
-  
-  <span >Emmanuel Rialland</span>
-  </div>
-  
-  
-
+    
+      
+    
+    30 December 2020
+  </span>
   
 
   
 
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    4 min read
+  </span>
   
 
   
   
   
   <span class="middot-divider"></span>
-  <a href="/talk/hkml202004.html#disqus_thread"></a>
+  <a href="/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html#disqus_thread"></a>
   
 
   
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/machine-learning.html">Machine Learning</a>, <a href="/category/neural-network.html">Neural Network</a></span>
   
 
 </div>
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="btn-links mb-3">
-  
-  
-
-
-
-
-
-
-
-
-  
     
-  
-
-
-
-<a class="btn btn-outline-primary my-1 mr-1" href="/media/talk/HKML202004/HKML-Julia-Xarrigan-2020-04-29.pdf" target="_blank" rel="noopener">
-  PDF
-</a>
 
 
 
 
-  
-  
-    
-  
-<a class="btn btn-outline-primary my-1 mr-1" href="https://github.com/Emmanuel-R8/Presentation_HKML_2020_04" target="_blank" rel="noopener">
-  Code
-</a>
+
+
 
 
 
@@ -733,78 +705,149 @@
 
 
   
-  
-    
-  
-<a class="btn btn-outline-primary my-1 mr-1" href="/talk/hkml202004/HKML/HKML_Julia_Xarrigan_2020_04_29.html" target="_blank" rel="noopener">
-  Slides
-</a>
-
-
-
-
-
-
-
-</div>
-
-
-</div>
-
-
-<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 720px; max-height: 540px;">
-  <div style="position: relative">
-    <img src="/talk/hkml202004/featured_hu042923675c294fdbd1b88ac4b713ca6b_289492_720x0_resize_q90_lanczos.jpg" alt="" class="featured-image">
-    <span class="article-header-caption">Hong Kong Machine Learning Meetup April 2020</span>
-  </div>
 </div>
 
 
 
   <div class="article-container">
 
-    
-      <br>
-    
-
-    <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <div class="row">
-          <div class="col-12 col-md-3 pub-row-heading">Date</div>
-          <div class="col-12 col-md-9">
-            30 April 2020 20:17
-          </div>
-        </div>
-      </div>
-      <div class="col-md-1"></div>
-    </div>
-    <div class="d-md-none space-below"></div>
-
-    
-    <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <div class="row">
-          <div class="col-12 col-md-3 pub-row-heading">Event</div>
-          <div class="col-12 col-md-9">
-            <a href="http://www.hkml.ai/" target="_blank" rel="noopener">
-            Hong Kong Machine Learning Meetup - Season 2 Episode 5
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-1"></div>
-    </div>
-    <div class="d-md-none space-below"></div>
-    
-
-    
-
-    <div class="space-below"></div>
-
     <div class="article-style">
       
+
+<div id="TOC">
+<ul>
+<li><a href="#the-transformerxl">The TransformerXL</a></li>
+<li><a href="#algorithm-for-a-single-layer-with-matrix-dimension">Algorithm for a single layer with matrix dimension</a></li>
+<li><a href="#notation-summary">Notation summary</a></li>
+<li><a href="#useful-references">Useful references</a></li>
+</ul>
+</div>
+
+<p>This is part 2 of a discussion of the DeepMind paper about <a href="https://arxiv.org/abs/1911.05507">Compressive Transformers for Long-Range Sequence Modelling</a>.</p>
+<ul>
+<li><p><a href="../../03/07/rnn-compressive-memory-part-1.html">Part 1</a>: A high level introduction to Compressive Memory mechanics starting from basic RNNS;</p></li>
+<li><p>Part 2 (here): more details about the TransformerXL;</p></li>
+<li><p>Part 3: an implementation using PyTorch (soon);</p></li>
+<li><p>Part 4: finally, its application to time series (soon).</p></li>
+</ul>
+<p>This post describes the building blocks up to what makes a <a href="https://arxiv.org/abs/1901.02860">TransformerXL</a> model as presented in June 2019. The compression mechanics are an add-on to the TransformerXL which therefore need to be detailed. Along the way, it will become clear that, in many ways, the implementation described only applies to embeddings, i.e. one-hot encodings, and not to to truly multi-dimensional variable inputs.</p>
+<div id="the-transformerxl" class="section level2">
+<h2>The TransformerXL</h2>
+<p><span class="math display">\[
+\begin{array}{l}
+\text{Notation:} &amp; \\
+\tau &amp; \text{time step or index on successive segments} \\
+b &amp; \text{batch size} \\
+h &amp; \text{number of heads} \\
+s_s &amp; \text{length of a segment} \\
+s_m &amp; \text{length of the memory} \\
+s = s_m + s_s &amp; \text{length of segment + memory} \\
+d &amp; \text{size of an embedding} \\
+d_{in} &amp; \text{size of the embedding as input to a given layer} \\
+d_{out} &amp; \text{size of the embedding as output from a given layer} \\
+(b, h, s, d): &amp; \text{tensor of 4 dimension reflecting those dimensions}\\
+l &amp; \text{index of a layer} \\
+\end{array}
+\]</span></p>
+<p>The number of parameters for this type of model is extremely large.</p>
+</div>
+<div id="algorithm-for-a-single-layer-with-matrix-dimension" class="section level2">
+<h2>Algorithm for a single layer with matrix dimension</h2>
+<p>The implementation will use the <a href="https://pytorch-lightning.readthedocs.io/en/latest/">Pytorch Lightning</a> library. The entire code is on <a href="https://github.com/Emmanuel-R8/Time_Series_Transformers">Github</a>.</p>
+<pre class="python"><code>import sys
+import inspect
+
+from typing import *
+
+import torch
+import torch.nn as nn
+
+from pytorch_lightning.core.lightning import LightningModule
+
+from utils.exp_utils import logging</code></pre>
+<pre class="python"><code># From https://github.com/harvardnlp/annotated-transformer
+class PositionalEncoding(LightningModule):
+    &quot;Implement the edited PE function, depends on sequence length rather than input dimensionnality.&quot;
+
+    def __init__(self, runParam, dropout=0.1):
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+        
+        batch
+
+        # Compute the positional encodings once in log_2 space ceiled to sequence_length.
+        b = math.ceil(math.log(max_sequence_length * 4, 2))
+        a = int(2**b / 4)  # Up to a quarter of a sine wave
+        x1 = np.array([[math.cos(0.5**i*x*2*math.pi) for x in range(max_sequence_length, 0, -1)] for i in range(1, b+1)])
+        x2 = np.array([[math.sin(0.5**i*x*2*math.pi) for x in range(max_sequence_length, 0, -1)] for i in range(2, b+2)])
+        x = np.concatenate([x1, x2], axis=0)
+        print(&quot;x.shape():&quot;, x.shape)
+        x = np.expand_dims(x, 0).repeat(repeats=batch_size, axis=0)
+        print(&quot;x.shape():&quot;, x.shape)
+
+        # Register it into PyTorch
+        pe = torch.from_numpy(x).float()
+        pe = pe.transpose(-1, -2)
+        print(&quot;pe.size():&quot;, pe.size())
+        self.register_buffer(&#39;pe&#39;, pe)
+
+    def forward(self, x):
+        pos = Variable(self.pe, requires_grad=False)
+        # print(pos.size(), x.size())  # [batch_size, -1, sequence_length], [batch_size, sequence_length, hidden_size]
+        pe = self.pe[:, -x.size(1):]  # limiting positional encoding to a poentially shorter sequence_length
+        print(&quot;pe.size(), x.size():&quot;, pe.size(), x.size())
+        x = torch.cat([x, pe], dim=-1)
+        return self.dropout(x), pos</code></pre>
+<p><span class="math display">\[
+\begin{array}{l}
+\text{Step for a} &amp; &amp; \text{Dimensions for multiple layers} \\
+\text{single layer} &amp; &amp; \text{(with Einstein summation)} \\
+\hline \\
+h^{l-1}_\tau &amp; &amp; (l, h, s_s, d_{in}) \\
+\hline \\
+\tilde{h}^{l-1}_\tau = &amp; \left[ StopGradient(m^{l-1}_\tau) \circ  h^{l-1}_\tau \right]  &amp; (l, h, s, d_{in}) = (l, h, s_m, d_{in}) \circ (l, h, s_s, d_{in}) \\
+\hline \\
+q^l_\tau = &amp; h^{l-1}_\tau \cdot {W^l_Q}^\top &amp; (l, h, s_s, d_{in}) = (l, h, s_s, d_{in}) \dot {(l, h, d_{in}, d_{in})}^\top \\
+&amp; &amp; lhsd_1,lhsd_1d_2 \rightarrow lhsd_2 \\
+\hline \\
+k^l_\tau = &amp; \tilde{h}^{l-1}_\tau \cdot {W^l_K}^\top &amp; (l, h, s, d_{in}) = (l, h, s, d_{in}) \dot {(l, h, d_{in}, d_{in})}^\top \\
+&amp; &amp; lhsd_1,lhsd_1d_2 \rightarrow lhd_2 \\
+\hline \\
+v^l_\tau = &amp; \tilde{h}^{l-1}_\tau \cdot {W^l_V}^\top &amp; (l, h, s, d_{in}) = (l, h, s, d_{in}) \dot {(l, h, d_{in}, d_{in})}^\top \\
+&amp; &amp; lhsd_1,lhsd_1d_2 \rightarrow lhd_2 \\
+\hline \\
+A^l_\tau = &amp; {Q^l}^\top \dot \\
+\end{array}
+\]</span></p>
+</div>
+<div id="notation-summary" class="section level2">
+<h2>Notation summary</h2>
+<p><strong>Size parameters</strong></p>
+<p><span class="math display">\[
+\begin{array}{ll}
+l:        &amp;   \text{number of layers, starting from 1} \\
+d:        &amp;   \text{dimension of all input (including embeddings) AND output vectors passed from a layer to the next} \\
+n_{head}: &amp;   \text{number of self-attention heads in a TransformerXL layer} \\
+n_s:      &amp;   \text{size of a training segment = number of inputs into and outputs from a layer} \\
+s = n_s:  &amp;   s \text{ will be used as index name to represent the input dimension when using named tensors,}  \\
+&amp; \text{i.e. Einstein summation.}  \\
+b:        &amp;   \text{size of a training batch, i.e. number of segments in a batch. Used in named tensors as well} \\
+\\
+n_m:      &amp;   \text{number of hidden states kept in the primary memory. n_m is a multiple of n_s} \\
+c:        &amp;   \text{memory compression ratio} \\
+n_{cm}:   &amp;   \text{number of states kept in the compressed memory. n_{cm} }  \\
+\end{array}
+\]</span></p>
+</div>
+<div id="useful-references" class="section level1">
+<h1>Useful references</h1>
+<ul>
+<li><a href="https://nlp.seas.harvard.edu/2018/04/03/attention.html">The Annotated Transformer</a></li>
+<li><a href="https://www.fromkk.com/posts/the-annotated-the-annotated-transformer/">The Annotated The Annotated Transformer</a></li>
+<li><a href="https://d2l.ai/chapter%5Fattention-mechanisms/transformer.html">Dive into Deep Learning - 10.3 Transformer</a></li>
+</ul>
+</div>
+
     </div>
 
     
@@ -813,6 +856,14 @@
 
 
 
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/machine-learning.html">Machine Learning</a>
+  
+  <a class="badge badge-light" href="/tag/neural-network.html">Neural Network</a>
+  
+</div>
 
 
 
@@ -827,7 +878,7 @@
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/talk/hkml202004.html&amp;text=An%20Introduction%20to%20Julia" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html&amp;text=RNN%20Compressive%20Memory%20Part%202:%20The%20TransformerXL" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -840,7 +891,7 @@
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/talk/hkml202004.html&amp;t=An%20Introduction%20to%20Julia" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html&amp;t=RNN%20Compressive%20Memory%20Part%202:%20The%20TransformerXL" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -853,7 +904,7 @@
       
       
       <li>
-        <a href="mailto:?subject=An%20Introduction%20to%20Julia&amp;body=/talk/hkml202004.html" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=RNN%20Compressive%20Memory%20Part%202:%20The%20TransformerXL&amp;body=/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -866,7 +917,7 @@
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/talk/hkml202004.html&amp;title=An%20Introduction%20to%20Julia" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html&amp;title=RNN%20Compressive%20Memory%20Part%202:%20The%20TransformerXL" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -879,7 +930,7 @@
       
       
       <li>
-        <a href="whatsapp://send?text=An%20Introduction%20to%20Julia%20/talk/hkml202004.html" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=RNN%20Compressive%20Memory%20Part%202:%20The%20TransformerXL%20/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -892,7 +943,7 @@
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/talk/hkml202004.html&amp;title=An%20Introduction%20to%20Julia" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html&amp;title=RNN%20Compressive%20Memory%20Part%202:%20The%20TransformerXL" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -912,17 +963,122 @@
 
 
   
-    
-    
+  
 
 
 
 
 
   
+    
+    
+    
+      
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+        
+        <img class="avatar mr-3 avatar-circle" src="/author/emmanuel-rialland/avatar_hu52a603635ecebd45650b162dadabb4e5_12861_270x270_fill_q90_lanczos_center.jpg" alt="Emmanuel Rialland">
+      
 
-
+      <div class="media-body">
+        <h5 class="card-title"><a href="/">Emmanuel Rialland</a></h5>
+        <h6 class="card-subtitle">Consultant Finance - Machine Learning</h6>
+        
+        <ul class="network-icon" aria-hidden="true">
   
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:Emmanuel.Rialland@gmail.com" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/emmanuelrialland" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/emmanuel-r8" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://emmanuel-r8.github.io/" target="_blank" rel="noopener">
+        <i class="fas fa-blog"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://t.me/EmmanuelRialland" target="_blank" rel="noopener">
+        <i class="fab fa-telegram"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
 
 
 
@@ -965,13 +1121,30 @@
 
   
   
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/2020/12/31/rnn-compressive-memory-part-3-the-compression-algorithm.html">RNN Compressive Memory Part 3: The Compression algorithm</a></li>
+      
+      <li><a href="/2020/03/07/rnn-compressive-memory-part-1.html">RNN Compressive Memory Part 1: A high level introduction.</a></li>
+      
+      <li><a href="/2019/10/23/neural-network-incremental-growth.html">Neural Network - Incremental Growth</a></li>
+      
+      <li><a href="/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html">Quick Thought: Universal translator and same language translator</a></li>
+      
+      <li><a href="/2020/07/31/normalising-flows.html">Normalising Flows</a></li>
+      
+    </ul>
+  </div>
+  
 
 
 
 
 
   </div>
-</div>
+</article>
 
       
 
@@ -1098,6 +1271,16 @@
   
   <div class="container">
     <footer class="site-footer">
+  
+  <p class="powered-by">
+    
+      <a href="/privacy.html">Privacy Policy</a>
+    
+    
+       &middot; 
+      <a href="/terms.html">Terms</a>
+    
+  </p>
   
 
   <p class="powered-by">

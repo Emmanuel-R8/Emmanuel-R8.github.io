@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Neural ODEs | Back2Numbers</title>
+    <link>/tag/neural-odes.html</link>
+      <atom:link href="/tag/neural-odes/index.xml" rel="self" type="application/rss+xml" />
+    <description>Neural ODEs</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Fri, 31 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Neural ODEs</title>
+      <link>/tag/neural-odes.html</link>
+    </image>
+    
+    <item>
+      <title>Normalising Flows</title>
+      <link>/2020/07/31/normalising-flows.html</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>/2020/07/31/normalising-flows.html</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#a-few-words-about-generative-models&#34;&gt;A few words about Generative Models&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#examples-of-generative-models&#34;&gt;Examples of generative models&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#restricted-boltzmann-machines&#34;&gt;Restricted Boltzmann Machines&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#deep-belief-network&#34;&gt;Deep Belief Network&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#autoencoders&#34;&gt;Autoencoders&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#generative-adversarial-networks-gans&#34;&gt;Generative Adversarial Networks (&lt;strong&gt;GANS&lt;/strong&gt;)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#revival-of-neural-networks&#34;&gt;Revival of neural networks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#variational-autoencoders&#34;&gt;Variational autoencoders&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#limitations&#34;&gt;Limitations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#divergence-distance-measures&#34;&gt;Divergence / distance measures&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#normalising-flows&#34;&gt;Normalising flows&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#neural-ordinary-differential-equations&#34;&gt;Neural ordinary differential equations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#residual-flows-discrete-flows&#34;&gt;Residual flows (discrete flows)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#continuous-flows&#34;&gt;Continuous flows&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#universal-ordinary-differential-equations&#34;&gt;Universal ordinary differential equations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#stochastic-differential-equations&#34;&gt;Stochastic differential equations&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;li class=&#34;appendix&#34;&gt;&lt;span&gt;&lt;b&gt;Appendix&lt;/b&gt;&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#more-information&#34;&gt;More information&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#one-more-thing&#34;&gt;One more thing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;a-few-words-about-generative-models&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A few words about Generative Models&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Generative models&lt;/strong&gt; are about learning &lt;strong&gt;representations&lt;/strong&gt;. The methods attempt learning the probability distribution of a dataset. They do so by learning a way to start from a few parameters, usually following simple distributions (e.g. uniform or Gaussian) and generate the more complex dataset distribution. The procedure is unsupervised and somewhat reminiscent of clustering: clustering starts from the dataset and summarises it into few parameters. Although unsupervised, the result of this learning can be used as a &lt;strong&gt;pretraining&lt;/strong&gt; step in a later supervised context, or where that dataset is a mix of labelled and un-labelled data. The properties of the well-understood starting probability distributions can then help draw conclusions about the dataset’s distribution or generate synthetic datasets.&lt;/p&gt;
+&lt;p&gt;The same methods can be used in supervised learning to learn the representation of a target dataset (categorical or continuous) as a transformation of the features dataset.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;examples-of-generative-models&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Examples of generative models&lt;/h2&gt;
+&lt;div id=&#34;restricted-boltzmann-machines&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Restricted Boltzmann Machines&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;deep-belief-network&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Deep Belief Network&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;autoencoders&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Autoencoders&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;generative-adversarial-networks-gans&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Generative Adversarial Networks (&lt;strong&gt;GANS&lt;/strong&gt;)&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;revival-of-neural-networks&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Revival of neural networks&lt;/h3&gt;
+&lt;p&gt;All methodology involve finding a function &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt;. Neural networks have long been known to be able to generate artificially complicated functions and the idea of using them as a way to represent &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; is one of the reasons that led to their revivals.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variational-autoencoders&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Variational autoencoders&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;limitations&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Limitations&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;divergence-distance-measures&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Divergence / distance measures&lt;/h3&gt;
+&lt;p&gt;Kullback-Leibner / Jensen-Shannon divergence / Wasserstein distance&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;normalising-flows&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Normalising flows&lt;/h1&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;One important limitations of the approaches described above is that the generation flow is unidirectional: one starts from a source distribution, sometimes with well-known properties, and generates a richer target distribution. However, given a particular sample in the target distribution, there is no guaranteed way to identify where it would fall in the original source distribution. That flow of transformation from source to target is not guaranteed to be bijective or invertible (same meaning, different crowds).&lt;/p&gt;
+&lt;p&gt;Normalising flows are a generic solution to that issue: it is a transformation of an original distribution into a more complex distribution by an invertible and differentiable mapping, where the probability density of a sample can be evaluated by transforming it back to the original distribution. The density is evaluated by computing the density of the normalised inverse-transformed sample.&lt;/p&gt;
+&lt;p&gt;In practice this is a bit too general to be of any use. Breaking it down:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The original distribution is typically simple with well-known statistical properties: i.i.d. Gaussian or uniform distributions. This is typical but not necessary.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The transformation function is expected to be complicated, and is normally specified as a series of successive transformations, each simpler and easy to parametrise;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Each simple transformation is itself invertible and differentiable, therefore guaranteeing that the overall transformation is too;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We want the transformation to be normalised: the cumulative probablility density of the targets generated from the original distributions has to be equal 1. Otherwise, flowing backwards to use the properties of the original would make no sense;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Geometrically, the original distribution has a certain volume that is successively transformed with each transformation. Keeping track of all the volume changes ensures that we can relate probability density functions in the original space and the target space.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;How to keep track? This is where the condition of having invertible and differentiable transformation becomes important. (Math-speak: we have a series of diffeomorphisms which are transformations from one infinitesimal volume to another. They are invertible and differentiable, and their inverses are also differentiable.) If one imagines a small volume of space around a starting point, that volume gets distorted along the way. At each point, the transformation is differentiable and can be approximated by a linear linear transformation (a matrix). That matrix is the Jacobian of the transformation at that point (diffeomorphims also means that the Jacobian matrix exist is invertible). That matrix is itself invertible (no zero eigenvalues) and the change of volume is locally equal to the product of all the eigenvalues: the volume gets squeezed along some dimensions, expanded along others. The product of the eigenvalues is the determinant of the matrix. A negative eigenvalue would mean that the infinitesimal volume is ‘flipped’ along that direction. That sign is irrelevant: the local volume change is therefore the absolute value of the determinant.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We can already anticipate a calculation nightmare: determinants are computationally very heavy. Additionally, in order to backpropagate a loss to optimise the transformations’ parameters, we will need the Jacobians of the inverse transformations (the inverse of the transformmation Jacobian). Without further simplifying assumptions or tricks, normalising flows would be impractical for large dimensions.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;neural-ordinary-differential-equations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Neural ordinary differential equations&lt;/h2&gt;
+&lt;p&gt;One of the Best Papers of NeurIPS 2018&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;residual-flows-discrete-flows&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Residual flows (discrete flows)&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id=&#34;continuous-flows&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Continuous flows&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id=&#34;universal-ordinary-differential-equations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Universal ordinary differential equations&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id=&#34;stochastic-differential-equations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Stochastic differential equations&lt;/h2&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;div id=&#34;refs&#34;&gt;
+&lt;div id=&#34;ref-kobyzevNormalizingFlowsIntroduction2020a&#34;&gt;
+&lt;p&gt;Kobyzev, Ivan, Simon J. D. Prince, and Marcus A. Brubaker. 2020. “Normalizing Flows: An Introduction and Review of Current Methods.” &lt;em&gt;IEEE Transactions on Pattern Analysis and Machine Intelligence&lt;/em&gt;, 1–1. &lt;a href=&#34;https://doi.org/10.1109/TPAMI.2020.2992934&#34;&gt;https://doi.org/10.1109/TPAMI.2020.2992934&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-papamakariosNormalizingFlowsProbabilistic2019&#34;&gt;
+&lt;p&gt;Papamakarios, George, Eric Nalisnick, Danilo Jimenez Rezende, Shakir Mohamed, and Balaji Lakshminarayanan. 2019. “Normalizing Flows for Probabilistic Modeling and Inference,” December. &lt;a href=&#34;http://arxiv.org/abs/1912.02762&#34;&gt;http://arxiv.org/abs/1912.02762&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-russellArtificialIntelligenceModern2020&#34;&gt;
+&lt;p&gt;Russell, Stuart, and Peter Norvig. 2020. &lt;em&gt;Artificial Intelligence: A Modern Approach&lt;/em&gt;. 4th ed. Pearson Series on Artificial Intelligence. Pearson. &lt;a href=&#34;http://aima.cs.berkeley.edu/&#34;&gt;http://aima.cs.berkeley.edu/&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-theodoridisMachineLearningBayesian2020&#34;&gt;
+&lt;p&gt;Theodoridis, Sergios. 2020. &lt;em&gt;Machine Learning: A Bayesian and Optimization Perspective&lt;/em&gt;. Amsterdam Boston Heidelberg London New York Oxford Paris San Diego San Francisco Singapore Sydney Tokyo: Elsevier, AP. &lt;a href=&#34;https://doi.org/10.1016/C2019-0-03772-7&#34;&gt;https://doi.org/10.1016/C2019-0-03772-7&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;appendix-appendix&#34; class=&#34;section level1 unnumbered&#34;&gt;
+&lt;h1&gt;Appendix&lt;/h1&gt;
+&lt;/div&gt;
+&lt;div id=&#34;more-information&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;More information&lt;/h1&gt;
+&lt;p&gt;This will be Appendix A.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;one-more-thing&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;One more thing&lt;/h1&gt;
+&lt;p&gt;This will be Appendix B.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
