@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>miscellaneous | Back2Numbers</title>
+    <link>/category/miscellaneous.html</link>
+      <atom:link href="/category/miscellaneous/index.xml" rel="self" type="application/rss+xml" />
+    <description>miscellaneous</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Wed, 12 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>miscellaneous</title>
+      <link>/category/miscellaneous.html</link>
+    </image>
+    
+    <item>
+      <title>Change of template</title>
+      <link>/2020/08/12/miscellaneous.html</link>
+      <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>/2020/08/12/miscellaneous.html</guid>
+      <description>
+
+
+&lt;p&gt;I moved to a richer &lt;a href=&#34;https://sourcethemes.com/academic/&#34;&gt;Hugo template&lt;/a&gt;, partly to move things around under the hood, but importantly it gives a sounder platform for the future.&lt;/p&gt;
+&lt;p&gt;However, it took many hours of frustration to get &lt;code&gt;blogdown&lt;/code&gt; and the template to nicely render &lt;span class=&#34;math inline&#34;&gt;\(\LaTeX\)&lt;/span&gt; formulas. In the end, it was very simple, although no documentation or blog posts helped: the &lt;code&gt;mathjax: true&lt;/code&gt; YAML header option needs to be changed to &lt;code&gt;math: true&lt;/code&gt;. No need to alternate between &lt;code&gt;.Rmd&lt;/code&gt; or &lt;code&gt;.md&lt;/code&gt; or &lt;code&gt;.Rmarkdown&lt;/code&gt; files, mess around with &lt;code&gt;config.toml&lt;/code&gt; or &lt;code&gt;params.toml&lt;/code&gt;, chase down unknown &lt;code&gt;pandoc&lt;/code&gt; binaries or add new &lt;code&gt;partials&lt;/code&gt; snippets.&lt;/p&gt;
+&lt;p&gt;In addition, I finally figured out how to automatically generate table of contents. Insert the following snippet in the file header:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;output:
+  blogdown::html_page:
+    toc: true&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

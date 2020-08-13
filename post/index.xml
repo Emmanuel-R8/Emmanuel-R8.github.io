@@ -1,122 +1,1359 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Back2Numbers</title>
+    <title>Posts | Back2Numbers</title>
     <link>/post.html</link>
-    <description>Recent content in Posts on Back2Numbers</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-au</language>
-    <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 30 Apr 2020 00:00:00 +0000</lastBuildDate>
+      <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>Posts</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Wed, 12 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Posts</title>
+      <link>/post.html</link>
+    </image>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Change of template</title>
+      <link>/2020/08/12/miscellaneous.html</link>
+      <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>/2020/08/12/miscellaneous.html</guid>
+      <description>
+
+
+&lt;p&gt;I moved to a richer &lt;a href=&#34;https://sourcethemes.com/academic/&#34;&gt;Hugo template&lt;/a&gt;, partly to move things around under the hood, but importantly it gives a sounder platform for the future.&lt;/p&gt;
+&lt;p&gt;However, it took many hours of frustration to get &lt;code&gt;blogdown&lt;/code&gt; and the template to nicely render &lt;span class=&#34;math inline&#34;&gt;\(\LaTeX\)&lt;/span&gt; formulas. In the end, it was very simple, although no documentation or blog posts helped: the &lt;code&gt;mathjax: true&lt;/code&gt; YAML header option needs to be changed to &lt;code&gt;math: true&lt;/code&gt;. No need to alternate between &lt;code&gt;.Rmd&lt;/code&gt; or &lt;code&gt;.md&lt;/code&gt; or &lt;code&gt;.Rmarkdown&lt;/code&gt; files, mess around with &lt;code&gt;config.toml&lt;/code&gt; or &lt;code&gt;params.toml&lt;/code&gt;, chase down unknown &lt;code&gt;pandoc&lt;/code&gt; binaries or add new &lt;code&gt;partials&lt;/code&gt; snippets.&lt;/p&gt;
+&lt;p&gt;In addition, I finally figured out how to automatically generate table of contents. Insert the following snippet in the file header:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;output:
+  blogdown::html_page:
+    toc: true&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Presentation at the Kong Kong Machine Learning meetup</title>
       <link>/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html</link>
       <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
-      
       <guid>/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html</guid>
-      <description>I recently made a presentation at the regular Hong Kong Machine Learning meetup organised by Gautier Marti.
-The presentation was an introduction to Julia and used as an example a SEIR model COVID-19 I had written. The presentation is available on Github.
-It seems to have had some effect!</description>
+      <description>
+
+
+&lt;p&gt;I recently made a presentation at the regular &lt;a href=&#34;https://www.meetup.com/Hong-Kong-Machine-Learning-Meetup&#34;&gt;Hong Kong Machine Learning meetup&lt;/a&gt; organised by &lt;a href=&#34;https://gmarti.gitlab.io/&#34;&gt;Gautier Marti&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The presentation was an introduction to &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; and used as an example a &lt;a href=&#34;https://github.com/Emmanuel-R8/COVID-19-Julia&#34;&gt;SEIR model COVID-19&lt;/a&gt; I had written. The presentation is available on &lt;a href=&#34;https://github.com/Emmanuel-R8/Presentation_HKML_2020_04/raw/master/HKML_Julia_Xarrigan_2020_04_29.pdf&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It seems to have had some &lt;a href=&#34;https://www.linkedin.com/posts/hong-kong-machine-learning_bye-bye-python-hello-julia-activity-6663079161676075009-rWik&#34;&gt;effect&lt;/a&gt;!&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Forecasting the progression of COVID-19</title>
       <link>/2020/03/25/2020-03-25-forecasting-covid-19.html</link>
       <pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate>
-      
       <guid>/2020/03/25/2020-03-25-forecasting-covid-19.html</guid>
-      <description>The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning. It was born after reading a report from Imperial College London and finding a forecasting model by NeherLab. The numbers produced by those models can only be described as terrifying.
-How do those models work? How are they calibrated?
-BUT
-Remember that whatever concerns one can have about their precision, those models are all absolutely clear that social-distancing, quarantining have a massive impact on death rates.</description>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#the-neherlab-covid-19-forecast-model&#34;&gt;The &lt;span&gt;Neherlab COVID-19&lt;/span&gt; forecast model&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#basic-assumptions&#34;&gt;Basic assumptions&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#overview&#34;&gt;Overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#age-cohorts&#34;&gt;Age cohorts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#severity&#34;&gt;Severity&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#seasonality&#34;&gt;Seasonality&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transmission-reduction&#34;&gt;Transmission reduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#details-of-the-model&#34;&gt;Details of the model&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#population-compartments&#34;&gt;Population compartments&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#model-parameters&#34;&gt;Model parameters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#infection&#34;&gt;Infection&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#after-infection&#34;&gt;After infection&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#load-data&#34;&gt;Load data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#initialise-parameters&#34;&gt;Initialise parameters&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#fixed-constants&#34;&gt;Fixed constants&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#infrastructure&#34;&gt;Infrastructure&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#parameter-vector&#34;&gt;Parameter vector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#population&#34;&gt;Population&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#parameters-vector&#34;&gt;Parameters vector&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#differential-equation-solver&#34;&gt;Differential equation solver&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bilibliography&#34;&gt;Bilibliography&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;the-neherlab-covid-19-forecast-model&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;The &lt;a href=&#34;https://neherlab.org/covid19/&#34;&gt;Neherlab COVID-19&lt;/a&gt; forecast model&lt;/h1&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;using CSV, Dates;
+using DataFrames, DataFramesMeta;
+using Plots, PyPlot;
+using DifferentialEquations;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is more a data science post than machine learning. It was born after reading a &lt;a href=&#34;https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf&#34;&gt;report&lt;/a&gt; from Imperial College London and finding a forecasting model by &lt;a href=&#34;https://neherlab.org/covid19/&#34;&gt;NeherLab&lt;/a&gt;. The numbers produced by those models can only be described as terrifying.&lt;/p&gt;
+&lt;p&gt;How do those models work? How are they calibrated?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;BUT&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Remember that whatever concerns one can have about their precision, those models are all absolutely clear that social-distancing, quarantining have a massive impact on death rates. Being careful saves lives. If anybody feels like ignoring those precautions out of excess testosterone, they are at risk of killing others.&lt;/p&gt;
+&lt;p&gt;This post started from one of the pages of the NeherLab site describing their methodology. The work that team is achieving deserves more credit than I can give them.&lt;/p&gt;
+&lt;p&gt;The NeherLab website, including the model, is entirely written in Javascript. This is difficul to understand and audit.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;basic-assumptions&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Basic assumptions&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: This is not an introduction to SEIR (and variant) compartment modelling of epidemies. For an introduction (difficult to avoid the maths), see a presentation by the &lt;a href=&#34;http://indico.ictp.it/event/7960/session/3/contribution/19/material/slides/0.pdf&#34;&gt;Swiss Tropical and Public Health Institute&lt;/a&gt;. &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34;&gt;Wikipedia&lt;/a&gt; is always an option.&lt;/p&gt;
+&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;The model works as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;susceptible individuals are exposed/infected through contact with infectious individuals. Each infectious individual causes on average &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt; secondary infections while they are infectious.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Transmissibility of the virus could have seasonal variation which is parameterized with the parameter “seasonal forcing” (amplitude) and “peak month” (month of most efficient transmission).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;exposed individuals progress to a symptomatic/infectious state after an average latency&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;infectious individuals recover or progress to severe disease. The ratio of recovery to severe progression depends on age&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;severely sick individuals either recover or deteriorate and turn critical. Again, this depends on the age&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;critically ill individuals either return to regular hospital or die. Again, this depends on the age&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The individual parameters of the model can be changed to allow exploration of different scenarios.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;age-cohorts&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Age cohorts&lt;/h3&gt;
+&lt;p&gt;COVID-19 is much more severe in the elderly and proportion of elderly in a community is therefore an important determinant of the overall burden on the health care system and the death toll. We collected age distributions for many countries from data provided by the UN and make those available as input parameters. Furthermore, we use data provided by the epidemiology group by the &lt;a href=&#34;http://weekly.chinacdc.cn/en/article/id/e53946e2-c6c4-41e9-9a9b-fea8db1a8f51&#34;&gt;Chinese CDC&lt;/a&gt; to estimate the fraction of severe and fatal cases by age group.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;severity&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Severity&lt;/h3&gt;
+&lt;p&gt;The basic model deals with 3 levels of severity: slow, moderate and fast transmissions.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# severityLevel = :slow;
+severityLevel = :moderate;
+# severityLevel = :fast;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;seasonality&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Seasonality&lt;/h2&gt;
+&lt;p&gt;Many respiratory viruses such as influenza, common cold viruses (including other coronaviruses) have a pronounced seasonal variation in incidence which is in part driven by climate variation through the year. We model this seasonal variation using a sinusoidal function with an annual period. This is a simplistic way to capture seasonality. Furthermore, we don’t know yet how seasonality will affect COVID-19 transmission.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Northern or southern hemisphere
+latitude = :north;
+# latitude = :tropical;
+# latitude = :south;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# The time unit is days (as floating point)
+# Day 0 is taken at 1 March 2020
+BASE_DATE = Date(2020, 3, 1);
+BASE_DAYS = 0;
+
+function date2days(d) 
+    return convert(Float64, datetime2rata(d) - datetime2rata(BASE_DATE))
+end;
+
+function days2date(d) 
+    return BASE_DATE + Day(d)
+end;    &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Default values for R_0
+baseR₀ = Dict( (:north,    :slow)     =&amp;gt; 2.2, 
+               (:north,    :moderate) =&amp;gt; 2.7, 
+               (:north,    :fast)     =&amp;gt; 3.2, 
+               (:tropical, :slow)     =&amp;gt; 2.0, 
+               (:tropical, :moderate) =&amp;gt; 2.5, 
+               (:tropical, :fast)     =&amp;gt; 3.0,
+               (:south,    :slow)     =&amp;gt; 2.2, 
+               (:south,    :moderate) =&amp;gt; 2.7, 
+               (:south,    :fast)     =&amp;gt; 3.2);&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Peak date
+peakDate = Dict( :north     =&amp;gt; date2days(Date(2020, 1, 1)), 
+                 :tropical  =&amp;gt; date2days(Date(2020, 1, 1)),    # although no impact
+                 :south     =&amp;gt; date2days(Date(2020, 7, 1)));&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Seasonal forcing parameter \epsilon
+ϵ = Dict( (:north,    :slow)     =&amp;gt; 0.2, 
+          (:north,    :moderate) =&amp;gt; 0.2, 
+          (:north,    :fast)     =&amp;gt; 0.1, 
+          (:tropical, :slow)     =&amp;gt; 0.0, 
+          (:tropical, :moderate) =&amp;gt; 0.0, 
+          (:tropical, :fast)     =&amp;gt; 0.0,
+          (:south,    :slow)     =&amp;gt; 0.2, 
+          (:south,    :moderate) =&amp;gt; 0.2, 
+          (:south,    :fast)     =&amp;gt; 0.1);&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Gives R_0 at a given date
+function R₀(d; r_0 = missing, latitude = :north, severity = :moderate)
+    if ismissing(r_0)
+        r₀ = baseR₀[(latitude, severity)]
+    else
+        r₀ = r_0
+    end
+    eps = ϵ[(latitude, severity)]
+    peak = peakDate[latitude]
+    
+    return r₀ * (1 + eps * cos(2.0 * π * (d - peak) / 365.25))
+end;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;transmission-reduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Transmission reduction&lt;/h2&gt;
+&lt;p&gt;The tool allows one to explore temporal variation in the reduction of transmission by infection
+control measures. This is implemented as a curve through time that can be dragged by the mouse to
+modify the assumed transmission. The curve is read out and used to change the transmission relative
+to the base line parameters for &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt; and seasonality. Several studies attempt to estimate the
+effect of different aspects of social distancing and infection control on the rate of transmission.
+A report by &lt;a href=&#34;https://www.medrxiv.org/content/10.1101/2020.03.03.20030593v1&#34;&gt;Wang et al&lt;/a&gt; estimates a
+step-wise reduction of &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt; from above three to around 1 and then to around 0.3 due to successive
+measures implemented in Wuhan. &lt;a href=&#34;https://www.pnas.org/content/116/27/13174&#34;&gt;This study&lt;/a&gt; investigates
+the effect of school closures on influenza transmission.&lt;/p&gt;
+&lt;p&gt;This curve is presented as a list of tuples: (days from start date, ratio). The month starts from the start date. Between dates, the ration is interpolated linearly. After the last date, the ration remains constant.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;startDate = date2days(Date(2020, 3, 1));
+
+mitigationRatio = [(0, 1.00), (30, 0.80), (60, 0.20), (150, 0.50)];
+
+function getCurrentRatio(d; start = BASE_DAYS, schedule = mitigationRatio)
+    l = length(schedule)
+    
+    # If l = 1, ratio will be the only one
+    if l == 1 
+        return schedule[1][2]
+    else
+        for i in 2:l
+            d1 = schedule[i-1][1]
+            d2 = schedule[i  ][1]
+            
+            if d &amp;lt; d2 
+                deltaR = schedule[i][2] - schedule[i-1][2]
+                return schedule[i-1][2] + deltaR * (d - d1) / (d2 - d1)
+            end
+        end
+    
+        # Last possible choice
+        return schedule[l][2]
+    end
+end;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;details-of-the-model&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Details of the model&lt;/h2&gt;
+&lt;p&gt;Age strongly influences an individual’s response to the virus. The general population is sub-divided in to age classes, indexed by &lt;span class=&#34;math inline&#34;&gt;\(a\)&lt;/span&gt;, to allow for variable transition rates dependent upon age.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# The population will be modeled as a single vector. 
+# The vector will be a stack of several vectors, each of them represents a compartment.
+# Each compartment vector has a size $nAgeGroup$ representing each age group.
+# The compartments are: S, E, I, H, C, R, D, K, L
+
+# We also track the hospital bed usage BED and ICU
+
+# Population to compartments
+function Pop2Comp(P)
+    
+    # To make copy/paste less prone to error 
+    g = 0
+    
+    S = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    E = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    I = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    J = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    H = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    C = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    R = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    D = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    K = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    L = P[ g*nAgeGroup + 1: (g+1)*nAgeGroup]; g += 1
+    
+    BED = P[ g*nAgeGroup + 1: g*nAgeGroup + 1]
+    ICU = P[ g*nAgeGroup + 2: g*nAgeGroup + 2]
+    
+    return S, E, I, J, H, C, R, D, K, L, BED, ICU
+end;&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;population-compartments&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Population compartments&lt;/h3&gt;
+&lt;p&gt;Qualitatively, the epidemy model dynamics tracks several sub-groups (compartments):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/images/States.svg&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Susceptible individuals (&lt;span class=&#34;math inline&#34;&gt;\(S\)&lt;/span&gt;) are healthy and susceptible to being exposed to the virus by contact with an infected individual.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Exposed individuals (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;) are infected but asymptomatic. They progress towards a symptomatic state on average time &lt;span class=&#34;math inline&#34;&gt;\(t_l\)&lt;/span&gt;. Reports are that asymptomatic individuals are contagious. We will assume that they are proportionally less contagious than symptomatic individuals as a percentage &lt;span class=&#34;math inline&#34;&gt;\(\gamma_E\)&lt;/span&gt; of &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt;. For the purposes of modelling we will assume (without supporting evidence, but will be the object of parameter estimation):&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;γₑ = 0.50;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Infected individuals (&lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt;) infect an average of &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt; secondary infections. On a time-scale of &lt;span class=&#34;math inline&#34;&gt;\(t_i\)&lt;/span&gt;, infected individuals either recover or progress towards severe infection.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;From here on, the compartments differ from the NeherLab model is that we split compartments depending on the severity of the symptoms (Severe or Critical) and the location of the individual (out of the hospital infrastructure, isolated in hospital, or isolated in intensive care units). The transitions reflect the following assumptions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Transition between locations is purely a function of bed availability: as soon as beds are available, they are filled by all age groups in their respective proportions.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Transition from severe to critical is assumed to be independent from the location of the patient. For severe patients, the relevance of the location is whether they are isolated or not, that is the possibility to infect susceptible individual. The same way an asymptomatic individual’s attracts a ratio &lt;span class=&#34;math inline&#34;&gt;\(\gamma_e\)&lt;/span&gt;, the other compartments will. The transition from &lt;span class=&#34;math inline&#34;&gt;\(J\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(H\)&lt;/span&gt; to recovery or criticality has a time-scale of &lt;span class=&#34;math inline&#34;&gt;\(t_h\)&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# R_0 multipliers depending on severity. Subscript matches the compartment&amp;#39;s name.
+# Infected / symptomatic individuals
+γᵢ=1.0;
+
+# Severe symptoms
+γⱼ=1.0;
+
+# Critical symptoms
+γₖ = 2.0;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Once critical, the location of a patient influences their chances of recovery. Although we will assume that the time to recovery is identical in all cases, we will assume that the risks will double and triple if a patient is in simple isolation (receiving care but without ICU equipmment) or out of hospital.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Fatality mulitplier.
+
+# In ICU
+δᵤ = 1.0;
+
+# In hospital
+δₗ = 2.0;
+
+# Out of hospital
+δₖ = 3.0;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The time-scale to recovery (&lt;span class=&#34;math inline&#34;&gt;\(R\)&lt;/span&gt;) or death (&lt;span class=&#34;math inline&#34;&gt;\(D\)&lt;/span&gt;) is &lt;span class=&#34;math inline&#34;&gt;\(t_u\)&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Recovering and recovered individuals [&lt;span class=&#34;math inline&#34;&gt;\(R\)&lt;/span&gt;] can not be infected again. We will assume that recovering individual are not contagious (no medical experience for this assumption for recovering individual).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;model-parameters&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Model parameters&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Many estimates of &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt; are in the &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7001239/&#34;&gt;range of 2-3&lt;/a&gt; with some estimates pointing to considerably &lt;a href=&#34;https://www.medrxiv.org/content/10.1101/2020.02.10.20021675v1&#34;&gt;higher values&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The serial interval, that is the time between subsequent infections in a transmission chain, was &lt;a href=&#34;https://www.nejm.org/doi/full/10.1056/NEJMoa2001316&#34;&gt;estimated to be 7-8 days&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The China CDC compiled &lt;a href=&#34;http://weekly.chinacdc.cn/en/article/id/e53946e2-c6c4-41e9-9a9b-fea8db1a8f51&#34;&gt;extensive data on severity and fatality of more than 40 thousand confirmed cases&lt;/a&gt;.
+In addition, we assume that a substantial fraction of infections, especially in the young, go unreported. This is encoded in the columns “Confirmed [% of total]”.&lt;/li&gt;
+&lt;li&gt;Seasonal variation in transmission is common for many respiratory viruses but the strength of seasonal forcing for COVID19 are uncertain. For more information, see a &lt;a href=&#34;https://smw.ch/article/doi/smw.2020.20224&#34;&gt;study by us&lt;/a&gt; and by &lt;a href=&#34;https://www.medrxiv.org/content/10.1101/2020.03.04.20031112v1&#34;&gt;Kissler et al&lt;/a&gt;.
+The parameters of this model fall into three categories: transition time scales, age-specfic parameters and a time-dependent infection rate.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;transition-time-scales&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Transition time scales&lt;/h4&gt;
+&lt;p&gt;The time scales of transition from a compartment to the next: &lt;span class=&#34;math inline&#34;&gt;\(t_l\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(t_i\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(t_h\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(t_c\)&lt;/span&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(t_l\)&lt;/span&gt;: latency time from infection to infectiousness&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(t_i\)&lt;/span&gt;: the time an individual is infectious after which he/she either recovers or falls severely ill&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(t_h\)&lt;/span&gt;: the time a sick person recovers or deteriorates into a critical state&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(t_u\)&lt;/span&gt;: the time a person remains critical before dying or stabilizing (Neherlab uses &lt;span class=&#34;math inline&#34;&gt;\(t_c\)&lt;/span&gt; instead of &lt;span class=&#34;math inline&#34;&gt;\(t_u\)&lt;/span&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Time to infectiousness (written t\_l)
+tₗ = Dict(  :slow     =&amp;gt; 5.0, 
+            :moderate =&amp;gt; 5.0, 
+            :fast     =&amp;gt; 4.0);
+
+# Time to infectiousness (written t\_i)
+tᵢ = Dict(  :slow     =&amp;gt; 3.0, 
+            :moderate =&amp;gt; 3.0, 
+            :fast     =&amp;gt; 3.0);
+
+# Time in hospital bed (not ICU)
+tₕ = 4.0;
+
+# Time in ICU 
+tᵤ = 14.0;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;age-specfic-parameters&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Age-specfic parameters&lt;/h4&gt;
+&lt;p&gt;The age-specific parameters &lt;span class=&#34;math inline&#34;&gt;\(z_a\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(m_a\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(c_a\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(f_a\)&lt;/span&gt; that determine relative rates of different outcomes.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(z_a\)&lt;/span&gt;: a set of numbers reflecting to which extent an age group is susceptible to initial contagion. Note that NeherLab denotes this vector by &lt;span class=&#34;math inline&#34;&gt;\(I_a\)&lt;/span&gt; which is confusing with the compartmment evolution &lt;span class=&#34;math inline&#34;&gt;\(I_a(t)\)&lt;/span&gt; notation. (This sort of defeats the purpose of &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt;.)&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(m_a\)&lt;/span&gt;: fraction of infectious becoming severe (&lt;strong&gt;Hospitalisation Rate&lt;/strong&gt;) or recovers immediately (&lt;strong&gt;Recovery Rate&lt;/strong&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(c_a\)&lt;/span&gt;: fraction of severe cases that turn critical (&lt;strong&gt;Critical Rate&lt;/strong&gt;) or can leave hospital (&lt;strong&gt;Discharge Rate&lt;/strong&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(f_a\)&lt;/span&gt;: fraction of critical cases that are fatal (&lt;strong&gt;Death Rate&lt;/strong&gt;) or recover (&lt;strong&gt;Stabilisation Rate&lt;/strong&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;AgeGroup = [&amp;quot;0-9&amp;quot;, &amp;quot;10-19&amp;quot;, &amp;quot;20-29&amp;quot;, &amp;quot;30-39&amp;quot;, &amp;quot;40-49&amp;quot;, &amp;quot;50-59&amp;quot;, &amp;quot;60-69&amp;quot;, &amp;quot;70-79&amp;quot;, &amp;quot;80+&amp;quot;];
+zₐ =       [0.05,   0.05,   0.10,    0.15,    0.20,    0.25,    0.30,    0.40,    0.50];
+mₐ =       [0.01,   0.03,   0.03,    0.03,    0.06,    0.10,    0.25,    0.35,    0.50];
+cₐ =       [0.05,   0.10,   0.10,    0.15,    0.20,    0.25,    0.35,    0.45,    0.55];
+fₐ =       [0.30,   0.30,   0.30,    0.30,    0.30,    0.40,    0.40,    0.50,    0.50];
+
+nAgeGroup = length(AgeGroup);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;infrastruture&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Infrastruture&lt;/h4&gt;
+&lt;p&gt;The number of beds available is assumed as a fixed resource in time. The number of hospital (resp. ICU) beds in use will be denoted &lt;span class=&#34;math inline&#34;&gt;\(\mathscr{H}(t)\)&lt;/span&gt; (resp. &lt;span class=&#34;math inline&#34;&gt;\(\mathscr{U}(t)\)&lt;/span&gt;) up to a maximum of &lt;span class=&#34;math inline&#34;&gt;\(\mathscr{H}_{max}\)&lt;/span&gt; (resp. &lt;span class=&#34;math inline&#34;&gt;\(\mathscr{U}_{max}\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;Although the initial infections took place via dommestic and international travellers (apart from the initial infections in Wuhan obviously), we will assume no net flow of population in and out of a country of interest.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;infection&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Infection&lt;/h3&gt;
+&lt;div id=&#34;susceptible&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Susceptible:&lt;/h4&gt;
+&lt;p&gt;The &lt;em&gt;base&lt;/em&gt; rate of contagion is denoted as &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt;. The actual rate varies with time (to reflect seasons and impact of temperature on virus resilience) and the effectiveness of the mitigation measures such as social distancing. Separately, each age group will have a different sensitivity to infection.&lt;/p&gt;
+&lt;p&gt;The infection rate &lt;span class=&#34;math inline&#34;&gt;\(\beta_a(t)\)&lt;/span&gt; is age- and time-dependent. It is given by:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\beta_a(t) = z_a M(t) R_0 \left( 1+\varepsilon \cos \left( 2\pi \frac{t-t_{max}}{t_i} \right) \right) \]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(z_a\)&lt;/span&gt; is the degree to which particular age groups are sensitive to initial infection. It reflects bioligical sensitivity and to which degree it is isolated from the rest of the population (denoted &lt;span class=&#34;math inline&#34;&gt;\(I_a\)&lt;/span&gt; in NeherLab).&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(M(t)\)&lt;/span&gt; is a time-dependent ratio reflecting the effectiveness of mitigation measures.&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(\varepsilon\)&lt;/span&gt; is the amplitude of seasonal variation in transmissibility.&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(t_{max}\)&lt;/span&gt; is the time of the year of peak transmission.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Susceptible individuals are exposed to a number of contagious individuals:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;asymptomatic infected: &lt;span class=&#34;math display&#34;&gt;\[\gamma_e \beta_a(t) E_a(t)\]&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;symptomatic infected: &lt;span class=&#34;math display&#34;&gt;\[\gamma_i \beta_a(t) I_a(t)\]&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;severe not in hospital: &lt;span class=&#34;math display&#34;&gt;\[\gamma_j \beta_a(t) J_a(t)\]&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;critical not in hospital: &lt;span class=&#34;math display&#34;&gt;\[\gamma_k \beta_a(t) K_a(t)\]&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The sum of those will be a flow from susceptible (&lt;span class=&#34;math inline&#34;&gt;\(S\)&lt;/span&gt;) to (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;) exposed individuals.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\begin{aligned}
+S2E_a(t) &amp;amp; = \gamma_e \beta_a(t) E_a(t) + \gamma_i \beta_a(t) I_a(t) + \gamma_j \beta_a(t) K_a(t) + \gamma_k \beta_a(t) L_a(t) \\ 
+S2E_a(t) &amp;amp; = \beta_a(t) \left( \gamma_e  E_a(t) + \gamma_i I_a(t) + \gamma_j J_a(t) + \gamma_k K_a(t) \right) \\
+E2S_a(t) &amp;amp; = -S2E_a(t) \\
+\end{aligned}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;and therefore:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\frac{dS_{a}(t)}{dt} = - S2E_a(t) = E2S_a(t)
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;after-infection&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;After infection&lt;/h3&gt;
+&lt;p&gt;Quantitatively, the model expresses how many individuals transfer from one situation/compartment to another. Flows from compartment X to Y are written as &lt;span class=&#34;math inline&#34;&gt;\(X2Y\)&lt;/span&gt; (obviously &lt;span class=&#34;math inline&#34;&gt;\(X2Y = - Y2X\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;Note that the compartments are split into age groups.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/images/Transitions.svg&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Transitions between compartments&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;epidemiology&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Epidemiology&lt;/h4&gt;
+&lt;p&gt;Instead of expressing the sum of the flows at each node, it is easier to express the arrows, and summing them afterwards. For example, arrow from &lt;span class=&#34;math inline&#34;&gt;\(J\)&lt;/span&gt; to &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; will be:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[JK_a(t) = \frac{c_a}{t_h} J_a(t)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;with a positive flow following the direction of the arrow.&lt;/p&gt;
+&lt;p&gt;In {julia}, this will become:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        JK = cₐ .* J / tₕ&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;where &lt;code&gt;J&lt;/code&gt; is a vector representing an age group, &lt;code&gt;.*&lt;/code&gt; is the element-wise multiplication.&lt;/p&gt;
+&lt;p&gt;After defining the arrows &lt;span class=&#34;math inline&#34;&gt;\(IJ\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(JK\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(JH\)&lt;/span&gt;, the change in &lt;span class=&#34;math inline&#34;&gt;\(J\)&lt;/span&gt; will simply be:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        dJ = IJ - JK - JH&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;bed-transfers&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Bed transfers&lt;/h4&gt;
+&lt;p&gt;Individuals are transferred into hospital beds then into ICU beds in the order indicated by the red numbers.&lt;/p&gt;
+&lt;p&gt;Critical patients already in hospital go into ICU as spots become available. The freed bed are first made available to critical patients out of hospital (&lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt;). Then, any free beds will receive patients in severe condition.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;safeguards&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Safeguards:&lt;/h4&gt;
+&lt;p&gt;Note the need to ensure a few common sense rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;No compartment can have a negative number of people.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The total population figure should remain unchanged. This is done by adjusting the number of susceptible individuals.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Careful accounting of the use of fixed number of hospital beds.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The number of infected people should always be above the number of reported cases.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Helper function to never change the number of individuals in a compartment in a way that would 
+# make it below 0.1 (to avoid rounding errors around 0)
+function ensurePositive(d,s)
+    return max.(d .+ s, 0.1) .- s
+end;
+
+    
+    
+# The dynamics of the epidemy is a function that mutates its argument with a precise signature
+# Don&amp;#39;t pay too much attetion to the print debugs/
+
+function epiDynamics!(dP, P, params, t)
+    
+    S, E, I, J, H, C, R, D, K, L, BED, ICU = Pop2Comp(P)
+    
+    BED = BED[1]
+    ICU = ICU[1]
+    
+    r₀, tₗ, tᵢ, tₕ, tᵤ, γₑ, γᵢ, γⱼ, γₖ, δₖ, δₗ, δᵤ, startDays = params 
+    
+    
+    ####################################
+    # Arrows reflecting epidemiology - Check signs (just in case)
+    EI = ones(nAgeGroup) .* E / tₗ;  EI = max.(EI, 0.0); IE = -EI; 
+    IJ = mₐ              .* I / tᵢ;  IJ = max.(IJ, 0.0); JI = -IJ
+    JK = cₐ              .* J / tₕ;  JK = max.(JK, 0.0); KJ = -JK
+    HL = cₐ              .* H / tₕ;  HL = max.(HL, 0.0); LH = -HL
+    
+    # Recovery arrows
+    IR = (1 .- mₐ)       .* I / tᵢ;  IR = max.(IR, 0.0); RI = -IR
+    JR = (1 .- cₐ)       .* J / tₕ;  JR = max.(JR, 0.0); RJ = -JR
+    HR = (1 .- cₐ)       .* H / tₕ;  HR = max.(HR, 0.0); RH = -HR
+    KR = (1 .- δₖ .* fₐ) .* K / tᵤ;  KR = max.(KR, 0.0); RK = -KR
+    LR = (1 .- δₗ .* fₐ) .* L / tᵤ;  LR = max.(LR, 0.0); RL = -LR
+    CR = (1 .- δᵤ .* fₐ) .* C / tᵤ;  CR = max.(CR, 0.0); RC = -CR
+    
+    # Deaths
+    KD = δₖ .* fₐ        .* K / tᵤ;  KD = max.(KD, 0.0); DK = -KD
+    LD = δₗ .* fₐ        .* L / tᵤ;  LD = max.(LD, 0.0); DL = -LD
+    CD = δᵤ .* fₐ        .* C / tᵤ;  CD = max.(CD, 0.0); DC = -CD
+    
+    
+    ####################################
+    # Bed transfers
+    
+    ####### Step 1:
+    # Decrease in bed usage is (recall that CD and CR are vectors over the age groups) 
+    dICU = - (sum(CD) + sum(CR));                 dICU = ensurePositive(dICU, ICU)
+    
+    # ICU beds available
+    ICU_free = ICU_max - (ICU + dICU)
+    
+    # Move as many patients as possible from $L$ to $C$ in proportion of each group
+    ICU_transfer = min(sum(L), ICU_free)
+    LC = ICU_transfer / sum(L) .* L;    CL = -LC
+    
+    # Overall change in ICU bed becomes
+    dICU = dICU + ICU_transfer;                   dICU = ensurePositive(dICU, ICU)
+    
+    # And some normal beds are freed
+    dBED = -ICU_transfer;                         dBED = ensurePositive(dBED, BED)
+    #print(&amp;quot; dBed step 1 &amp;quot;); println(floor.(sum(dBED)))
+
+    ####### Step 2:
+    # Beds available
+    BED_free = BED_max - (BED + dBED)
+    
+    # Move as many patients as possible from $K$ to $L$ in proportion of each group
+    BED_transfer = min(sum(K), BED_free)
+    KL = BED_transfer / sum(K) .* K;   LK = -KL
+    
+    # Overall change in normal bed becomes
+    dBED = dBED + BED_transfer;                   dBED = ensurePositive(dBED, BED)
+    #print(&amp;quot; dBed step 2 &amp;quot;); println(floor.(sum(dBED)))
+    
+
+    ####### Step 3:
+    # Beds available
+    BED_free = BED_max - (BED + dBED)
+    
+    # Move as many patients as possible from $J$ to $H$ in proportion of each group
+    BED_transfer = min(sum(J), BED_free)
+    JH = BED_transfer / sum(J) .* J;   HJ = -JH 
+    
+    # Overall change in ICU bed becomes
+    dBED = dBED + BED_transfer;                   dBED = ensurePositive(dBED, BED)
+    #print(&amp;quot; dBed step 3 &amp;quot;); println(floor.(sum(dBED)))
+    
+
+    ####################################
+    # Sum of all flows + Check never negative compartment
+    
+    # Susceptible    
+    # Calculation of β
+    β = getCurrentRatio(t; start = BASE_DAYS, schedule = mitigationRatio) .* zₐ .* 
+        R₀(t; r_0 = r₀, latitude = Latitude, severity = SeverityLevel)
+    
+    #print(&amp;quot;r₀&amp;quot;); println(r₀); println(&amp;quot;R₀&amp;quot;); 
+    #println(R₀(t; r_0 = r₀, latitude = Latitude, severity = SeverityLevel)); print()
+    
+    dS = -β .* (γₑ.*E + γᵢ.*I + γⱼ.*J + γₖ.*K);   dS = min.(-0.01, dS); dS = ensurePositive(dS, S)
+    
+    #print(&amp;quot;dS&amp;quot;); println(floor.(dS)); println(); 
+    
+    # Exposed
+    dE = -dS + IE;                                dE = ensurePositive(dE, E)
+    
+    # Infected. 
+    dI = EI + JI + RI;                            dI = ensurePositive(dI, I)
+    
+    # Infected no hospital
+    dJ = IJ + HJ + KJ + RJ;                       dJ = ensurePositive(dJ, J)
+    
+    #print(&amp;quot;I &amp;quot;); println(floor.(IJ)); print(&amp;quot;H &amp;quot;); println(floor.(HJ))
+    #print(&amp;quot;K &amp;quot;); println(floor.(KJ)); print(&amp;quot;R &amp;quot;); println(floor.(RJ))
+    
+    # Infected in hospital
+    dH = JH + LH + RH ;                           dH = ensurePositive(dH, H)
+    
+    # Critical no hospital
+    dK = JK + LK + DK + RK;                       dK = ensurePositive(dK, K)
+    
+    # Critical in hospital
+    dL = KL + HL + CL + DL + RL;                  dL = ensurePositive(dL, L)
+    
+    # Critical in ICU
+    dC = LC + DC + RC;                            dC = ensurePositive(dC, C)
+    
+    # Recovery (can only increase)
+    dR = IR + JR + HR + KR + LR + CR;             dR = max.(dR, 0.01)
+    
+    # Dead (can only increase)
+    dD = KD + LD + CD;                            dD = max.(dD, 0.01)
+    
+    # Vector change of population and update in place
+    result = vcat(dS, dE, dI, dJ, dH, dC, dR, dD, dK, dL, [dBED], [dICU])
+    #print(&amp;quot; dS &amp;quot;); print(floor.(sum(dS))); print(&amp;quot; dE &amp;quot;); print(floor.(sum(dE))); 
+    #print(&amp;quot; dI &amp;quot;); print(floor.(sum(dI))); print(&amp;quot; dJ &amp;quot;); println(floor.(sum(dJ))); 
+    #print(&amp;quot; dH &amp;quot;); print(floor.(sum(dH))); print(&amp;quot; dC &amp;quot;); print(floor.(sum(dC))); 
+    #print(&amp;quot; dR &amp;quot;); print(floor.(sum(dR))); print(&amp;quot; dD &amp;quot;); print(floor.(sum(dD))); 
+    #print(&amp;quot; dK &amp;quot;); print(floor.(sum(dK))); print(&amp;quot; dL &amp;quot;); println(floor.(sum(dL))); println(); 
+    for i = 1:length(result)
+        dP[i] = result[i]
+    end
+
+end;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;load-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Load data&lt;/h1&gt;
+&lt;p&gt;The data comes from Neherlab’s data repository on &lt;a href=&#34;https://github.com/neherlab/covid19_scenarios_data&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We will use Italy as an example&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;country = &amp;quot;Italy&amp;quot;;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This file contains a record of cases day by day.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;cases = DataFrame(CSV.read(&amp;quot;data/World.tsv&amp;quot;, header = 4));
+cases = @where(cases, occursin.(country, :location));
+sort!(cases, :time);
+
+# Add a time column in the same format as the other dataframes
+cases = hcat(DataFrame(t = date2days.(cases[:, :time])), cases);
+
+# Remove any row with no recorded death
+cases = cases[cases.deaths .&amp;gt; 0, :];
+
+last(cases[:, [:time, :cases, :deaths]], 6)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 6×3 DataFrame
+## │ Row │ time       │ cases │ deaths │
+## │     │ Date       │ Int64 │ Int64  │
+## ├─────┼────────────┼───────┼────────┤
+## │ 1   │ 2020-03-17 │ 27980 │ 2158   │
+## │ 2   │ 2020-03-18 │ 31506 │ 2505   │
+## │ 3   │ 2020-03-19 │ 35713 │ 2978   │
+## │ 4   │ 2020-03-20 │ 41035 │ 3407   │
+## │ 5   │ 2020-03-21 │ 47021 │ 4032   │
+## │ 6   │ 2020-03-22 │ 53578 │ 4827   │&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The last rows shows the number of cases and deaths up to the last date in the dataset.&lt;/p&gt;
+&lt;p&gt;Plotting the number of death shows an almost exponential increase in numbers (straight line in logarithmic scale).&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;using PyPlot;
+
+pyplot();
+clf();
+ioff();
+plot_x = cases.time;
+plot_y = cases.deaths;
+
+fig, ax = PyPlot.subplots();
+
+ax.plot(plot_x, plot_y, &amp;quot;ro&amp;quot;);
+ax.fill_between(plot_x, plot_y, color=&amp;quot;red&amp;quot;, linewidth=2, label=&amp;quot;Deaths&amp;quot;, alpha=0.3);
+ax.legend(loc=&amp;quot;upper left&amp;quot;);
+ax.set_xlabel(&amp;quot;time&amp;quot;);
+ax.set_ylabel(&amp;quot;Deaths&amp;quot;);
+ax.set_yscale(&amp;quot;log&amp;quot;);
+
+PyPlot.savefig(&amp;quot;images/Deaths.png&amp;quot;);&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;images/Deaths.png&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Deaths&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;This file contains ICU beds figures.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;ICU_capacity = select(CSV.read(&amp;quot;data/ICU_capacity.tsv&amp;quot;; delim = &amp;quot;\t&amp;quot;), :country, :CriticalCare);
+ICU_capacity = @where(ICU_capacity, occursin.(country, :country))[!, :CriticalCare][1];
+ICU_capacity = convert(Float64, ICU_capacity);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Country codes are necessary to load the another file.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;country_codes = select(CSV.read(&amp;quot;data/country_codes.csv&amp;quot;), :name, Symbol(&amp;quot;alpha-3&amp;quot;));
+country_codes = @where(country_codes, occursin.(country, :name));
+countryShort = country_codes[:, Symbol(&amp;quot;alpha-3&amp;quot;)][1];&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This file contains hospital beds figures.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;hospital_capacity = select(CSV.read(&amp;quot;data/hospital_capacity.csv&amp;quot;, 
+                                    types = Dict(:COUNTRY =&amp;gt; String), limit = 1267), :COUNTRY, :YEAR, :VALUE);
+hospital_capacity = @where(hospital_capacity, Not(ismissing.(:COUNTRY)));
+hospital_capacity = last(@where(hospital_capacity, occursin.(countryShort, :COUNTRY)), 1)[!, :VALUE][1];
+hospital_capacity = convert(Float64, hospital_capacity);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This file contains a distribution of the population in age groups.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;age_distribution = CSV.read(&amp;quot;data/country_age_distribution.csv&amp;quot;);
+age_distribution = @where(age_distribution, occursin.(country, :_key))[!, 2:10];
+
+# Convert to simple matrix
+age_distribution = Matrix(age_distribution);
+show(age_distribution);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;initialise-parameters&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Initialise parameters&lt;/h1&gt;
+&lt;div id=&#34;fixed-constants&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Fixed constants&lt;/h2&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;SeverityLevel = :moderate;
+Latitude = :north;
+
+StartDate = Date(2020, 3, 1);
+StartDays = date2days(StartDate);
+
+EndDate = Date(2020, 9, 1);
+EndDays = date2days(EndDate);
+
+tSpan = (StartDays, EndDays);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;infrastructure&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Infrastructure&lt;/h2&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;BED_max = hospital_capacity&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 165384.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;ICU_max = ICU_capacity&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 7550.0&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;parameter-vector&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Parameter vector&lt;/h2&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# r₀, tₗ, tᵢ, tₕ, tᵤ, γᵢ, γⱼ, γₖ, δₖ, δₗ, δᵤ, startDate = params 
+
+parameters = [  baseR₀[Latitude, SeverityLevel], 
+                tₗ[SeverityLevel], tᵢ[SeverityLevel], tₕ, tᵤ, 
+                γₑ, γᵢ, γⱼ, γₖ, 
+                δₖ, δₗ, δᵤ, 
+                StartDays];&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;population&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Population&lt;/h2&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;Age_Pyramid = transpose(age_distribution);
+Age_Pyramid_frac = Age_Pyramid / sum(Age_Pyramid);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We do not know the number of actual number of infections cases at the start of the model. We only know confirmed cases (almost certainly far below the number of actual infections).&lt;/p&gt;
+&lt;p&gt;We assume that actual infections are 3 time more numerous.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;DeathsAtStart = @where(cases, :time .== StartDate)[!, :deaths][1];
+ConfirmedAtStart = @where(cases, :time .== StartDate)[!, :cases][1];
+EstimatedAtStart = 3.0 * ConfirmedAtStart;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;parameters-vector&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Parameters vector&lt;/h2&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Note that values are inintialised at 1 to avoid division by zero
+
+S0 = Age_Pyramid;
+E0 = ones(nAgeGroup);
+I0 = EstimatedAtStart * Age_Pyramid_frac;
+J0 = ones(nAgeGroup);
+H0 = ones(nAgeGroup);
+C0 = ones(nAgeGroup);
+R0 = ones(nAgeGroup);
+D0 = DeathsAtStart * Age_Pyramid_frac;
+K0 = ones(nAgeGroup);
+L0 = ones(nAgeGroup);
+
+# Everybody confirmed is in hospital
+BED = [ConfirmedAtStart];
+ICU = [1.0];
+
+P0 = vcat(S0, E0, I0, J0, H0, C0, R0, D0, K0, L0, BED, ICU);
+dP = 0 * P0;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;differential-equation-solver&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Differential equation solver&lt;/h1&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;model = ODEProblem(epiDynamics!, P0, tSpan, parameters);&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Note: progress steps might be too quick to see!
+sol = solve(model, Tsit5(); progress = false, progress_steps = 5);&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# The solutions are returned as an Array of Arrays: 
+#  - it is a vector of size the number of timesteps
+#  - each element of the vector is a vector of all the variables
+nSteps = length(sol.t);
+nVars  = length(sol.u[1]);
+
+# Empty dataframe to contain all the numbers
+# (When running a loop at top-level, the global keywrod is necessary to modify global variables.)
+solDF = zeros((nSteps, nVars));
+for i = 1:nSteps
+    global solDF
+    solDF[i, :] = sol.u[i]
+end;
+
+solDF = hcat(DataFrame(t = sol.t), DataFrame(solDF));
+
+# Let&amp;#39;s clean the names
+compartments =  [&amp;quot;S&amp;quot;, &amp;quot;E&amp;quot;, &amp;quot;I&amp;quot;, &amp;quot;J&amp;quot;, &amp;quot;H&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;R&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;L&amp;quot;];
+solnames = vcat([:t], [Symbol(c * repr(n)) for c in compartments for n in 0:(nAgeGroup-1)], [:Beds], [:ICU]);
+rename!(solDF, solnames);&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Create sums for each compartment
+# (Consider solDF[!, r&amp;quot;S&amp;quot;])
+# 
+for c in compartments
+    col =  [Symbol(c * repr(n)) for n in 0:(nAgeGroup-1)]
+    s = DataFrame(C = sum.(eachrow(solDF[:, col])))
+    rename!(s, [Symbol(c)])
+        
+    global solDF = hcat(solDF, s)
+end;
+
+# The D column gives the final number of dead.
+println(last(solDF[:, Symbol.(compartments)], 5))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 5×10 DataFrame
+## │ Row │ S         │ E       │ I       │ J       │ H        │ C       │ R         │ D         │ K       │ L       │
+## │     │ Float64   │ Float64 │ Float64 │ Float64 │ Float64  │ Float64 │ Float64   │ Float64   │ Float64 │ Float64 │
+## ├─────┼───────────┼─────────┼─────────┼─────────┼──────────┼─────────┼───────────┼───────────┼─────────┼─────────┤
+## │ 1   │ 2.34204e7 │ 266.055 │ 161.2   │ 7.32202 │ 0.900005 │ 76.5626 │ 3.38881e7 │ 3.15639e6 │ 1.02912 │ 1.03034 │
+## │ 2   │ 2.34203e7 │ 265.399 │ 160.137 │ 7.24439 │ 0.900003 │ 63.8564 │ 3.38883e7 │ 3.15639e6 │ 1.02623 │ 1.02726 │
+## │ 3   │ 2.34201e7 │ 266.063 │ 159.801 │ 7.19297 │ 0.900003 │ 53.1721 │ 3.38885e7 │ 3.1564e6  │ 1.02414 │ 1.02496 │
+## │ 4   │ 2.34199e7 │ 268.188 │ 160.31  │ 7.17442 │ 0.900002 │ 44.8176 │ 3.38887e7 │ 3.1564e6  │ 1.0232  │ 1.02367 │
+## │ 5   │ 2.34198e7 │ 270.842 │ 161.291 │ 7.18298 │ 0.9      │ 39.6763 │ 3.38888e7 │ 3.15641e6 │ 1.02324 │ 1.02338 │&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The last row shows the final sizes of the various compartments.&lt;/p&gt;
+&lt;p&gt;Next is the evolution of the over time.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;pyplot();
+clf();
+ioff();
+
+fig, ax = PyPlot.subplots();
+
+ax.plot(solDF.t, solDF.D, label = &amp;quot;Forecast&amp;quot;);
+ax.plot(solDF.t, solDF.R, label = &amp;quot;Recoveries&amp;quot;);
+ax.plot(cases.t, cases.deaths, &amp;quot;ro&amp;quot;, label = &amp;quot;Actual&amp;quot;, alpha = 0.3);
+
+ax.legend(loc=&amp;quot;lower right&amp;quot;);
+ax.set_xlabel(&amp;quot;time&amp;quot;);
+ax.set_ylabel(&amp;quot;Individuals&amp;quot;);
+ax.set_yscale(&amp;quot;log&amp;quot;);
+
+PyPlot.savefig(&amp;quot;images/DeathsForecast.png&amp;quot;);&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/images/DeathsForecast.png&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Increase in Recoveries and Deaths over time&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;It is clear the model forecasts a faster growth than reality. A parameter estimation is necessary.&lt;/p&gt;
+&lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;pyplot();
+clf();
+ioff();
+
+fig, ax = PyPlot.subplots();
+
+ax.plot(solDF.t, solDF.Beds, label = &amp;quot;Beds&amp;quot;);
+ax.plot(solDF.t, solDF.ICU, label = &amp;quot;ICU&amp;quot;);
+
+ax.legend(loc=&amp;quot;lower right&amp;quot;);
+ax.set_xlabel(&amp;quot;time&amp;quot;);
+ax.set_ylabel(&amp;quot;Number of beds&amp;quot;);
+ax.set_yscale(&amp;quot;linear&amp;quot;);
+
+PyPlot.savefig(&amp;quot;images/BedUsage.png&amp;quot;);&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/images/BedUsage.png&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Bed Usage over time&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;It is clear that the requirements for beds quickly hits the available capacity&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;bilibliography&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Bilibliography&lt;/h1&gt;
+&lt;p&gt;The Novel Coronavirus Pneumonia Emergency Response Epidemiology Team. The Epidemiological Characteristics of an Outbreak of 2019 Novel Coronavirus Diseases (COVID-19) — China, 2020[J]. China CDC Weekly, 2020, 2(8): 113-122. &lt;a href=&#34;http://weekly.chinacdc.cn/en/article/id/e53946e2-c6c4-41e9-9a9b-fea8db1a8f51&#34;&gt;LINK&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
       <title>RNN Compressive Memory Part 1: A high level introduction.</title>
       <link>/2020/03/07/rnn-compressive-memory-part-1.html</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
-      
       <guid>/2020/03/07/rnn-compressive-memory-part-1.html</guid>
-      <description>This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on Arxiv.
-Currently, the ambition of the series is to follow this plan:
- Part 1 (here): A high level introduction to Compressive Memory mechanics starting from basic RNNS;
- Part 2: a detailed explanation of the TransformerXL;
- Part 3: an implementation using PyTorch (soon);</description>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#recurrent-neural-networks-rnn&#34;&gt;Recurrent Neural Networks (&lt;em&gt;RNN&lt;/em&gt;)&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#from-simple-rnns-to-lstms&#34;&gt;From simple RNNs to LSTMs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#longshort-term-memory-rnns&#34;&gt;Long/Short Term Memory RNNs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#attention&#34;&gt;Attention&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#beyond-lstm-transformers&#34;&gt;Beyond LSTM: Transformers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transformer-xl&#34;&gt;Transformer-XL&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#compressive-transformers&#34;&gt;Compressive Transformers&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#compression-scheme&#34;&gt;Compression scheme&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#compression-training&#34;&gt;Compression training&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#summary&#34;&gt;Summary&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is the first post of series dedicated to Compressive Memory of Recurrent Neural Networks. This is inspired by a recent DeepMind paper published in November 2019 on &lt;a href=&#34;https://arxiv.org/abs/1911.05507&#34;&gt;Arxiv&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Currently, the ambition of the series is to follow this plan:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Part 1 (here): A high level introduction to Compressive Memory mechanics starting from basic RNNS;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;../../05/20/rnn-compressive-memory-part-2.html&#34;&gt;Part 2&lt;/a&gt;: a detailed explanation of the TransformerXL;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Part 3: an implementation using PyTorch (soon);&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Part 4: finally, its application to time series (soon).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Most likely, this will be fine-tuned over time.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Big thanks to &lt;a href=&#34;https://gmarti.gitlab.io/&#34;&gt;Gautier Marti&lt;/a&gt; and &lt;a href=&#34;http://zoonek.free.fr/blosxom/&#34;&gt;Vincent Zoonekynd&lt;/a&gt; for their suggestions and proof-reading!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Additional diagrams (14 March 2020)&lt;/p&gt;
+&lt;div id=&#34;recurrent-neural-networks-rnn&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Recurrent Neural Networks (&lt;em&gt;RNN&lt;/em&gt;)&lt;/h2&gt;
+&lt;div id=&#34;from-simple-rnns-to-lstms&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;From simple RNNs to LSTMs&lt;/h3&gt;
+&lt;p&gt;Traditional neural networks were developed to train/run on information provided in a single step in a consistent format (e.g. images with identical resolution). Conceptually, a neural network could similarly be taught on sequential information (e.g. a video as a series of images) looking at it as a single sample, but that would require (1) being trained on the full sequence (e.g. an entire video), (2) being able to cope with information of variable length (i.e. short vs. long video). (1) is computationally intractable, and (2) means that units analysing later parts of the video would not be receiving as much training as earlier units when ideally they should be all share the same amount of training .&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/2020-03-RNN-compressive-memory/Recurrent_neural_network_unfold.svg&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Basic RNN&lt;/strong&gt; (source: &lt;em&gt;Wikipedia&lt;/em&gt;)&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;The original RNN address those issues:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Sequences are chopped in small consistent sub-sequences (say, a &lt;em&gt;segment&lt;/em&gt; of 10 images, or a group of 20 words).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;An RNN layer is a group of blocks (or &lt;em&gt;cells&lt;/em&gt;), each receiving a single element of the segment as input. Note that here &lt;em&gt;layer&lt;/em&gt; does not have the traditional meaning of a layer of neural units fully connected to a previous layer of units. It is a layer of RNN cells. Within each cell, quite a few things happen, including using layers of neural units. From here on, a &lt;em&gt;layer&lt;/em&gt; will refer to an &lt;em&gt;RNN layer&lt;/em&gt; and not a layer of neural units..&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Within a layer, cells are identical: they have the same parameters.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Although each element of a sequence might be of interest on its own, it only becomes really meaningful in the context of the other elements. Each cell contains a state vector (called &lt;em&gt;hidden state&lt;/em&gt;). Each cell is trained using an individual element from a segment and the hidden state from the preceding cell. Training the network means training the creation of those states. Passing of the hidden state transfers some context or memory from prior elements of the segment. The cells receiving a segment form a single layer. Each cell would typically (but not necessarily) also include an additional sub-cell to create an output as a function of the hidden step. In that case, the output of a layer can then be used as input of new RNN layer.&lt;/p&gt;
+&lt;p&gt;A layer is trained passing hidden states from prior cells to later cells. The hidden state from prior elements is used to contextualise a current element. To use context from later elements (e.g. in English, a noun giving context to a preceding adjective), a separate layer is trained where context instead passes from later to prior elements. Those forward and backward layers jointly create a &lt;em&gt;bidirectional RNN&lt;/em&gt; .&lt;/p&gt;
+&lt;p&gt;Historically, RNNs applied to NLP deal with elements which are either one-hot encoded (either letters, or, more efficient, tokens), or word embeddings often normalised as unit vectors (for example see &lt;a href=&#34;https://nlp.stanford.edu/projects/glove/&#34;&gt;Word2Vec&lt;/a&gt; and &lt;a href=&#34;https://nlp.stanford.edu/projects/glove/&#34;&gt;GloVe&lt;/a&gt;). RNN cells therefore deal with values between 0 and 1. Typically, non-linearity is brought by &lt;span class=&#34;math inline&#34;&gt;\(tanh\)&lt;/span&gt; or &lt;span class=&#34;math inline&#34;&gt;\(sigmoid\)&lt;/span&gt; activations which guarantee unit values within that range. Those activation functions quickly have very flat gradients. Segments often have 10s or 100s of elements. Because of vanishing gradients, a hidden state receives little information from distant cells (training gradients are hardly influenced by gradients of distant cells).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;longshort-term-memory-rnns&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Long/Short Term Memory RNNs&lt;/h3&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/2020-03-RNN-compressive-memory/Long_Short-Term_Memory.svg&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Basic LSTM RNN&lt;/strong&gt; (source: &lt;em&gt;Wikipedia&lt;/em&gt;)&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Long/Short Term Memory RNNs (&lt;em&gt;LSTM&lt;/em&gt;) address this by passing two states:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;a hidden state &lt;span class=&#34;math inline&#34;&gt;\(h\)&lt;/span&gt; as described above trained with non-linearity: this is the &lt;em&gt;short-term memory&lt;/em&gt;; and,&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;another hidden state &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; (called &lt;em&gt;context&lt;/em&gt;) weighting previous contexts with a simple exponential moving average (in &lt;em&gt;Gated Recurrent Units&lt;/em&gt;) or a slightly more complicated version thereof in the original LSTM model structure. Determining the optimal exponential decay is part of the training process. This minimally processed state is the &lt;em&gt;long-term memory&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;LTSM can also be made bidirectional.&lt;/p&gt;
+&lt;p&gt;Without going into further details, note that each &lt;span class=&#34;math inline&#34;&gt;\(\sigma\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\tanh\)&lt;/span&gt; orange block represents matrix of parameters to be learned.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;attention&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Attention&lt;/h3&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/2020-03-RNN-compressive-memory/Attention_RNN.svg&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Attention RNN&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;RNN were further extended with an &lt;em&gt;attention mechanism&lt;/em&gt;. Blog posts on attention by &lt;a href=&#34;https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/&#34;&gt;Jay Alammar&lt;/a&gt; and &lt;a href=&#34;https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html&#34;&gt;Lilian Weng&lt;/a&gt; are good introductions.&lt;/p&gt;
+&lt;p&gt;A multi-layer RNN takes the output a layer and uses it as input for the next. With the attention mechanism, the outputs go through an attention unit.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;beyond-lstm-transformers&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Beyond LSTM: Transformers&lt;/h3&gt;
+&lt;p&gt;RNNs were then simplified (insert large air quotes) with &lt;em&gt;Transformers&lt;/em&gt; (using what is called &lt;em&gt;self-attention&lt;/em&gt;) that significantly reduce the number of model parameters and can be efficiently parallelised with minimum model performance impact. For an extremely clear introduction to those significant improvements, you cannot do better than reading , and by &lt;a href=&#34;http://www.peterbloem.nl/blog/transformers&#34;&gt;Peter Bloem&lt;/a&gt; on transformers. The following assumes that you are broadly familiar with those ideas.&lt;/p&gt;
+&lt;p&gt;The basic transformer structure uses self-attention where, for a given element (the &lt;em&gt;query&lt;/em&gt;), the transformer looks at the other elements of the segment (the &lt;em&gt;keys&lt;/em&gt;) to determine how much ‘attention’ other elements of the segment influence the role of the query in changing the hidden state.&lt;/p&gt;
+&lt;p&gt;Broadly:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The query is projected in some linear space (a matrix &lt;span class=&#34;math inline&#34;&gt;\(W_q\)&lt;/span&gt;). That’s basically an embedding which is part of the model training.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;All the other elements, the keys, are projected in another linear space (a matrix &lt;span class=&#34;math inline&#34;&gt;\(W_k\)&lt;/span&gt;); another embedding which is part of the model training.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The similarity (perharps &lt;em&gt;affinity&lt;/em&gt; would be a better word) between the projected query and each projected key is calculated with a dot product / cosine distance. This is exactly the approach of basic recommender systems with the difference that the recommendation is between sets of completely different nature (for example affinity between users and movies). Note that although query and keys are elements of identical type, they are embedded into different spaces with different projections matrices.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We now have a vector of the same size as the segment length (one cosine distance per input element). It goes through another layer (a matrix &lt;span class=&#34;math inline&#34;&gt;\(W_v\)&lt;/span&gt;) to give a &lt;em&gt;value&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The triplet of &lt;span class=&#34;math inline&#34;&gt;\(\left( W_q, W_k, W_v \right)\)&lt;/span&gt; is called an &lt;em&gt;attention head&lt;/em&gt;. Actual models would include multiple heads (of the order of 10), and the output of a transformer layer could then feed into a new transformer layer.&lt;/p&gt;
+&lt;p&gt;This model is great until you notice that the dot product / cosine similarity is commutative and does not reflect whether a key element is located before or after the query element: order is fundamental to sequential information (“quick fly” vs. “fly quick”). To address this, the input elements are always enriched with a positional embedding: the input elements are concatenated with positional information showing where they stand within a segment.&lt;/p&gt;
+&lt;p&gt;Note that a transformer layer is trained on a segment using only the information from that segment. This is fine to train on sentences, but it cannot really account for more distant relationships between words within a lengthy paragraph, let alone a full text.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;transformer-xl&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Transformer-XL&lt;/h3&gt;
+&lt;p&gt;Transformers have been further improved with &lt;a href=&#34;https://ai.googleblog.com/2019/01/transformer-xl-unleashing-potential-of.html&#34;&gt;Tranformer-XL&lt;/a&gt; (XL = extra long) which are trained using hidden states from previous segments, therefore using information from several segments, to improve a model’s memory span.&lt;/p&gt;
+&lt;p&gt;Conceptually, this is an obvious extension of the basic transformer to increase its memory span. But there is a fundamental problem. Going back to the basic transformer, each element includes its absolute position within the segment. The position of the first word of the segment is 1, that of the last one is, say, 250 . Such a scheme breaks down as soon as the state of the previous segment is taken into account. Word 1 of the current segment obviously comes before word 250, but has to come after word 250 of the previous segment. The absolute position encoding does not reflect the relative position of elements located in different segments.&lt;/p&gt;
+&lt;p&gt;The key contribution of the Transformer-XL is to develop a relative positional encoding that allows hidden state information to cross segment boundaries. In their implementation, the authors evaluate that the attention length, being basically how many hidden states are used, is 450% longer that the basic transformer. That’s going from sentence length to full paragraph, but still far from a complete book.&lt;/p&gt;
+&lt;p&gt;A side, but impressive, benefit is that the evaluation speed of the model, or it use once trained, is significantly increased thanks to the relative addressing (the paper states up to a 1,800-fold increase depending on the attention length).&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;compressive-transformers&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Compressive Transformers&lt;/h2&gt;
+&lt;p&gt;Full text understanding cannot be achieved by simply lengthening segment sizes from 100s to the &lt;a href=&#34;https://blog.reedsy.com/how-many-words-in-a-novel/&#34;&gt;word count&lt;/a&gt; of a typical novel (about 100,000). When training a model routinely takes 10s of hours on GPU clusters, an increase by 3 orders of magnitude is not realistic.&lt;/p&gt;
+&lt;p&gt;In a recent &lt;a href=&#34;https://arxiv.org/abs/1911.05507&#34;&gt;paper&lt;/a&gt;, DeepMind proposes a new RNN model called &lt;em&gt;Compressive Transformers&lt;/em&gt;.&lt;/p&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Transformer-XL uses the hidden state of a prior segment (&lt;span class=&#34;math inline&#34;&gt;\(h_{T-1}\)&lt;/span&gt;) to improve the training of the current segment (&lt;span class=&#34;math inline&#34;&gt;\(h_{T}\)&lt;/span&gt;). When moving to the next segment, training (&lt;span class=&#34;math inline&#34;&gt;\(h_{T+1}\)&lt;/span&gt;) now only uses &lt;span class=&#34;math inline&#34;&gt;\(h_{T}\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(h_{T-1}\)&lt;/span&gt; is discarded. To increase the memory span, one could train using more past segments at the expense of increase in memory usage and computation time (quadratic). The actual Transformer-XL uses the hidden states of several previous segments, but the discarding mechanism will remain.&lt;/p&gt;
+&lt;p&gt;The key contribution of the Compressive Transformers is the ability to retain salient information from those otherwise discarded past states. Instead of being discarded, they are stored in compressed form.&lt;/p&gt;
+&lt;p&gt;Each Transformer-XL layer is now trained with prior hidden states (&lt;em&gt;primary memory&lt;/em&gt;) and the &lt;em&gt;compressed memory&lt;/em&gt; of older hidden states.&lt;/p&gt;
+&lt;p&gt;As an aside, although not explicitly mentioned, we should note that the ‘-XL’ aspect of the Transformer-XL and the memory compression mechanics are conceptually independent from the actual types of RNN cell. Simple RNNs, GRUs or LSTMs could be trained using the hidden states of past segments (not dissimilar to state/context peeking into past cells in certain RNN variants). But the performance benefit of Transformer-XL is such that the paper only focuses on transformer-XL.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;compression-scheme&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Compression scheme&lt;/h3&gt;
+&lt;p&gt;As compared to Transformer-XL, the key difference is the compression scheme. The rest of the model seems identical.&lt;/p&gt;
+&lt;div id=&#34;size-parameters&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Size parameters&lt;/h4&gt;
+&lt;p&gt;The size of the model is described with a few size parameters:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(n_s\)&lt;/span&gt;: size of a segment = the number of cells in a layer.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(n_m\)&lt;/span&gt;: number of hidden states in the primary uncompressed memory (like the Transformer-XL). &lt;span class=&#34;math inline&#34;&gt;\(n_m\)&lt;/span&gt; is a multiple of &lt;span class=&#34;math inline&#34;&gt;\(n_s\)&lt;/span&gt;. The primary memory is a FIFO buffer: the first (oldest) memories will be the first to be later compressed.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(n_{cm}\)&lt;/span&gt;: number of compressed hidden states in the compressed memory. States in the compressed memory will compress an old segment of size &lt;span class=&#34;math inline&#34;&gt;\(n_s\)&lt;/span&gt; dropping out of the primary memory. &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; is an information compression ratio from &lt;span class=&#34;math inline&#34;&gt;\(n_s\)&lt;/span&gt; primary memory entries into compressed memory entries. There can be two ways of applying this compression ratio, which both reduce the number of hidden states by the same ratio:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; uncompressed layers could create a single compressed hidden state of identical size. This merges the information of a group of elements (e.g. &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; words) into a single hidden state. In this case, &lt;span class=&#34;math inline&#34;&gt;\(n_s\)&lt;/span&gt; is proportional to &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(n_{cm}\)&lt;/span&gt; is proportional to &lt;span class=&#34;math inline&#34;&gt;\(n_s / c\)&lt;/span&gt;. The authors do not use this approach. It would enforce a sub-segmentation of an uncompressed segment at arbitrary intervals (why group 3 words instead of 5 or 7…)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Instead, the authors use dimension reduction: a single uncompressed hidden state is compressed into a new hidden state with &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; times fewer hidden states. If the size of the hidden state of a Transformer-XL cell is &lt;span class=&#34;math inline&#34;&gt;\(n_h\)&lt;/span&gt;, hidden states in the primary memory will have the same size, and the compressed memory hidden states will have a size of &lt;span class=&#34;math inline&#34;&gt;\(n_h / c\)&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By way of example, a segment could have 100 cells (&lt;span class=&#34;math inline&#34;&gt;\(n_s = 100\)&lt;/span&gt;). This segment could be trained with the hidden states of the past 3 segments’ training (&lt;span class=&#34;math inline&#34;&gt;\(n_m = 3 * n_s = 300\)&lt;/span&gt;). When training the next segment, an old segment of size 100 becomes available for compression which will create 100 new hidden states.&lt;/p&gt;
+&lt;p&gt;This example is for a single layer. The same scheme would be replicated for each layer of the model&lt;/p&gt;
+&lt;p&gt;Note that the paper only contemplates a single set of compressed memories. There could also be multiple generations of compressed memories, primary memory compresses in generation 1, then compressing into generation 2…&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;compression-functions&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Compression functions&lt;/h4&gt;
+&lt;p&gt;A compressed hidden state is created from &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; primary memory hidden states. When training on texts with word embeddings,the authors used a value of &lt;span class=&#34;math inline&#34;&gt;\(c=3\)&lt;/span&gt; or &lt;span class=&#34;math inline&#34;&gt;\(c=4\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Several compression schemes are explored in the paper:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;max or mean pooling with a stride of &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt;. This is typical of image convolution networks - no explanation required.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;1-dimensional convolution with a stride of &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt;. This is also typical of image convolution network apart from being one-dimensional. This requires parameter training.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://arxiv.org/pdf/1511.07122.pdf&#34;&gt;dilated convolution&lt;/a&gt;. In practice image convolutions have shown to be inadequate for sequential information where dependencies can be at both short and long ranges: working at different scales makes sense. Dilated convolutions use convolution filters that are contracted and dilated versions of a template to be trained.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;a &lt;em&gt;most-used&lt;/em&gt; mechanism that identifies and retains part of the hidden states according to their importance in the cells training gauged by the attention they received.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;compression-training&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Compression training&lt;/h3&gt;
+&lt;p&gt;Training the compression parameters is done separately from the optimisation of the Transformer-XL cells.&lt;/p&gt;
+&lt;p&gt;The purpose of the compressed memory is to provide a compressed and lossy representation of the primary memory (hidden states) or the attention heads parameters: the quality of the compression mechanics is assessed by how well the original information can be re-generated from it. In essence, the compressed hidden states are a compressed representations to a learned representation vector in an auto-encoder. This is the training mechanics used by the authors.&lt;/p&gt;
+&lt;p&gt;As in an auto-encoder, the representation is learned by comparing the original information to its reconstruction. This training is kept completely independent from the training of the transformers: the auto-encoding loss and gradients do not impact the attention heads’ parameters.&lt;/p&gt;
+&lt;p&gt;Conversely, the loss and gradients of the attention heads’ training do not flow into the training of the compression scheme.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;This was a high level introduction of RNNs all the way up to Compressive Memory mechanics. Next, the algorithm’s nitty-gritty.&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
       <title>HarvardX Gitbooks available</title>
       <link>/2019/12/12/harvardx-gitbooks-available.html</link>
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      
       <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
-      <description>Both capstones for the HarvardX certificates are now available. Just click on the links!
-If Gitbooks are not your thing, at the top of their main page, there is a download link to a pdf version.
-They make for a good knock-me-asleep reading…</description>
+      <description>
+
+
+&lt;p&gt;Both capstones for the HarvardX certificates are now available. Just click on the &lt;code&gt;Projects&lt;/code&gt; link!&lt;/p&gt;
+&lt;p&gt;If Gitbooks are not your thing, at the top of their main page, there is a download link to a pdf version.&lt;/p&gt;
+&lt;p&gt;They make for a good knock-me-asleep reading…&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>HarvardX Final Report - LendingClub dataset</title>
       <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
       <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
-      
       <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
-      <description>After 3 months of work, the final report for the HarvardX Data Science course was submitted.
-It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.</description>
+      <description>
+
+
+&lt;p&gt;After 3 months of work, the final report for the HarvardX Data Science course was submitted.&lt;/p&gt;
+&lt;p&gt;It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.&lt;/p&gt;
+&lt;p&gt;This work went through many blind alleys. I won’t list them, they are in the report (post-mortem section). But it was an overall enriching experience. I learned a lot, often about limitations of what I tried (the dataset is big with a few millions samples (big for an old laptop), with many (ca. 150) mispecified mixed categorical and numeric variables). The experience will be filed in the &lt;em&gt;‘it-builds-character’&lt;/em&gt; category…&lt;/p&gt;
+&lt;p&gt;One point that is still tingling my mind is learning about Conditional Inference Trees used to bin variables. That is then used for logistic regression to predict probabilities of loan default.&lt;/p&gt;
+&lt;p&gt;Why are those trees interesting? They are sourced in information theory and measure the information content of a prediction variable to predict a binary response. The prediction variable is then partitioned in a few intervals (bins). What is great?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The measurement does NOT rely on the value of the prediction variable. This means that variable NAs go from being a nuisance to being stashed in a bin of their own treated as any other bin.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The logistic regression context predicates binary variables which were perfect for the purpose of this report. But those trees do not require binary outcomes. They rely on what are called &lt;em&gt;Weight of Evidence&lt;/em&gt; (calculated for each bin) and &lt;em&gt;Information Value&lt;/em&gt; (calculated for each variable).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The calculations are very quick (about 1/10th second to bin 1 million samples) with a small memory footprint.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In other words, whatever comes in, we do not have to worry about scaling/z-scoring/filling NAs; it is quickly reformatted into a handful (literally of that order of magnitude depending on parameters used) based on the relevance to predicting what needs to come out.&lt;/p&gt;
+&lt;p&gt;If I didn’t know better, this should be called &lt;em&gt;model impedance matching&lt;/em&gt; (electrical engineers can explain)!&lt;/p&gt;
+&lt;p&gt;Apart from that, the number of avenues to explore with this dataset (especially using data from other sources) could fill many more months. I listed a list of possible techniques in the report’s conclusion. This is what does and will keep banks’ credit risk departments busy and well-staffed…&lt;/p&gt;
+&lt;p&gt;I am working on making the MovieLens and LendingClub reports available as gitbooks. To be announced.&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Quick Thought: Universal translator and same language translator</title>
       <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      
       <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
-      <description>Quick Thoughts are random thoughts looking for comments
- Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.
-Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation.</description>
+      <description>
+
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Quick Thoughts are random thoughts looking for comments&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.&lt;/p&gt;
+&lt;p&gt;Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation. What would be the consequences for the learning system inside the blackbox of being constrained that if the languages are the same, the output has to be identical to the input?&lt;/p&gt;
+&lt;p&gt;Obviously, the blackbox could quickly learn that bypassing the translation does the trick. However, that would probably require the internal circuitry to allow for the bypass, and that could be constrained out. So:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Could we expect any interesting result?&lt;/li&gt;
+&lt;li&gt;Could the input to be eventually forced down to a language-independent universal representation?&lt;/li&gt;
+&lt;li&gt;Let’s say there is a language-independent universal representation kernel. If the input comes in without information of which is the output language, and the output has no information of what the input language was, does it force the network to create a universal representation, or would it just withered away?&lt;/li&gt;
+&lt;li&gt;Is it possible to &lt;em&gt;invert&lt;/em&gt; a network? Probably not in a truly bijective way, but to model the fact that text representation &lt;span class=&#34;math inline&#34;&gt;\(\rightarrow\)&lt;/span&gt; universal representation is the &lt;em&gt;inverse&lt;/em&gt; (for some definition of the word) of universal representation &lt;span class=&#34;math inline&#34;&gt;\(\rightarrow\)&lt;/span&gt; text representation of the same language?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Comments welcome&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;
+</description>
     </item>
     
     <item>
-      <title>Neural Network - Incremental Growth </title>
+      <title>Neural Network - Incremental Growth</title>
       <link>/2019/10/23/neural-network-incremental-growth.html</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
-      
       <guid>/2019/10/23/neural-network-incremental-growth.html</guid>
-      <description>|  | DRAFT 1  | This post is first and foremost asking for assistance. Is anything blatantly incorrect? If not, can anybody point to existing articles/posts/litterature?
-We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.</description>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#draft-1&#34;&gt;&lt;strong&gt;&lt;em&gt;DRAFT 1&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#background&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#singular-matrix-decomposition&#34;&gt;Singular matrix decomposition&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#where-next&#34;&gt;Where next?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#back-to-svd&#34;&gt;Back to SVD&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#regularisation&#34;&gt;Regularisation&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#vector-coordinates&#34;&gt;Vector coordinates&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#eigenvalues&#34;&gt;Eigenvalues&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#threshold&#34;&gt;Threshold&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#by-2-decision-matrix&#34;&gt;2-by-2 decision matrix&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#todo-other-principal-components-methods&#34;&gt;[TODO] Other Principal Components methods&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#todo-proof-of-the-pudding&#34;&gt;[TODO] Proof of the pudding…&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#limitations-and-further-questions&#34;&gt;Limitations and further questions&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#limitations&#34;&gt;Limitations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#further-questions&#34;&gt;Further questions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#litterature&#34;&gt;Litterature&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;div id=&#34;draft-1&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;strong&gt;&lt;em&gt;DRAFT 1&lt;/em&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.&lt;/p&gt;
+&lt;p&gt;Back in 1993, I read a paper about growing neural networks neuron-by-neuron. I have no other precise recollection about this paper apart from the models considered being of the order of 10s of neurons and the weight optimisation being made on a global basis, i.e. not layer-by-layer like backpropagation. Nowadays, it is still too often the case that finding a network structure that solves a particular problem is a random walk: how many layers, with how many neurons, with which activation functions? Regularisation methods? Drop-out rate? Training batch size? The list goes on.&lt;/p&gt;
+&lt;p&gt;This got me thinking about how a training heuristic could incrementally modify a network structure given a particular training set and, apart maybe from a few hyperparameters, do that with no external intervention. At regular training intervals, a layer&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; will be modified depending on what it &lt;em&gt;seems&lt;/em&gt; able or not to achieve. As we will see, we will use unsupervised learning methods to do this: a layer modification will be independent of the actual learning problem and automatic.&lt;/p&gt;
+&lt;p&gt;Many others have looked into that. But what I found regarding self-organising networks is pre-2000, and nothing in the context of deep learning. So it seems that the topic has gone out of fashion because of the current amounts of computing power, or has been set aside for reasons unknown. (See references at the end). In any event, it is interesting enough a question to research it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;background&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Background&lt;/h1&gt;
+&lt;p&gt;Let us look at a simple 1-D layer and decompose what it exactly does. Basically a layer does:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\text{ouput} = f(M \times \text{input})
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;If the input &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; has size &lt;span class=&#34;math inline&#34;&gt;\(n_I\)&lt;/span&gt;, the output &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; has size &lt;span class=&#34;math inline&#34;&gt;\(n_I\)&lt;/span&gt;, and &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; being the activation function, we have (where &lt;span class=&#34;math inline&#34;&gt;\(\odot\)&lt;/span&gt; represents the matrix element-wise application of a function):&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+O = f \odot (M \times I)
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Then, looking at &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt;, what does it really do? At one extreme, if &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; was the identity matrix, it would essentially be useless (bar the activation function&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;). This would be a layer candidate for deletion. The question is then:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Looking at the matrix representing a layer, can we identify which parts are (1) useless, (2) useful and complex enough, or (3) useful but too simplistic?&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Here, &lt;em&gt;complex enough&lt;/em&gt; or &lt;em&gt;simplistic&lt;/em&gt; is basically a synonym of “&lt;em&gt;one layer is enough&lt;/em&gt;”, or “&lt;em&gt;more layers are necessary&lt;/em&gt;”.&lt;/p&gt;
+&lt;p&gt;The idea to look for important/complex information which where the network needs to grow more complex; and identify trivial information which can be discarded, or can be viewed as minor adjustments to improve error rates (basically overfitting…)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Caveat&lt;/em&gt;: Note that we ignore the activation function. They are key to introduce non-linearity. Without it, a network is only a linear function, i.e. no interest. They have a clear impact on the performance of a network.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;singular-matrix-decomposition&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Singular matrix decomposition&lt;/h1&gt;
+&lt;p&gt;There exists many ways to decompose a matrix. Singular matrix decomposition (&lt;em&gt;SVD&lt;/em&gt;) &lt;span class=&#34;math inline&#34;&gt;\(M = O \Sigma I^\intercal\)&lt;/span&gt; is an easy and efficient way to interpret what a given matrix does. SVD builds on the eigenvectors (expressed in an orthonormal basis), and eigenvalues. (Note that &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; is real-valued, so we use the transpose notation &lt;span class=&#34;math inline&#34;&gt;\(M^\intercal\)&lt;/span&gt; instead of the conjugate transpose &lt;span class=&#34;math inline&#34;&gt;\(M^*\)&lt;/span&gt;.)&lt;/p&gt;
+&lt;p&gt;In a statistical world, SVD (with eigenvalues ordered by decreasing value) is how to do principal component analysis(&lt;em&gt;PCA&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;In a geometrical context, SVD:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;takes a vector (expressed in the orthonormal basis);&lt;/li&gt;
+&lt;li&gt;re-expresses onto a new basis made of the eigenvectors (that would only exceptionally be orthonormal);&lt;/li&gt;
+&lt;li&gt;dilates/compresses those components by the relevant eigenvalues;&lt;/li&gt;
+&lt;li&gt;and returns this resulting vector expressed back onto the orthonormal basis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As presented here, this explanation requires a bit more intellectual gymnastic when the matrix is not square (i.e. when the input and output layers have different dimensions), but the principle remains identical.&lt;/p&gt;
+&lt;div id=&#34;where-next&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Where next?&lt;/h3&gt;
+&lt;p&gt;Taking the statistical and geometrical points of view together, the layer (matrix &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt;) shuffles the input vector in its original space space where some specific directions are more important than others. Those directions are linear combinations of the input neurons, each combinations is along the eigenvectors. Those combinations are given more or less importance as expressed by the eigenvalues. (Note that the squares of the eigenvalues expressed how much information each combination brings to the table.)&lt;/p&gt;
+&lt;p&gt;Intuitively, the simplest and most useless &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; would be the identity matrix (the input units are repeated), or zero matrix (the input units are dropped because useless). Let us repeat the caveat that the activation function is ignored.&lt;/p&gt;
+&lt;p&gt;If compared to the identity matrix, the SVD shows that &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; includes (at least) two types of important information identified:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What are interesting combinations of the input units? This is expressed by how much the input vector is rotated in space.&lt;/li&gt;
+&lt;li&gt;Independently from whether a combination is complicated or not (i.e. multiple units, or unit passthrough), how an input is amplified (as expressed by the eigenvalues).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The idea is then produce a 2x2 decision matrix with high/low rotation mess and high/low eigenvalues.&lt;/p&gt;
+&lt;p&gt;A picture is gives the intuition of what we are after:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;Network-Incremental-Growth-Matrix-Split.png&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Transformation of the Layer Matrix&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Looking from top to bottom at what the “after” matrices would be:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Part of the original layer, immediately followed by a new one (we will see below what that would look like). The intuition is that this layer is really messing things up down the line, or seems very sensitive.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Part of the original layer where the number of units would be increased (here doubled as an example).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Part of the original layer kept &lt;em&gt;functionally&lt;/em&gt; essentially as is.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Delete the rest which is either not sensitive to input or outputs nothings. This would be within a certain precision. That is basically a form of regularisation preventing the overall model to be too sensitive. I am aware that there are other types of regularisations, but that will go in the limitations category.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The next layer would take as input all the transformed outputs.&lt;/p&gt;
+&lt;p&gt;In practice, the picture presents the matrices separated. This is for ease of understanding. In reality the same effect would be achieved if the three dark blue sub-layers are merged in a single layer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;back-to-svd&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Back to SVD&lt;/h1&gt;
+&lt;p&gt;Let us assume that there are &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; input units and &lt;span class=&#34;math inline&#34;&gt;\(m\)&lt;/span&gt; output units. &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; then is of dimensions &lt;span class=&#34;math inline&#34;&gt;\(m \times n\)&lt;/span&gt;. The matrices of the SVD have dimensions:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\begin{matrix}
+M          &amp;amp; = &amp;amp; O          &amp;amp; \Sigma     &amp;amp; I^\intercal \\
+m \times n &amp;amp;   &amp;amp; m \times m &amp;amp; m \times n &amp;amp; n \times n \\
+\end{matrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Note that instead of using &lt;span class=&#34;math inline&#34;&gt;\(U\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(V\)&lt;/span&gt; to name the sub-matrices of the SVD, we use &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; to represent &lt;em&gt;input&lt;/em&gt; and &lt;em&gt;output&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; can be written as:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+I =
+\begin{pmatrix} |   &amp;amp;        &amp;amp; |    \\ i_1 &amp;amp; \cdots &amp;amp; i_m  \\ |   &amp;amp;        &amp;amp; |    \\ \end{pmatrix} 
+\qquad \text{and} \qquad
+O =
+\begin{pmatrix} |   &amp;amp;       &amp;amp; | \\ o_1 &amp;amp; \cdots &amp;amp; o_n \\ |   &amp;amp;       &amp;amp; | \\ \end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+M =
+O \Sigma I^\intercal =
+\begin{pmatrix} | &amp;amp;&amp;amp; | \\ o_1 &amp;amp; \dots &amp;amp; o_m \\ | &amp;amp; &amp;amp; | \\ \end{pmatrix}
+\begin{pmatrix} \sigma_1 \\ &amp;amp; \sigma_2 \\ &amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp; \sigma_r \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ \end{pmatrix}
+\begin{pmatrix} - &amp;amp; i_1 &amp;amp; - \\ &amp;amp; \vdots &amp;amp; \\ -  &amp;amp; i_n &amp;amp; - \\ \end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(\Sigma\)&lt;/span&gt; has &lt;span class=&#34;math inline&#34;&gt;\(r\)&lt;/span&gt; non-zero eigenvalues.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;regularisation&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Regularisation&lt;/h1&gt;
+&lt;p&gt;At this stage, we can regularise all components.&lt;/p&gt;
+&lt;div id=&#34;vector-coordinates&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Vector coordinates&lt;/h2&gt;
+&lt;p&gt;For each vector &lt;span class=&#34;math inline&#34;&gt;\(i_k\)&lt;/span&gt; or &lt;span class=&#34;math inline&#34;&gt;\(o_k\)&lt;/span&gt;, we could zero its coordinates when below a certain threshold (in absolute value). All the coordinates will &lt;span class=&#34;math inline&#34;&gt;\(-\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(1\)&lt;/span&gt; since each vector has norm 1 (&lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; are orthonormal), therefore all of them will be regularised in similar ways.&lt;/p&gt;
+&lt;p&gt;After regularisation, the matrices will not be orthonormal anymore. They can easily be made normal by scaling up by &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{\sum_{k}i_k^2}\)&lt;/span&gt; or &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{\sum_{k}o_k^2}\)&lt;/span&gt;. There is no generic way to revert to an orthogonal basis and keep the zeros.&lt;/p&gt;
+&lt;p&gt;We need a way to measure the &lt;code&gt;rotation messiness&lt;/code&gt; of each vector. As a shortcut, we can use the proportion of non-zero vector coordinates (after &lt;em&gt;de minimis&lt;/em&gt; regularisation).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;eigenvalues&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Eigenvalues&lt;/h2&gt;
+&lt;p&gt;The same can be done for the &lt;span class=&#34;math inline&#34;&gt;\(\sigma\)&lt;/span&gt;s. As an avenue of experimentation, those values can not only be zero-ed in places, but also rescale the large values in some non-linear way (e.g. logarithmic or square root rescaling).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;threshold&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Threshold&lt;/h2&gt;
+&lt;p&gt;Where to set the threshold is to be experimented with. Mean? Median since more robust? Some quartile?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;by-2-decision-matrix&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2-by-2 decision matrix&lt;/h2&gt;
+&lt;p&gt;Based on those regularisation, we would propose the following:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ 
+\begin{matrix}
+                    &amp;amp; \text{low rotation messiness} &amp;amp; \text{high rotation messiness} \\
+\text{high } \sigma &amp;amp; \text{Double height}          &amp;amp; \text{Double depth}            \\
+\text{low } \sigma  &amp;amp; \text{Delete}                 &amp;amp; \text{Keep identical}          \\
+\end{matrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;todo-other-principal-components-methods&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;[TODO] Other Principal Components methods&lt;/h1&gt;
+&lt;p&gt;SVD is PCA. Projects information on hyperplanes.&lt;/p&gt;
+&lt;p&gt;Reflect on non-linear versions: Principal Curves, Kernel Principal Components, Sparse Principal Components, Independent Component Analysis. (_Elements of Statistical Learning s. 14.5 seq.).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;todo-proof-of-the-pudding&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;[TODO] Proof of the pudding…&lt;/h1&gt;
+&lt;p&gt;Implementations!!!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;limitations-and-further-questions&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Limitations and further questions&lt;/h1&gt;
+&lt;div id=&#34;limitations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Limitations&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Only 1-D layers. Higher-order SVD is in principle feasible for higher order tensors. Other methods?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We delete the eigenvectors associated to low eigenvalues and limited rotations. There are other forms of regularisations, e.g. random weight cancelling that would not care about anything eigen-.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;What is the real impact of ignoring the activation function? PCA requires centered values. Geometrically, uncentered values would mean more limited rotations since samples would be in quadrant far from 0.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;further-questions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Further questions&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The final structure is a direct product of the training set. What if the training is done differently (batches sized or ordered differently)?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;What about training many variants with different subsets of the training set and using ensemble methods?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The eigenvalues could be modified when creating the new layers. By decreasing the highest eigevalues (in absolute value), we effectively regularise the layers outputs. This decrease could bring additional non-linearity if the compression ratio depends on the eigengevalue (e.g. replacing it by it square root). And this non-linearty would not bring additional complexity to the back-propagation algorithm, or auto-differentiated functions: it only modifies the final values if the new matrices.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;litterature&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Litterature&lt;/h1&gt;
+&lt;p&gt;Here are a few summary litterature references related to the topic.&lt;/p&gt;
+&lt;div id=&#34;the-elements-of-statistical-learning&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;The Elements of Statistical Learning&lt;/h4&gt;
+&lt;p&gt;The ESL top of p 409 proposes PCA to interpret layers, i.e. to improve the interpretability of the decisions made by a network.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;neural-network-implementations-for-pca-and-its-extensions&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Neural Network Implementations for PCA and Its Extensions&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;http://downloads.hindawi.com/archive/2012/847305.pdf&#34; class=&#34;uri&#34;&gt;http://downloads.hindawi.com/archive/2012/847305.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Uses neural networks as a substitute for PCA.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;an-incremental-neural-network-construction-algorithm-for-training-multilayer-perceptrons&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;An Incremental Neural Network Construction Algorithm for Training Multilayer Perceptrons&lt;/h4&gt;
+&lt;p&gt;Aran, Oya, and Ethem Alpaydin. “An incremental neural network construction algorithm for training multilayer perceptrons.” Artificial Neural Networks and Neural Information Processing. Istanbul, Turkey: ICANN/ICONIP (2003).&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf&#34; class=&#34;uri&#34;&gt;https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;kohonen-maps&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Kohonen Maps&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Self-organizing_map&#34; class=&#34;uri&#34;&gt;https://en.wikipedia.org/wiki/Self-organizing_map&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;self-organising-network&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Self-Organising Network&lt;/h4&gt;
+&lt;div id=&#34;a-self-organising-network-that-grows-when-required-2002&#34; class=&#34;section level5&#34;&gt;
+&lt;h5&gt;A Self-Organising Network That Grows When Required (2002)&lt;/h5&gt;
+&lt;p&gt;&lt;a href=&#34;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763&#34; class=&#34;uri&#34;&gt;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-cascade-correlation-learning-architecture&#34; class=&#34;section level5&#34;&gt;
+&lt;h5&gt;The Cascade-Correlation Learning Architecture&lt;/h5&gt;
+&lt;p&gt;&lt;a href=&#34;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421&#34; class=&#34;uri&#34;&gt;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Growth with quick freeze as a way to avoid the expense of back-propagation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;soinnself-organizing-incremental-neural-network&#34; class=&#34;section level5&#34;&gt;
+&lt;h5&gt;SOINN：Self-Organizing Incremental Neural Network&lt;/h5&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.haselab.info/soinn-e.html&#34; class=&#34;uri&#34;&gt;http://www.haselab.info/soinn-e.html&lt;/a&gt;
+&lt;a href=&#34;https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf&#34; class=&#34;uri&#34;&gt;https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Seems focused on neuron by neuron evolution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;We will only consider modifying the network layer by layer, not neuron by neuron.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;This could actually be a big limitation of this discussion. In reality, even an identity matrix yields changes by piping the inputs through a new round of non-linearity, which is not necessarily identical to the preceding layer&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
       <title>HarvardX Data Science course - First final project</title>
       <link>/2019/10/05/harvardx-data-science-course-first-final-project.html</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
-      
       <guid>/2019/10/05/harvardx-data-science-course-first-final-project.html</guid>
-      <description>I recently finished to penultimate final assignment for the HarvardX Data Science course. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.
-This time R is the centre tool of the course.</description>
+      <description>
+
+
+&lt;p&gt;I recently finished to penultimate &lt;a href=&#34;https://github.com/Emmanuel-R8/capstone-movielens/blob/master/MovieLens.pdf&#34;&gt;final assignment&lt;/a&gt; for the &lt;a href=&#34;https://www.edx.org/professional-certificate/harvardx-data-science&#34;&gt;HarvardX Data Science course&lt;/a&gt;. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.&lt;/p&gt;
+&lt;p&gt;This time R is the centre tool of the course. It makes clear sense. When I started learning it about 15 years ago, I loathed the multiple gotchas. Since then, new libraries have simplified base R and removed its exceptions and exceptions to exceptions. In addition the &lt;code&gt;Rcpp&lt;/code&gt; library has eased implementation of efficient algorithms and interfacing with popular libraries. Still not a speed demon, but not the snail it used to be.&lt;/p&gt;
+&lt;p&gt;I won’t go through the project and my models. No revolutionary concepts. Just great results. I took half a day to reimplement in Julia, both to crosscheck and personal training. As expected, a lot easier to read. But the big surprise was the speed difference. Although I didn’t time it, Julia only felt about twice quicker. Credit to the R project folks (I only used matrices operations, no modeling libraries).&lt;/p&gt;
+&lt;p&gt;On this report, I got grades that can’t be improved upon. Happy camper.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HarvardX Data Science course - First final project</title>
+      <link>/2019/10/05/harvardx-data-science-course-first-final-project.html</link>
+      <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/10/05/harvardx-data-science-course-first-final-project.html</guid>
+      <description>
+
+
+&lt;p&gt;I recently finished to penultimate &lt;a href=&#34;https://github.com/Emmanuel-R8/capstone-movielens/blob/master/MovieLens.pdf&#34;&gt;final assignment&lt;/a&gt; for the &lt;a href=&#34;https://www.edx.org/professional-certificate/harvardx-data-science&#34;&gt;HarvardX Data Science course&lt;/a&gt;. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.&lt;/p&gt;
+&lt;p&gt;This time R is the centre tool of the course. It makes clear sense. When I started learning it about 15 years ago, I loathed the multiple gotchas. Since then, new libraries have simplified base R and removed its exceptions and exceptions to exceptions. In addition the &lt;code&gt;Rcpp&lt;/code&gt; library has eased implementation of efficient algorithms and interfacing with popular libraries. Still not a speed demon, but not the snail it used to be.&lt;/p&gt;
+&lt;p&gt;I won’t go through the project and my models. No revolutionary concepts. Just great results. I took half a day to reimplement in Julia, both to crosscheck and personal training. As expected, a lot easier to read. But the big surprise was the speed difference. Although I didn’t time it, Julia only felt about twice quicker. Credit to the R project folks (I only used matrices operations, no modeling libraries).&lt;/p&gt;
+&lt;p&gt;On this report, I got grades that can’t be improved upon. Happy camper.&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Stanford Online - Machine Learning C229 </title>
       <link>/2019/08/02/stanford-online-machine-learning-c229.html</link>
       <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>/2019/08/02/stanford-online-machine-learning-c229.html</guid>
-      <description>Review I recently completed the Stanford online version of the Machine Learning CS229 course taught by Andrew Ng. There is no need to introduce this course which has reached stardom.
-It often was a trip a trip down memory lane repeating what I studied in the late 90’ies. It was interesting that quite a bit has remained as relevant. Back then, and I am now talking early 90ies, neural networks were still fashionable but computationally intractable past what would hardly be considered a single layer nowadays.</description>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#review&#34;&gt;Review&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#exercises-and-grading&#34;&gt;Exercises and grading&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#summary&#34;&gt;Summary&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;review&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Review&lt;/h1&gt;
+&lt;p&gt;I recently completed the Stanford online version of the Machine Learning CS229 course taught by Andrew Ng. There is no need to introduce this course which has reached &lt;em&gt;stardom&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;It often was a trip a trip down memory lane repeating what I studied in the late 90’ies. It was interesting that quite a bit has remained as relevant. Back then, and I am now talking early 90ies, neural networks were still fashionable but computationally intractable past what would hardly be considered a single layer nowadays. Backpropagation was already used, but similarly quickly tedious.&lt;/p&gt;
+&lt;p&gt;Enough recalling old times… There was plenty I had not done back then.&lt;/p&gt;
+&lt;p&gt;The course was extremely pleasant. The progression made sense, pace was enjoyable. In particular, the blackboard style presentation was great. Following along with pen and paper made things easily stick.&lt;/p&gt;
+&lt;p&gt;Every piece of code had to be written in Matlab/Octave. The choice was surprising in those days and age where R has been a mainstay of statistics and statistical learning, and Python is now the language of choice to glue and interface so many optimised C/C++ libraries (in addition to its natural qualities). But the rationale of Matlab/Octave being very natural to implement algorithms where matrices are the mathematical object of choice, made sense. The learning curve was easy, code looked very legible and natural. For short scripts, all good. For anybody who thinks that his/her code will one day be maintained by a psychopath who know his/her address, Matlab/Octave is to be left as a Wikipedia article. Maybe Julia will become a better choice. (Numpy matrix calcs looks very far from mathematical formalism and easy to bug up.)&lt;/p&gt;
+&lt;p&gt;The course was light on the theory side. No surprise: long curriculum, few hours. On the flip side, the recurring emphasis on the ‘what does it mean?’, developing intuitions and, in particular, the hammering about bias/complexity or bias/variance trade-off would be of great value to anyone entering the field. There is a somewhat prevalent meme that machine learning only works because we now have train loads of sdcards of data, and that if something doesn’t quite work, just throw more data at it. Hammering that trade off will hopefully make many become at least sceptical. More data is not a magic wand.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;exercises-and-grading&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Exercises and grading&lt;/h1&gt;
+&lt;p&gt;The automated grading grading system was surprisingly efficient. There were a few gotchas on exact spelling or white spaces. But overall, no complaints. And given the lack of real-people face-to-face time, this was a nice alternative.&lt;/p&gt;
+&lt;p&gt;The regular coding exams were interesting and the backend infrastructure worked great. As time progressed, the difficulty significantly dropped because of the more difficult content (harder to draft an exercise that really really covers content that was superficially addressed). The course 6 exam was clearly the hardest for many of the students.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;Worth it? On a personal level, definitely. And impossible to beat the value for money.&lt;/p&gt;
+&lt;p&gt;As a carrer-enhancing proposition, it remains to be seen, and I’ll need to see it to believe it.&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
       <title>Hello Blogdown!</title>
       <link>/2019/08/01/hello-blogdown.html</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>/2019/08/01/hello-blogdown.html</guid>
-      <description>Blogdown I have been a happy user of R markdown and bookdown developed by Yixui Xie. When I decided to start this blog, giving blogdown a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted.</description>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#blogdown&#34;&gt;Blogdown&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#setup&#34;&gt;Setup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#themes&#34;&gt;Themes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;blogdown&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Blogdown&lt;/h1&gt;
+&lt;p&gt;I have been a happy user of R markdown and &lt;a href=&#34;https://bookdown.org/&#34;&gt;bookdown&lt;/a&gt; developed by &lt;a href=&#34;https://yixui.name/&#34;&gt;Yixui Xie&lt;/a&gt;. When I decided to start this blog, giving &lt;code&gt;blogdown&lt;/code&gt; a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted. Attempts to use anything else failed. I didn’t have time to dig into the HTML/CSS templates.&lt;/p&gt;
+&lt;p&gt;Blogdown just worked out of the box without any &lt;code&gt;sort of&lt;/code&gt; caveat.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;setup&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Setup&lt;/h1&gt;
+&lt;p&gt;Basically, I just followed up the blogdown documentation. As for all his projects, Yixui’s documentation is clear, didactic and shows how much thoughts have gone into making his software easy to use, yet powerful.&lt;/p&gt;
+&lt;p&gt;By defaults, blogdown uses the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, but a Jekyll backend is in beta.&lt;/p&gt;
+&lt;p&gt;Great resources are &lt;a href=&#34;https://aurora-mareviv.github.io/talesofr/2017/08/r-blogdown-setup-in-github/&#34;&gt;R Blogdown Setup in GitHub&lt;/a&gt;, even its valuable update &lt;a href=&#34;https://aurora-mareviv.github.io/talesofr/2018/02/r-blogdown-setup-in-github-2/&#34;&gt;R Blogdown Setup in GitHub (2)&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;themes&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Themes&lt;/h1&gt;
+&lt;p&gt;As in other solutions, theming is never straightforward. Blogdown uses Hugo themes which cannot always be imported without changes and would need a bit of massaging. Having said that, if you find a them you like, it is just a matter of running &lt;code&gt;blogdown::install_theme(&#34;REPONAME&#34;)&lt;/code&gt;, and the theme will be downloaded and installed in the &lt;code&gt;themes&lt;/code&gt; subdirectory. &lt;code&gt;blogdown&lt;/code&gt; will automatically change the &lt;code&gt;theme:&lt;/code&gt; parameter in the &lt;code&gt;toml&lt;/code&gt; configuration file and the site will be re-generated. Easy enough? Bonus points for &lt;code&gt;Hugo&lt;/code&gt; that takes under 100ms to do that job.&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
   </channel>

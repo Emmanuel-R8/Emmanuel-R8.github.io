@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Octave | Back2Numbers</title>
+    <link>/tag/octave.html</link>
+      <atom:link href="/tag/octave/index.xml" rel="self" type="application/rss+xml" />
+    <description>Octave</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Fri, 02 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Octave</title>
+      <link>/tag/octave.html</link>
+    </image>
+    
+    <item>
+      <title>Stanford Online - Machine Learning C229 </title>
+      <link>/2019/08/02/stanford-online-machine-learning-c229.html</link>
+      <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/08/02/stanford-online-machine-learning-c229.html</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#review&#34;&gt;Review&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#exercises-and-grading&#34;&gt;Exercises and grading&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#summary&#34;&gt;Summary&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;review&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Review&lt;/h1&gt;
+&lt;p&gt;I recently completed the Stanford online version of the Machine Learning CS229 course taught by Andrew Ng. There is no need to introduce this course which has reached &lt;em&gt;stardom&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;It often was a trip a trip down memory lane repeating what I studied in the late 90’ies. It was interesting that quite a bit has remained as relevant. Back then, and I am now talking early 90ies, neural networks were still fashionable but computationally intractable past what would hardly be considered a single layer nowadays. Backpropagation was already used, but similarly quickly tedious.&lt;/p&gt;
+&lt;p&gt;Enough recalling old times… There was plenty I had not done back then.&lt;/p&gt;
+&lt;p&gt;The course was extremely pleasant. The progression made sense, pace was enjoyable. In particular, the blackboard style presentation was great. Following along with pen and paper made things easily stick.&lt;/p&gt;
+&lt;p&gt;Every piece of code had to be written in Matlab/Octave. The choice was surprising in those days and age where R has been a mainstay of statistics and statistical learning, and Python is now the language of choice to glue and interface so many optimised C/C++ libraries (in addition to its natural qualities). But the rationale of Matlab/Octave being very natural to implement algorithms where matrices are the mathematical object of choice, made sense. The learning curve was easy, code looked very legible and natural. For short scripts, all good. For anybody who thinks that his/her code will one day be maintained by a psychopath who know his/her address, Matlab/Octave is to be left as a Wikipedia article. Maybe Julia will become a better choice. (Numpy matrix calcs looks very far from mathematical formalism and easy to bug up.)&lt;/p&gt;
+&lt;p&gt;The course was light on the theory side. No surprise: long curriculum, few hours. On the flip side, the recurring emphasis on the ‘what does it mean?’, developing intuitions and, in particular, the hammering about bias/complexity or bias/variance trade-off would be of great value to anyone entering the field. There is a somewhat prevalent meme that machine learning only works because we now have train loads of sdcards of data, and that if something doesn’t quite work, just throw more data at it. Hammering that trade off will hopefully make many become at least sceptical. More data is not a magic wand.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;exercises-and-grading&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Exercises and grading&lt;/h1&gt;
+&lt;p&gt;The automated grading grading system was surprisingly efficient. There were a few gotchas on exact spelling or white spaces. But overall, no complaints. And given the lack of real-people face-to-face time, this was a nice alternative.&lt;/p&gt;
+&lt;p&gt;The regular coding exams were interesting and the backend infrastructure worked great. As time progressed, the difficulty significantly dropped because of the more difficult content (harder to draft an exercise that really really covers content that was superficially addressed). The course 6 exam was clearly the hardest for many of the students.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;Worth it? On a personal level, definitely. And impossible to beat the value for money.&lt;/p&gt;
+&lt;p&gt;As a carrer-enhancing proposition, it remains to be seen, and I’ll need to see it to believe it.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>What About? | Back2Numbers</title>
+    <link>/tag/what-about.html</link>
+      <atom:link href="/tag/what-about/index.xml" rel="self" type="application/rss+xml" />
+    <description>What About?</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>What About?</title>
+      <link>/tag/what-about.html</link>
+    </image>
+    
+    <item>
+      <title>Quick Thought: Universal translator and same language translator</title>
+      <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
+      <description>
+
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Quick Thoughts are random thoughts looking for comments&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.&lt;/p&gt;
+&lt;p&gt;Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation. What would be the consequences for the learning system inside the blackbox of being constrained that if the languages are the same, the output has to be identical to the input?&lt;/p&gt;
+&lt;p&gt;Obviously, the blackbox could quickly learn that bypassing the translation does the trick. However, that would probably require the internal circuitry to allow for the bypass, and that could be constrained out. So:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Could we expect any interesting result?&lt;/li&gt;
+&lt;li&gt;Could the input to be eventually forced down to a language-independent universal representation?&lt;/li&gt;
+&lt;li&gt;Let’s say there is a language-independent universal representation kernel. If the input comes in without information of which is the output language, and the output has no information of what the input language was, does it force the network to create a universal representation, or would it just withered away?&lt;/li&gt;
+&lt;li&gt;Is it possible to &lt;em&gt;invert&lt;/em&gt; a network? Probably not in a truly bijective way, but to model the fact that text representation &lt;span class=&#34;math inline&#34;&gt;\(\rightarrow\)&lt;/span&gt; universal representation is the &lt;em&gt;inverse&lt;/em&gt; (for some definition of the word) of universal representation &lt;span class=&#34;math inline&#34;&gt;\(\rightarrow\)&lt;/span&gt; text representation of the same language?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Comments welcome&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Neural Network - Incremental Growth</title>
+      <link>/2019/10/23/neural-network-incremental-growth.html</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/10/23/neural-network-incremental-growth.html</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#draft-1&#34;&gt;&lt;strong&gt;&lt;em&gt;DRAFT 1&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#background&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#singular-matrix-decomposition&#34;&gt;Singular matrix decomposition&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#where-next&#34;&gt;Where next?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#back-to-svd&#34;&gt;Back to SVD&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#regularisation&#34;&gt;Regularisation&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#vector-coordinates&#34;&gt;Vector coordinates&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#eigenvalues&#34;&gt;Eigenvalues&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#threshold&#34;&gt;Threshold&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#by-2-decision-matrix&#34;&gt;2-by-2 decision matrix&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#todo-other-principal-components-methods&#34;&gt;[TODO] Other Principal Components methods&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#todo-proof-of-the-pudding&#34;&gt;[TODO] Proof of the pudding…&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#limitations-and-further-questions&#34;&gt;Limitations and further questions&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#limitations&#34;&gt;Limitations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#further-questions&#34;&gt;Further questions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#litterature&#34;&gt;Litterature&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;div id=&#34;draft-1&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;strong&gt;&lt;em&gt;DRAFT 1&lt;/em&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;We all have laptops. But le’ts face it, even in times of 32GB of RAM and NVMe2 drives, forget about running any interesting TensorFlow model. You need to get an external GPU, build your own rig, or very quickly pay a small fortune for cloud instances.&lt;/p&gt;
+&lt;p&gt;Back in 1993, I read a paper about growing neural networks neuron-by-neuron. I have no other precise recollection about this paper apart from the models considered being of the order of 10s of neurons and the weight optimisation being made on a global basis, i.e. not layer-by-layer like backpropagation. Nowadays, it is still too often the case that finding a network structure that solves a particular problem is a random walk: how many layers, with how many neurons, with which activation functions? Regularisation methods? Drop-out rate? Training batch size? The list goes on.&lt;/p&gt;
+&lt;p&gt;This got me thinking about how a training heuristic could incrementally modify a network structure given a particular training set and, apart maybe from a few hyperparameters, do that with no external intervention. At regular training intervals, a layer&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; will be modified depending on what it &lt;em&gt;seems&lt;/em&gt; able or not to achieve. As we will see, we will use unsupervised learning methods to do this: a layer modification will be independent of the actual learning problem and automatic.&lt;/p&gt;
+&lt;p&gt;Many others have looked into that. But what I found regarding self-organising networks is pre-2000, and nothing in the context of deep learning. So it seems that the topic has gone out of fashion because of the current amounts of computing power, or has been set aside for reasons unknown. (See references at the end). In any event, it is interesting enough a question to research it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;background&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Background&lt;/h1&gt;
+&lt;p&gt;Let us look at a simple 1-D layer and decompose what it exactly does. Basically a layer does:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\text{ouput} = f(M \times \text{input})
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;If the input &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; has size &lt;span class=&#34;math inline&#34;&gt;\(n_I\)&lt;/span&gt;, the output &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; has size &lt;span class=&#34;math inline&#34;&gt;\(n_I\)&lt;/span&gt;, and &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; being the activation function, we have (where &lt;span class=&#34;math inline&#34;&gt;\(\odot\)&lt;/span&gt; represents the matrix element-wise application of a function):&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+O = f \odot (M \times I)
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Then, looking at &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt;, what does it really do? At one extreme, if &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; was the identity matrix, it would essentially be useless (bar the activation function&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;). This would be a layer candidate for deletion. The question is then:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Looking at the matrix representing a layer, can we identify which parts are (1) useless, (2) useful and complex enough, or (3) useful but too simplistic?&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Here, &lt;em&gt;complex enough&lt;/em&gt; or &lt;em&gt;simplistic&lt;/em&gt; is basically a synonym of “&lt;em&gt;one layer is enough&lt;/em&gt;”, or “&lt;em&gt;more layers are necessary&lt;/em&gt;”.&lt;/p&gt;
+&lt;p&gt;The idea to look for important/complex information which where the network needs to grow more complex; and identify trivial information which can be discarded, or can be viewed as minor adjustments to improve error rates (basically overfitting…)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Caveat&lt;/em&gt;: Note that we ignore the activation function. They are key to introduce non-linearity. Without it, a network is only a linear function, i.e. no interest. They have a clear impact on the performance of a network.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;singular-matrix-decomposition&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Singular matrix decomposition&lt;/h1&gt;
+&lt;p&gt;There exists many ways to decompose a matrix. Singular matrix decomposition (&lt;em&gt;SVD&lt;/em&gt;) &lt;span class=&#34;math inline&#34;&gt;\(M = O \Sigma I^\intercal\)&lt;/span&gt; is an easy and efficient way to interpret what a given matrix does. SVD builds on the eigenvectors (expressed in an orthonormal basis), and eigenvalues. (Note that &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; is real-valued, so we use the transpose notation &lt;span class=&#34;math inline&#34;&gt;\(M^\intercal\)&lt;/span&gt; instead of the conjugate transpose &lt;span class=&#34;math inline&#34;&gt;\(M^*\)&lt;/span&gt;.)&lt;/p&gt;
+&lt;p&gt;In a statistical world, SVD (with eigenvalues ordered by decreasing value) is how to do principal component analysis(&lt;em&gt;PCA&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;In a geometrical context, SVD:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;takes a vector (expressed in the orthonormal basis);&lt;/li&gt;
+&lt;li&gt;re-expresses onto a new basis made of the eigenvectors (that would only exceptionally be orthonormal);&lt;/li&gt;
+&lt;li&gt;dilates/compresses those components by the relevant eigenvalues;&lt;/li&gt;
+&lt;li&gt;and returns this resulting vector expressed back onto the orthonormal basis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As presented here, this explanation requires a bit more intellectual gymnastic when the matrix is not square (i.e. when the input and output layers have different dimensions), but the principle remains identical.&lt;/p&gt;
+&lt;div id=&#34;where-next&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Where next?&lt;/h3&gt;
+&lt;p&gt;Taking the statistical and geometrical points of view together, the layer (matrix &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt;) shuffles the input vector in its original space space where some specific directions are more important than others. Those directions are linear combinations of the input neurons, each combinations is along the eigenvectors. Those combinations are given more or less importance as expressed by the eigenvalues. (Note that the squares of the eigenvalues expressed how much information each combination brings to the table.)&lt;/p&gt;
+&lt;p&gt;Intuitively, the simplest and most useless &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; would be the identity matrix (the input units are repeated), or zero matrix (the input units are dropped because useless). Let us repeat the caveat that the activation function is ignored.&lt;/p&gt;
+&lt;p&gt;If compared to the identity matrix, the SVD shows that &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; includes (at least) two types of important information identified:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What are interesting combinations of the input units? This is expressed by how much the input vector is rotated in space.&lt;/li&gt;
+&lt;li&gt;Independently from whether a combination is complicated or not (i.e. multiple units, or unit passthrough), how an input is amplified (as expressed by the eigenvalues).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The idea is then produce a 2x2 decision matrix with high/low rotation mess and high/low eigenvalues.&lt;/p&gt;
+&lt;p&gt;A picture is gives the intuition of what we are after:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;Network-Incremental-Growth-Matrix-Split.png&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Transformation of the Layer Matrix&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Looking from top to bottom at what the “after” matrices would be:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Part of the original layer, immediately followed by a new one (we will see below what that would look like). The intuition is that this layer is really messing things up down the line, or seems very sensitive.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Part of the original layer where the number of units would be increased (here doubled as an example).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Part of the original layer kept &lt;em&gt;functionally&lt;/em&gt; essentially as is.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Delete the rest which is either not sensitive to input or outputs nothings. This would be within a certain precision. That is basically a form of regularisation preventing the overall model to be too sensitive. I am aware that there are other types of regularisations, but that will go in the limitations category.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The next layer would take as input all the transformed outputs.&lt;/p&gt;
+&lt;p&gt;In practice, the picture presents the matrices separated. This is for ease of understanding. In reality the same effect would be achieved if the three dark blue sub-layers are merged in a single layer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;back-to-svd&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Back to SVD&lt;/h1&gt;
+&lt;p&gt;Let us assume that there are &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; input units and &lt;span class=&#34;math inline&#34;&gt;\(m\)&lt;/span&gt; output units. &lt;span class=&#34;math inline&#34;&gt;\(M\)&lt;/span&gt; then is of dimensions &lt;span class=&#34;math inline&#34;&gt;\(m \times n\)&lt;/span&gt;. The matrices of the SVD have dimensions:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\begin{matrix}
+M          &amp;amp; = &amp;amp; O          &amp;amp; \Sigma     &amp;amp; I^\intercal \\
+m \times n &amp;amp;   &amp;amp; m \times m &amp;amp; m \times n &amp;amp; n \times n \\
+\end{matrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Note that instead of using &lt;span class=&#34;math inline&#34;&gt;\(U\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(V\)&lt;/span&gt; to name the sub-matrices of the SVD, we use &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; to represent &lt;em&gt;input&lt;/em&gt; and &lt;em&gt;output&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; can be written as:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+I =
+\begin{pmatrix} |   &amp;amp;        &amp;amp; |    \\ i_1 &amp;amp; \cdots &amp;amp; i_m  \\ |   &amp;amp;        &amp;amp; |    \\ \end{pmatrix} 
+\qquad \text{and} \qquad
+O =
+\begin{pmatrix} |   &amp;amp;       &amp;amp; | \\ o_1 &amp;amp; \cdots &amp;amp; o_n \\ |   &amp;amp;       &amp;amp; | \\ \end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+M =
+O \Sigma I^\intercal =
+\begin{pmatrix} | &amp;amp;&amp;amp; | \\ o_1 &amp;amp; \dots &amp;amp; o_m \\ | &amp;amp; &amp;amp; | \\ \end{pmatrix}
+\begin{pmatrix} \sigma_1 \\ &amp;amp; \sigma_2 \\ &amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp; \sigma_r \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ \end{pmatrix}
+\begin{pmatrix} - &amp;amp; i_1 &amp;amp; - \\ &amp;amp; \vdots &amp;amp; \\ -  &amp;amp; i_n &amp;amp; - \\ \end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(\Sigma\)&lt;/span&gt; has &lt;span class=&#34;math inline&#34;&gt;\(r\)&lt;/span&gt; non-zero eigenvalues.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;regularisation&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Regularisation&lt;/h1&gt;
+&lt;p&gt;At this stage, we can regularise all components.&lt;/p&gt;
+&lt;div id=&#34;vector-coordinates&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Vector coordinates&lt;/h2&gt;
+&lt;p&gt;For each vector &lt;span class=&#34;math inline&#34;&gt;\(i_k\)&lt;/span&gt; or &lt;span class=&#34;math inline&#34;&gt;\(o_k\)&lt;/span&gt;, we could zero its coordinates when below a certain threshold (in absolute value). All the coordinates will &lt;span class=&#34;math inline&#34;&gt;\(-\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(1\)&lt;/span&gt; since each vector has norm 1 (&lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; are orthonormal), therefore all of them will be regularised in similar ways.&lt;/p&gt;
+&lt;p&gt;After regularisation, the matrices will not be orthonormal anymore. They can easily be made normal by scaling up by &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{\sum_{k}i_k^2}\)&lt;/span&gt; or &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{\sum_{k}o_k^2}\)&lt;/span&gt;. There is no generic way to revert to an orthogonal basis and keep the zeros.&lt;/p&gt;
+&lt;p&gt;We need a way to measure the &lt;code&gt;rotation messiness&lt;/code&gt; of each vector. As a shortcut, we can use the proportion of non-zero vector coordinates (after &lt;em&gt;de minimis&lt;/em&gt; regularisation).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;eigenvalues&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Eigenvalues&lt;/h2&gt;
+&lt;p&gt;The same can be done for the &lt;span class=&#34;math inline&#34;&gt;\(\sigma\)&lt;/span&gt;s. As an avenue of experimentation, those values can not only be zero-ed in places, but also rescale the large values in some non-linear way (e.g. logarithmic or square root rescaling).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;threshold&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Threshold&lt;/h2&gt;
+&lt;p&gt;Where to set the threshold is to be experimented with. Mean? Median since more robust? Some quartile?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;by-2-decision-matrix&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2-by-2 decision matrix&lt;/h2&gt;
+&lt;p&gt;Based on those regularisation, we would propose the following:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ 
+\begin{matrix}
+                    &amp;amp; \text{low rotation messiness} &amp;amp; \text{high rotation messiness} \\
+\text{high } \sigma &amp;amp; \text{Double height}          &amp;amp; \text{Double depth}            \\
+\text{low } \sigma  &amp;amp; \text{Delete}                 &amp;amp; \text{Keep identical}          \\
+\end{matrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;todo-other-principal-components-methods&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;[TODO] Other Principal Components methods&lt;/h1&gt;
+&lt;p&gt;SVD is PCA. Projects information on hyperplanes.&lt;/p&gt;
+&lt;p&gt;Reflect on non-linear versions: Principal Curves, Kernel Principal Components, Sparse Principal Components, Independent Component Analysis. (_Elements of Statistical Learning s. 14.5 seq.).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;todo-proof-of-the-pudding&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;[TODO] Proof of the pudding…&lt;/h1&gt;
+&lt;p&gt;Implementations!!!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;limitations-and-further-questions&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Limitations and further questions&lt;/h1&gt;
+&lt;div id=&#34;limitations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Limitations&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Only 1-D layers. Higher-order SVD is in principle feasible for higher order tensors. Other methods?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We delete the eigenvectors associated to low eigenvalues and limited rotations. There are other forms of regularisations, e.g. random weight cancelling that would not care about anything eigen-.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;What is the real impact of ignoring the activation function? PCA requires centered values. Geometrically, uncentered values would mean more limited rotations since samples would be in quadrant far from 0.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;further-questions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Further questions&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The final structure is a direct product of the training set. What if the training is done differently (batches sized or ordered differently)?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;What about training many variants with different subsets of the training set and using ensemble methods?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The eigenvalues could be modified when creating the new layers. By decreasing the highest eigevalues (in absolute value), we effectively regularise the layers outputs. This decrease could bring additional non-linearity if the compression ratio depends on the eigengevalue (e.g. replacing it by it square root). And this non-linearty would not bring additional complexity to the back-propagation algorithm, or auto-differentiated functions: it only modifies the final values if the new matrices.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;litterature&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Litterature&lt;/h1&gt;
+&lt;p&gt;Here are a few summary litterature references related to the topic.&lt;/p&gt;
+&lt;div id=&#34;the-elements-of-statistical-learning&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;The Elements of Statistical Learning&lt;/h4&gt;
+&lt;p&gt;The ESL top of p 409 proposes PCA to interpret layers, i.e. to improve the interpretability of the decisions made by a network.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;neural-network-implementations-for-pca-and-its-extensions&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Neural Network Implementations for PCA and Its Extensions&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;http://downloads.hindawi.com/archive/2012/847305.pdf&#34; class=&#34;uri&#34;&gt;http://downloads.hindawi.com/archive/2012/847305.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Uses neural networks as a substitute for PCA.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;an-incremental-neural-network-construction-algorithm-for-training-multilayer-perceptrons&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;An Incremental Neural Network Construction Algorithm for Training Multilayer Perceptrons&lt;/h4&gt;
+&lt;p&gt;Aran, Oya, and Ethem Alpaydin. “An incremental neural network construction algorithm for training multilayer perceptrons.” Artificial Neural Networks and Neural Information Processing. Istanbul, Turkey: ICANN/ICONIP (2003).&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf&#34; class=&#34;uri&#34;&gt;https://www.cmpe.boun.edu.tr/~ethem/files/papers/aran03incremental.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;kohonen-maps&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Kohonen Maps&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Self-organizing_map&#34; class=&#34;uri&#34;&gt;https://en.wikipedia.org/wiki/Self-organizing_map&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;self-organising-network&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Self-Organising Network&lt;/h4&gt;
+&lt;div id=&#34;a-self-organising-network-that-grows-when-required-2002&#34; class=&#34;section level5&#34;&gt;
+&lt;h5&gt;A Self-Organising Network That Grows When Required (2002)&lt;/h5&gt;
+&lt;p&gt;&lt;a href=&#34;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763&#34; class=&#34;uri&#34;&gt;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.8763&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-cascade-correlation-learning-architecture&#34; class=&#34;section level5&#34;&gt;
+&lt;h5&gt;The Cascade-Correlation Learning Architecture&lt;/h5&gt;
+&lt;p&gt;&lt;a href=&#34;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421&#34; class=&#34;uri&#34;&gt;https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.125.6421&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Growth with quick freeze as a way to avoid the expense of back-propagation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;soinnself-organizing-incremental-neural-network&#34; class=&#34;section level5&#34;&gt;
+&lt;h5&gt;SOINN：Self-Organizing Incremental Neural Network&lt;/h5&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.haselab.info/soinn-e.html&#34; class=&#34;uri&#34;&gt;http://www.haselab.info/soinn-e.html&lt;/a&gt;
+&lt;a href=&#34;https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf&#34; class=&#34;uri&#34;&gt;https://cs.nju.edu.cn/rinc/SOINN/Tutorial.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Seems focused on neuron by neuron evolution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;We will only consider modifying the network layer by layer, not neuron by neuron.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;This could actually be a big limitation of this discussion. In reality, even an identity matrix yields changes by piping the inputs through a new round of non-linearity, which is not necessarily identical to the preceding layer&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

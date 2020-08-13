@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Quick Thought | Back2Numbers</title>
+    <link>/category/quick-thought.html</link>
+      <atom:link href="/category/quick-thought/index.xml" rel="self" type="application/rss+xml" />
+    <description>Quick Thought</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Quick Thought</title>
+      <link>/category/quick-thought.html</link>
+    </image>
+    
+    <item>
+      <title>Quick Thought: Universal translator and same language translator</title>
+      <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
+      <description>
+
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Quick Thoughts are random thoughts looking for comments&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Let’s imagine a universal translator able to translate any language to any language. Sourcing a corpus of pair translation is a major hurdle. However there is an almost infinite corpus of pair translations: a language with itself; translating English to English is easy, even for a computer.&lt;/p&gt;
+&lt;p&gt;Let’s give the blackbox universal translator three inputs: a source text, the language of the source text, the language of the desired translation. What would be the consequences for the learning system inside the blackbox of being constrained that if the languages are the same, the output has to be identical to the input?&lt;/p&gt;
+&lt;p&gt;Obviously, the blackbox could quickly learn that bypassing the translation does the trick. However, that would probably require the internal circuitry to allow for the bypass, and that could be constrained out. So:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Could we expect any interesting result?&lt;/li&gt;
+&lt;li&gt;Could the input to be eventually forced down to a language-independent universal representation?&lt;/li&gt;
+&lt;li&gt;Let’s say there is a language-independent universal representation kernel. If the input comes in without information of which is the output language, and the output has no information of what the input language was, does it force the network to create a universal representation, or would it just withered away?&lt;/li&gt;
+&lt;li&gt;Is it possible to &lt;em&gt;invert&lt;/em&gt; a network? Probably not in a truly bijective way, but to model the fact that text representation &lt;span class=&#34;math inline&#34;&gt;\(\rightarrow\)&lt;/span&gt; universal representation is the &lt;em&gt;inverse&lt;/em&gt; (for some definition of the word) of universal representation &lt;span class=&#34;math inline&#34;&gt;\(\rightarrow\)&lt;/span&gt; text representation of the same language?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Comments welcome&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

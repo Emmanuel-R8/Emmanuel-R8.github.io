@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R | Back2Numbers</title>
+    <link>/category/r.html</link>
+      <atom:link href="/category/r/index.xml" rel="self" type="application/rss+xml" />
+    <description>R</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>R</title>
+      <link>/category/r.html</link>
+    </image>
+    
+    <item>
+      <title>HarvardX Gitbooks available</title>
+      <link>/2019/12/12/harvardx-gitbooks-available.html</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
+      <description>
+
+
+&lt;p&gt;Both capstones for the HarvardX certificates are now available. Just click on the &lt;code&gt;Projects&lt;/code&gt; link!&lt;/p&gt;
+&lt;p&gt;If Gitbooks are not your thing, at the top of their main page, there is a download link to a pdf version.&lt;/p&gt;
+&lt;p&gt;They make for a good knock-me-asleep reading…&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HarvardX Final Report - LendingClub dataset</title>
+      <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
+      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
+      <description>
+
+
+&lt;p&gt;After 3 months of work, the final report for the HarvardX Data Science course was submitted.&lt;/p&gt;
+&lt;p&gt;It is based on the LendingClub dataset. LendingClub is a peer-2-peer lender. This is a matching of private borrowers and investors. Small amounts, fairly high risk (if they could, borrowers would probably have had a bank involved). Surprisingly, after tapping a market of individual lenders, the biggest lenders are now the banks. To inform the investors, LendingClub make historical information publicly available.&lt;/p&gt;
+&lt;p&gt;This work went through many blind alleys. I won’t list them, they are in the report (post-mortem section). But it was an overall enriching experience. I learned a lot, often about limitations of what I tried (the dataset is big with a few millions samples (big for an old laptop), with many (ca. 150) mispecified mixed categorical and numeric variables). The experience will be filed in the &lt;em&gt;‘it-builds-character’&lt;/em&gt; category…&lt;/p&gt;
+&lt;p&gt;One point that is still tingling my mind is learning about Conditional Inference Trees used to bin variables. That is then used for logistic regression to predict probabilities of loan default.&lt;/p&gt;
+&lt;p&gt;Why are those trees interesting? They are sourced in information theory and measure the information content of a prediction variable to predict a binary response. The prediction variable is then partitioned in a few intervals (bins). What is great?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The measurement does NOT rely on the value of the prediction variable. This means that variable NAs go from being a nuisance to being stashed in a bin of their own treated as any other bin.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The logistic regression context predicates binary variables which were perfect for the purpose of this report. But those trees do not require binary outcomes. They rely on what are called &lt;em&gt;Weight of Evidence&lt;/em&gt; (calculated for each bin) and &lt;em&gt;Information Value&lt;/em&gt; (calculated for each variable).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The calculations are very quick (about 1/10th second to bin 1 million samples) with a small memory footprint.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In other words, whatever comes in, we do not have to worry about scaling/z-scoring/filling NAs; it is quickly reformatted into a handful (literally of that order of magnitude depending on parameters used) based on the relevance to predicting what needs to come out.&lt;/p&gt;
+&lt;p&gt;If I didn’t know better, this should be called &lt;em&gt;model impedance matching&lt;/em&gt; (electrical engineers can explain)!&lt;/p&gt;
+&lt;p&gt;Apart from that, the number of avenues to explore with this dataset (especially using data from other sources) could fill many more months. I listed a list of possible techniques in the report’s conclusion. This is what does and will keep banks’ credit risk departments busy and well-staffed…&lt;/p&gt;
+&lt;p&gt;I am working on making the MovieLens and LendingClub reports available as gitbooks. To be announced.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hello Blogdown!</title>
+      <link>/2019/08/01/hello-blogdown.html</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/08/01/hello-blogdown.html</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#blogdown&#34;&gt;Blogdown&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#setup&#34;&gt;Setup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#themes&#34;&gt;Themes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;blogdown&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Blogdown&lt;/h1&gt;
+&lt;p&gt;I have been a happy user of R markdown and &lt;a href=&#34;https://bookdown.org/&#34;&gt;bookdown&lt;/a&gt; developed by &lt;a href=&#34;https://yixui.name/&#34;&gt;Yixui Xie&lt;/a&gt;. When I decided to start this blog, giving &lt;code&gt;blogdown&lt;/code&gt; a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted. Attempts to use anything else failed. I didn’t have time to dig into the HTML/CSS templates.&lt;/p&gt;
+&lt;p&gt;Blogdown just worked out of the box without any &lt;code&gt;sort of&lt;/code&gt; caveat.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;setup&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Setup&lt;/h1&gt;
+&lt;p&gt;Basically, I just followed up the blogdown documentation. As for all his projects, Yixui’s documentation is clear, didactic and shows how much thoughts have gone into making his software easy to use, yet powerful.&lt;/p&gt;
+&lt;p&gt;By defaults, blogdown uses the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, but a Jekyll backend is in beta.&lt;/p&gt;
+&lt;p&gt;Great resources are &lt;a href=&#34;https://aurora-mareviv.github.io/talesofr/2017/08/r-blogdown-setup-in-github/&#34;&gt;R Blogdown Setup in GitHub&lt;/a&gt;, even its valuable update &lt;a href=&#34;https://aurora-mareviv.github.io/talesofr/2018/02/r-blogdown-setup-in-github-2/&#34;&gt;R Blogdown Setup in GitHub (2)&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;themes&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Themes&lt;/h1&gt;
+&lt;p&gt;As in other solutions, theming is never straightforward. Blogdown uses Hugo themes which cannot always be imported without changes and would need a bit of massaging. Having said that, if you find a them you like, it is just a matter of running &lt;code&gt;blogdown::install_theme(&#34;REPONAME&#34;)&lt;/code&gt;, and the theme will be downloaded and installed in the &lt;code&gt;themes&lt;/code&gt; subdirectory. &lt;code&gt;blogdown&lt;/code&gt; will automatically change the &lt;code&gt;theme:&lt;/code&gt; parameter in the &lt;code&gt;toml&lt;/code&gt; configuration file and the site will be re-generated. Easy enough? Bonus points for &lt;code&gt;Hugo&lt;/code&gt; that takes under 100ms to do that job.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

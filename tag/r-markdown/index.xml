@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Markdown | Back2Numbers</title>
+    <link>/tag/r-markdown.html</link>
+      <atom:link href="/tag/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    <description>R Markdown</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>R Markdown</title>
+      <link>/tag/r-markdown.html</link>
+    </image>
+    
+    <item>
+      <title>HarvardX Gitbooks available</title>
+      <link>/2019/12/12/harvardx-gitbooks-available.html</link>
+      <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
+      <description>
+
+
+&lt;p&gt;Both capstones for the HarvardX certificates are now available. Just click on the &lt;code&gt;Projects&lt;/code&gt; link!&lt;/p&gt;
+&lt;p&gt;If Gitbooks are not your thing, at the top of their main page, there is a download link to a pdf version.&lt;/p&gt;
+&lt;p&gt;They make for a good knock-me-asleep reading…&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hello Blogdown!</title>
+      <link>/2019/08/01/hello-blogdown.html</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>/2019/08/01/hello-blogdown.html</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#blogdown&#34;&gt;Blogdown&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#setup&#34;&gt;Setup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#themes&#34;&gt;Themes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;blogdown&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Blogdown&lt;/h1&gt;
+&lt;p&gt;I have been a happy user of R markdown and &lt;a href=&#34;https://bookdown.org/&#34;&gt;bookdown&lt;/a&gt; developed by &lt;a href=&#34;https://yixui.name/&#34;&gt;Yixui Xie&lt;/a&gt;. When I decided to start this blog, giving &lt;code&gt;blogdown&lt;/code&gt; a try was a no-brainer. To be honest, it was not my first choice. Jekyll was #1 given it’s good support by GitHub pages. Then I took a dive with Pelican. Both are impressive, but both brought equally painful theming: the base theme sort of works, and only sort of, but anyway was not what I wanted. Attempts to use anything else failed. I didn’t have time to dig into the HTML/CSS templates.&lt;/p&gt;
+&lt;p&gt;Blogdown just worked out of the box without any &lt;code&gt;sort of&lt;/code&gt; caveat.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;setup&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Setup&lt;/h1&gt;
+&lt;p&gt;Basically, I just followed up the blogdown documentation. As for all his projects, Yixui’s documentation is clear, didactic and shows how much thoughts have gone into making his software easy to use, yet powerful.&lt;/p&gt;
+&lt;p&gt;By defaults, blogdown uses the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, but a Jekyll backend is in beta.&lt;/p&gt;
+&lt;p&gt;Great resources are &lt;a href=&#34;https://aurora-mareviv.github.io/talesofr/2017/08/r-blogdown-setup-in-github/&#34;&gt;R Blogdown Setup in GitHub&lt;/a&gt;, even its valuable update &lt;a href=&#34;https://aurora-mareviv.github.io/talesofr/2018/02/r-blogdown-setup-in-github-2/&#34;&gt;R Blogdown Setup in GitHub (2)&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;themes&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Themes&lt;/h1&gt;
+&lt;p&gt;As in other solutions, theming is never straightforward. Blogdown uses Hugo themes which cannot always be imported without changes and would need a bit of massaging. Having said that, if you find a them you like, it is just a matter of running &lt;code&gt;blogdown::install_theme(&#34;REPONAME&#34;)&lt;/code&gt;, and the theme will be downloaded and installed in the &lt;code&gt;themes&lt;/code&gt; subdirectory. &lt;code&gt;blogdown&lt;/code&gt; will automatically change the &lt;code&gt;theme:&lt;/code&gt; parameter in the &lt;code&gt;toml&lt;/code&gt; configuration file and the site will be re-generated. Easy enough? Bonus points for &lt;code&gt;Hugo&lt;/code&gt; that takes under 100ms to do that job.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
