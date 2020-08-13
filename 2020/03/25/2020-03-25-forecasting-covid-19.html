@@ -669,7 +669,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    22 min read
+    21 min read
   </span>
   
 
@@ -813,7 +813,8 @@ baseR₀ = Dict( (:north,    :slow)     =&gt; 2.2,
                (:tropical, :fast)     =&gt; 3.0,
                (:south,    :slow)     =&gt; 2.2, 
                (:south,    :moderate) =&gt; 2.7, 
-               (:south,    :fast)     =&gt; 3.2);</code></pre>
+               (:south,    :fast)     =&gt; 3.2);
+</code></pre>
 <pre class="julia"><code># Peak date
 peakDate = Dict( :north     =&gt; date2days(Date(2020, 1, 1)), 
                  :tropical  =&gt; date2days(Date(2020, 1, 1)),    # although no impact
@@ -914,7 +915,7 @@ end;</code></pre>
 <div id="population-compartments" class="section level3">
 <h3>Population compartments</h3>
 <p>Qualitatively, the epidemy model dynamics tracks several sub-groups (compartments):</p>
-<p><img src="/post/images/States.svg"></p>
+<p><img src="/media/post/2020-COVID/images/States.svg"></p>
 <ul>
 <li><p>Susceptible individuals (<span class="math inline">\(S\)</span>) are healthy and susceptible to being exposed to the virus by contact with an infected individual.</p></li>
 <li><p>Exposed individuals (<span class="math inline">\(E\)</span>) are infected but asymptomatic. They progress towards a symptomatic state on average time <span class="math inline">\(t_l\)</span>. Reports are that asymptomatic individuals are contagious. We will assume that they are proportionally less contagious than symptomatic individuals as a percentage <span class="math inline">\(\gamma_E\)</span> of <span class="math inline">\(R_0\)</span>. For the purposes of modelling we will assume (without supporting evidence, but will be the object of parameter estimation):</p></li>
@@ -1005,7 +1006,8 @@ mₐ =       [0.01,   0.03,   0.03,    0.03,    0.06,    0.10,    0.25,    0.35,
 cₐ =       [0.05,   0.10,   0.10,    0.15,    0.20,    0.25,    0.35,    0.45,    0.55];
 fₐ =       [0.30,   0.30,   0.30,    0.30,    0.30,    0.40,    0.40,    0.50,    0.50];
 
-nAgeGroup = length(AgeGroup);</code></pre>
+nAgeGroup = length(AgeGroup);
+</code></pre>
 </div>
 <div id="infrastruture" class="section level4">
 <h4>Infrastruture</h4>
@@ -1053,7 +1055,7 @@ E2S_a(t) &amp; = -S2E_a(t) \\
 <p>Quantitatively, the model expresses how many individuals transfer from one situation/compartment to another. Flows from compartment X to Y are written as <span class="math inline">\(X2Y\)</span> (obviously <span class="math inline">\(X2Y = - Y2X\)</span>).</p>
 <p>Note that the compartments are split into age groups.</p>
 <div class="figure">
-<img src="/post/images/Transitions.svg" alt="" />
+<img src="/media/post/2020-COVID/images/Transitions.svg" alt="" />
 <p class="caption">Transitions between compartments</p>
 </div>
 <div id="epidemiology" class="section level4">
@@ -1249,16 +1251,6 @@ cases = hcat(DataFrame(t = date2days.(cases[:, :time])), cases);
 cases = cases[cases.deaths .&gt; 0, :];
 
 last(cases[:, [:time, :cases, :deaths]], 6)</code></pre>
-<pre><code>## 6×3 DataFrame
-## │ Row │ time       │ cases │ deaths │
-## │     │ Date       │ Int64 │ Int64  │
-## ├─────┼────────────┼───────┼────────┤
-## │ 1   │ 2020-03-17 │ 27980 │ 2158   │
-## │ 2   │ 2020-03-18 │ 31506 │ 2505   │
-## │ 3   │ 2020-03-19 │ 35713 │ 2978   │
-## │ 4   │ 2020-03-20 │ 41035 │ 3407   │
-## │ 5   │ 2020-03-21 │ 47021 │ 4032   │
-## │ 6   │ 2020-03-22 │ 53578 │ 4827   │</code></pre>
 <p>The last rows shows the number of cases and deaths up to the last date in the dataset.</p>
 <p>Plotting the number of death shows an almost exponential increase in numbers (straight line in logarithmic scale).</p>
 <pre class="julia"><code>using PyPlot;
@@ -1280,7 +1272,7 @@ ax.set_yscale(&quot;log&quot;);
 
 PyPlot.savefig(&quot;images/Deaths.png&quot;);</code></pre>
 <div class="figure">
-<img src="images/Deaths.png" alt="" />
+<img src="/media/post/2020-COVID/images/Deaths.png" alt="" />
 <p class="caption">Deaths</p>
 </div>
 <p>This file contains ICU beds figures.</p>
@@ -1323,9 +1315,7 @@ tSpan = (StartDays, EndDays);</code></pre>
 <div id="infrastructure" class="section level2">
 <h2>Infrastructure</h2>
 <pre class="julia"><code>BED_max = hospital_capacity</code></pre>
-<pre><code>## 165384.0</code></pre>
 <pre class="julia"><code>ICU_max = ICU_capacity</code></pre>
-<pre><code>## 7550.0</code></pre>
 </div>
 <div id="parameter-vector" class="section level2">
 <h2>Parameter vector</h2>
@@ -1394,7 +1384,8 @@ solDF = hcat(DataFrame(t = sol.t), DataFrame(solDF));
 # Let&#39;s clean the names
 compartments =  [&quot;S&quot;, &quot;E&quot;, &quot;I&quot;, &quot;J&quot;, &quot;H&quot;, &quot;C&quot;, &quot;R&quot;, &quot;D&quot;, &quot;K&quot;, &quot;L&quot;];
 solnames = vcat([:t], [Symbol(c * repr(n)) for c in compartments for n in 0:(nAgeGroup-1)], [:Beds], [:ICU]);
-rename!(solDF, solnames);</code></pre>
+rename!(solDF, solnames);
+</code></pre>
 <pre class="julia"><code># Create sums for each compartment
 # (Consider solDF[!, r&quot;S&quot;])
 # 
@@ -1408,15 +1399,6 @@ end;
 
 # The D column gives the final number of dead.
 println(last(solDF[:, Symbol.(compartments)], 5))</code></pre>
-<pre><code>## 5×10 DataFrame
-## │ Row │ S         │ E       │ I       │ J       │ H        │ C       │ R         │ D         │ K       │ L       │
-## │     │ Float64   │ Float64 │ Float64 │ Float64 │ Float64  │ Float64 │ Float64   │ Float64   │ Float64 │ Float64 │
-## ├─────┼───────────┼─────────┼─────────┼─────────┼──────────┼─────────┼───────────┼───────────┼─────────┼─────────┤
-## │ 1   │ 2.34204e7 │ 266.055 │ 161.2   │ 7.32202 │ 0.900005 │ 76.5626 │ 3.38881e7 │ 3.15639e6 │ 1.02912 │ 1.03034 │
-## │ 2   │ 2.34203e7 │ 265.399 │ 160.137 │ 7.24439 │ 0.900003 │ 63.8564 │ 3.38883e7 │ 3.15639e6 │ 1.02623 │ 1.02726 │
-## │ 3   │ 2.34201e7 │ 266.063 │ 159.801 │ 7.19297 │ 0.900003 │ 53.1721 │ 3.38885e7 │ 3.1564e6  │ 1.02414 │ 1.02496 │
-## │ 4   │ 2.34199e7 │ 268.188 │ 160.31  │ 7.17442 │ 0.900002 │ 44.8176 │ 3.38887e7 │ 3.1564e6  │ 1.0232  │ 1.02367 │
-## │ 5   │ 2.34198e7 │ 270.842 │ 161.291 │ 7.18298 │ 0.9      │ 39.6763 │ 3.38888e7 │ 3.15641e6 │ 1.02324 │ 1.02338 │</code></pre>
 <p>The last row shows the final sizes of the various compartments.</p>
 <p>Next is the evolution of the over time.</p>
 <pre class="julia"><code>pyplot();
@@ -1434,9 +1416,10 @@ ax.set_xlabel(&quot;time&quot;);
 ax.set_ylabel(&quot;Individuals&quot;);
 ax.set_yscale(&quot;log&quot;);
 
-PyPlot.savefig(&quot;images/DeathsForecast.png&quot;);</code></pre>
+PyPlot.savefig(&quot;images/DeathsForecast.png&quot;);
+</code></pre>
 <div class="figure">
-<img src="/post/images/DeathsForecast.png" alt="" />
+<img src="/media/post/2020-COVID/images/DeathsForecast.png" alt="" />
 <p class="caption">Increase in Recoveries and Deaths over time</p>
 </div>
 <p>It is clear the model forecasts a faster growth than reality. A parameter estimation is necessary.</p>
@@ -1454,9 +1437,10 @@ ax.set_xlabel(&quot;time&quot;);
 ax.set_ylabel(&quot;Number of beds&quot;);
 ax.set_yscale(&quot;linear&quot;);
 
-PyPlot.savefig(&quot;images/BedUsage.png&quot;);</code></pre>
+PyPlot.savefig(&quot;images/BedUsage.png&quot;);
+</code></pre>
 <div class="figure">
-<img src="/post/images/BedUsage.png" alt="" />
+<img src="/media/post/2020-COVID/images/BedUsage.png" alt="" />
 <p class="caption">Bed Usage over time</p>
 </div>
 <p>It is clear that the requirements for beds quickly hits the available capacity</p>
@@ -1750,8 +1734,6 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);</code></pre>
       <li><a href="/2019/12/12/harvardx-gitbooks-available.html">HarvardX Gitbooks available</a></li>
       
       <li><a href="/2019/12/11/harvardx-final-report-lendingclub-dataset.html">HarvardX Final Report - LendingClub dataset</a></li>
-      
-      <li><a href="/2019/10/05/harvardx-data-science-course-first-final-project.html">HarvardX Data Science course - First final project</a></li>
       
       <li><a href="/2019/10/05/harvardx-data-science-course-first-final-project.html">HarvardX Data Science course - First final project</a></li>
       

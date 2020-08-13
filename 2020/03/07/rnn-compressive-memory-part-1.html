@@ -749,7 +749,7 @@
 <h3>From simple RNNs to LSTMs</h3>
 <p>Traditional neural networks were developed to train/run on information provided in a single step in a consistent format (e.g. images with identical resolution). Conceptually, a neural network could similarly be taught on sequential information (e.g. a video as a series of images) looking at it as a single sample, but that would require (1) being trained on the full sequence (e.g. an entire video), (2) being able to cope with information of variable length (i.e. short vs. long video). (1) is computationally intractable, and (2) means that units analysing later parts of the video would not be receiving as much training as earlier units when ideally they should be all share the same amount of training .</p>
 <div class="figure">
-<img src="/post/2020-03-RNN-compressive-memory/Recurrent_neural_network_unfold.svg" alt="" />
+<img src="/media/post/2020-rnn-compressive-memory/Recurrent_neural_network_unfold.svg" alt="" />
 <p class="caption"><strong>Basic RNN</strong> (source: <em>Wikipedia</em>)</p>
 </div>
 <p>The original RNN address those issues:</p>
@@ -765,7 +765,7 @@
 <div id="longshort-term-memory-rnns" class="section level3">
 <h3>Long/Short Term Memory RNNs</h3>
 <div class="figure">
-<img src="/post/2020-03-RNN-compressive-memory/Long_Short-Term_Memory.svg" alt="" />
+<img src="/media/post/2020-rnn-compressive-memory/Long_Short-Term_Memory.svg" alt="" />
 <p class="caption"><strong>Basic LSTM RNN</strong> (source: <em>Wikipedia</em>)</p>
 </div>
 <p>Long/Short Term Memory RNNs (<em>LSTM</em>) address this by passing two states:</p>
@@ -779,7 +779,7 @@
 <div id="attention" class="section level3">
 <h3>Attention</h3>
 <div class="figure">
-<img src="/post/2020-03-RNN-compressive-memory/Attention_RNN.svg" alt="" />
+<img src="/media/post/2020-rnn-compressive-memory/Attention_RNN.svg" alt="" />
 <p class="caption"><strong>Attention RNN</strong></p>
 </div>
 <p>RNN were further extended with an <em>attention mechanism</em>. Blog posts on attention by <a href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">Jay Alammar</a> and <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">Lilian Weng</a> are good introductions.</p>

@@ -118,7 +118,8 @@ baseR₀ = Dict( (:north,    :slow)     =&amp;gt; 2.2,
                (:tropical, :fast)     =&amp;gt; 3.0,
                (:south,    :slow)     =&amp;gt; 2.2, 
                (:south,    :moderate) =&amp;gt; 2.7, 
-               (:south,    :fast)     =&amp;gt; 3.2);&lt;/code&gt;&lt;/pre&gt;
+               (:south,    :fast)     =&amp;gt; 3.2);
+&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Peak date
 peakDate = Dict( :north     =&amp;gt; date2days(Date(2020, 1, 1)), 
                  :tropical  =&amp;gt; date2days(Date(2020, 1, 1)),    # although no impact
@@ -219,7 +220,7 @@ end;&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;population-compartments&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Population compartments&lt;/h3&gt;
 &lt;p&gt;Qualitatively, the epidemy model dynamics tracks several sub-groups (compartments):&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/images/States.svg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/media/post/2020-COVID/images/States.svg&#34;&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Susceptible individuals (&lt;span class=&#34;math inline&#34;&gt;\(S\)&lt;/span&gt;) are healthy and susceptible to being exposed to the virus by contact with an infected individual.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Exposed individuals (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;) are infected but asymptomatic. They progress towards a symptomatic state on average time &lt;span class=&#34;math inline&#34;&gt;\(t_l\)&lt;/span&gt;. Reports are that asymptomatic individuals are contagious. We will assume that they are proportionally less contagious than symptomatic individuals as a percentage &lt;span class=&#34;math inline&#34;&gt;\(\gamma_E\)&lt;/span&gt; of &lt;span class=&#34;math inline&#34;&gt;\(R_0\)&lt;/span&gt;. For the purposes of modelling we will assume (without supporting evidence, but will be the object of parameter estimation):&lt;/p&gt;&lt;/li&gt;
@@ -310,7 +311,8 @@ mₐ =       [0.01,   0.03,   0.03,    0.03,    0.06,    0.10,    0.25,    0.35,
 cₐ =       [0.05,   0.10,   0.10,    0.15,    0.20,    0.25,    0.35,    0.45,    0.55];
 fₐ =       [0.30,   0.30,   0.30,    0.30,    0.30,    0.40,    0.40,    0.50,    0.50];
 
-nAgeGroup = length(AgeGroup);&lt;/code&gt;&lt;/pre&gt;
+nAgeGroup = length(AgeGroup);
+&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;infrastruture&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;Infrastruture&lt;/h4&gt;
@@ -358,7 +360,7 @@ E2S_a(t) &amp;amp; = -S2E_a(t) \\
 &lt;p&gt;Quantitatively, the model expresses how many individuals transfer from one situation/compartment to another. Flows from compartment X to Y are written as &lt;span class=&#34;math inline&#34;&gt;\(X2Y\)&lt;/span&gt; (obviously &lt;span class=&#34;math inline&#34;&gt;\(X2Y = - Y2X\)&lt;/span&gt;).&lt;/p&gt;
 &lt;p&gt;Note that the compartments are split into age groups.&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/post/images/Transitions.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/media/post/2020-COVID/images/Transitions.svg&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Transitions between compartments&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;epidemiology&#34; class=&#34;section level4&#34;&gt;
@@ -554,16 +556,6 @@ cases = hcat(DataFrame(t = date2days.(cases[:, :time])), cases);
 cases = cases[cases.deaths .&amp;gt; 0, :];
 
 last(cases[:, [:time, :cases, :deaths]], 6)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 6×3 DataFrame
-## │ Row │ time       │ cases │ deaths │
-## │     │ Date       │ Int64 │ Int64  │
-## ├─────┼────────────┼───────┼────────┤
-## │ 1   │ 2020-03-17 │ 27980 │ 2158   │
-## │ 2   │ 2020-03-18 │ 31506 │ 2505   │
-## │ 3   │ 2020-03-19 │ 35713 │ 2978   │
-## │ 4   │ 2020-03-20 │ 41035 │ 3407   │
-## │ 5   │ 2020-03-21 │ 47021 │ 4032   │
-## │ 6   │ 2020-03-22 │ 53578 │ 4827   │&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The last rows shows the number of cases and deaths up to the last date in the dataset.&lt;/p&gt;
 &lt;p&gt;Plotting the number of death shows an almost exponential increase in numbers (straight line in logarithmic scale).&lt;/p&gt;
 &lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;using PyPlot;
@@ -585,7 +577,7 @@ ax.set_yscale(&amp;quot;log&amp;quot;);
 
 PyPlot.savefig(&amp;quot;images/Deaths.png&amp;quot;);&lt;/code&gt;&lt;/pre&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;images/Deaths.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/media/post/2020-COVID/images/Deaths.png&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Deaths&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;This file contains ICU beds figures.&lt;/p&gt;
@@ -628,9 +620,7 @@ tSpan = (StartDays, EndDays);&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;infrastructure&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Infrastructure&lt;/h2&gt;
 &lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;BED_max = hospital_capacity&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 165384.0&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;ICU_max = ICU_capacity&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 7550.0&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;parameter-vector&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Parameter vector&lt;/h2&gt;
@@ -699,7 +689,8 @@ solDF = hcat(DataFrame(t = sol.t), DataFrame(solDF));
 # Let&amp;#39;s clean the names
 compartments =  [&amp;quot;S&amp;quot;, &amp;quot;E&amp;quot;, &amp;quot;I&amp;quot;, &amp;quot;J&amp;quot;, &amp;quot;H&amp;quot;, &amp;quot;C&amp;quot;, &amp;quot;R&amp;quot;, &amp;quot;D&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;L&amp;quot;];
 solnames = vcat([:t], [Symbol(c * repr(n)) for c in compartments for n in 0:(nAgeGroup-1)], [:Beds], [:ICU]);
-rename!(solDF, solnames);&lt;/code&gt;&lt;/pre&gt;
+rename!(solDF, solnames);
+&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;# Create sums for each compartment
 # (Consider solDF[!, r&amp;quot;S&amp;quot;])
 # 
@@ -713,15 +704,6 @@ end;
 
 # The D column gives the final number of dead.
 println(last(solDF[:, Symbol.(compartments)], 5))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 5×10 DataFrame
-## │ Row │ S         │ E       │ I       │ J       │ H        │ C       │ R         │ D         │ K       │ L       │
-## │     │ Float64   │ Float64 │ Float64 │ Float64 │ Float64  │ Float64 │ Float64   │ Float64   │ Float64 │ Float64 │
-## ├─────┼───────────┼─────────┼─────────┼─────────┼──────────┼─────────┼───────────┼───────────┼─────────┼─────────┤
-## │ 1   │ 2.34204e7 │ 266.055 │ 161.2   │ 7.32202 │ 0.900005 │ 76.5626 │ 3.38881e7 │ 3.15639e6 │ 1.02912 │ 1.03034 │
-## │ 2   │ 2.34203e7 │ 265.399 │ 160.137 │ 7.24439 │ 0.900003 │ 63.8564 │ 3.38883e7 │ 3.15639e6 │ 1.02623 │ 1.02726 │
-## │ 3   │ 2.34201e7 │ 266.063 │ 159.801 │ 7.19297 │ 0.900003 │ 53.1721 │ 3.38885e7 │ 3.1564e6  │ 1.02414 │ 1.02496 │
-## │ 4   │ 2.34199e7 │ 268.188 │ 160.31  │ 7.17442 │ 0.900002 │ 44.8176 │ 3.38887e7 │ 3.1564e6  │ 1.0232  │ 1.02367 │
-## │ 5   │ 2.34198e7 │ 270.842 │ 161.291 │ 7.18298 │ 0.9      │ 39.6763 │ 3.38888e7 │ 3.15641e6 │ 1.02324 │ 1.02338 │&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The last row shows the final sizes of the various compartments.&lt;/p&gt;
 &lt;p&gt;Next is the evolution of the over time.&lt;/p&gt;
 &lt;pre class=&#34;julia&#34;&gt;&lt;code&gt;pyplot();
@@ -739,9 +721,10 @@ ax.set_xlabel(&amp;quot;time&amp;quot;);
 ax.set_ylabel(&amp;quot;Individuals&amp;quot;);
 ax.set_yscale(&amp;quot;log&amp;quot;);
 
-PyPlot.savefig(&amp;quot;images/DeathsForecast.png&amp;quot;);&lt;/code&gt;&lt;/pre&gt;
+PyPlot.savefig(&amp;quot;images/DeathsForecast.png&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/post/images/DeathsForecast.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/media/post/2020-COVID/images/DeathsForecast.png&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Increase in Recoveries and Deaths over time&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;It is clear the model forecasts a faster growth than reality. A parameter estimation is necessary.&lt;/p&gt;
@@ -759,9 +742,10 @@ ax.set_xlabel(&amp;quot;time&amp;quot;);
 ax.set_ylabel(&amp;quot;Number of beds&amp;quot;);
 ax.set_yscale(&amp;quot;linear&amp;quot;);
 
-PyPlot.savefig(&amp;quot;images/BedUsage.png&amp;quot;);&lt;/code&gt;&lt;/pre&gt;
+PyPlot.savefig(&amp;quot;images/BedUsage.png&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/post/images/BedUsage.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/media/post/2020-COVID/images/BedUsage.png&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Bed Usage over time&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;It is clear that the requirements for beds quickly hits the available capacity&lt;/p&gt;

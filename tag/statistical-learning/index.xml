@@ -91,21 +91,6 @@
     </item>
     
     <item>
-      <title>HarvardX Data Science course - First final project</title>
-      <link>/2019/10/05/harvardx-data-science-course-first-final-project.html</link>
-      <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/10/05/harvardx-data-science-course-first-final-project.html</guid>
-      <description>
-
-
-&lt;p&gt;I recently finished to penultimate &lt;a href=&#34;https://github.com/Emmanuel-R8/capstone-movielens/blob/master/MovieLens.pdf&#34;&gt;final assignment&lt;/a&gt; for the &lt;a href=&#34;https://www.edx.org/professional-certificate/harvardx-data-science&#34;&gt;HarvardX Data Science course&lt;/a&gt;. The Stanford course was clearly machine learning. This one is definitely lighter on the machine learning and much heavier on the data science: how to source, clean and visualise data are key skills. The targeted knowledge is more traditional probabilities/statistics. Long-existing fundamental techniques like inference, polling are there.&lt;/p&gt;
-&lt;p&gt;This time R is the centre tool of the course. It makes clear sense. When I started learning it about 15 years ago, I loathed the multiple gotchas. Since then, new libraries have simplified base R and removed its exceptions and exceptions to exceptions. In addition the &lt;code&gt;Rcpp&lt;/code&gt; library has eased implementation of efficient algorithms and interfacing with popular libraries. Still not a speed demon, but not the snail it used to be.&lt;/p&gt;
-&lt;p&gt;I won’t go through the project and my models. No revolutionary concepts. Just great results. I took half a day to reimplement in Julia, both to crosscheck and personal training. As expected, a lot easier to read. But the big surprise was the speed difference. Although I didn’t time it, Julia only felt about twice quicker. Credit to the R project folks (I only used matrices operations, no modeling libraries).&lt;/p&gt;
-&lt;p&gt;On this report, I got grades that can’t be improved upon. Happy camper.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Stanford Online - Machine Learning C229 </title>
       <link>/2019/08/02/stanford-online-machine-learning-c229.html</link>
       <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
