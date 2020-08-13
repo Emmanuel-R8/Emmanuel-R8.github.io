@@ -1,0 +1,106 @@
+﻿\usetikzlibrary{positioning, fit, arrows.meta, shapes}
+
+\begin{tikzpicture}[
+    roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
+    squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=5mm},
+    % Styles
+    % Main box
+    cell/.style={rectangle, 
+                 rounded corners=5mm, draw, very thick},
+    %For operators like +  and  x
+    operator/.style={circle, draw, inner sep=-0.5pt, minimum height =.2cm},
+    %For functions
+    function/.style={ellipse, draw, inner sep=1pt},
+    % For external inputs and outputs
+    ct/.style={circle, draw, line width = .75pt, minimum width=1cm, inner sep=1pt},
+    % For internal inputs
+    gt/.style={rectangle, draw, minimum width=4mm, minimum height=5mm, inner sep=1pt},
+    % something new that I have learned    
+    mylabel/.style={
+        font=\scriptsize\sffamily
+        },
+    % Arrows with rounded corners
+    ArrowConcat/.style={rounded corners=.25cm, thick},
+    ArrowC1/.style={rounded corners=.25cm, thick},
+    % Arrows with big rounded corners
+    ArrowC2/.style={rounded corners=.5cm, thick}
+]
+%
+% Start drawing the thing...    
+%
+% Draw the cell: 
+\node [cell, minimum height=5cm, minimum width=9.5cm] at (0,0){} ;
+
+% Draw inputs named ibox#
+
+% Starting from top left
+\matrix[row sep=3mm,column sep=3mm]{
+    & & & & & & & 
+    \node [ct, label={[mylabel]left:Output}] 			(x2) 		{$\hat{y}^{<t>}$}; & 
+    \\
+
+    \node [ct, label={[mylabel]left:Memory Cell}] 		(c) 		{${c}^{<t-1>}$}; & 
+    & 
+    \node [operator] 									(mux1) 		{$\times$}; & 
+    &
+    \node [operator] 									(add1) 		{+}; & 
+    & & &
+    \node [ct, label={[mylabel]right:Memory Cell}] 		(c2) 		{$c^{<t>}$};
+    \\
+
+    & & & & &   
+    \node [function] 									(tan2) 		{tanh}; & & 
+    \\
+
+    & & & &
+    \node [operator] 									(mux2) 		{$\times$}; &
+    \node [operator] 									(mux3) 		{$\times$}; &
+    \\
+
+    & & 
+    \node [gt] 											(ibox1) 	{$\Gamma_u =  \sigma \left( W_u V^{<t>} + b_u\right)$}; &
+    \node [gt] 											(ibox2)		{$\sigma$}; &
+    \node [gt, minimum width=1cm] 						(ibox3)		{tanh}; &
+    \node [gt] 											(ibox4)		{$\sigma$}; &
+    \node [coordinate]									(p1)		{}; 
+    \\
+
+    \node [ct, label={[mylabel]left:Hidden}] 			(h) 		{$h^{<t-1>}$}; &
+    \node [function, minimum width=1cm] 				(conc) 		{concat}; &
+    & & & & & &
+    \node [ct, label={[mylabel]right:Hidden}] 			(h2)		{$h^{<t>}$};
+    \\
+
+    &
+    \node [ct, label={[mylabel]left:Input}] 			(x)			{$x^{<t>}$};
+    \\
+};
+
+\draw [->, ArrowConcat] 		(h) 		--		(conc);
+\draw [->, ArrowConcat] 		(x) 		-- 		(conc);
+
+\draw [->, ArrowC2] 		(conc) 		-| 		(ibox1); 
+\draw [->, ArrowC2] 		(conc) 		-| 		(ibox2);
+\draw [->, ArrowC2] 		(conc) 		-| 		(ibox3);
+\draw [->, ArrowC2] 		(conc) 		-| 		(ibox4);
+
+% Drawing arrows    
+\draw [->, ArrowC2] 		(c) 		-- 		(mux1);
+\draw [->, ArrowC2] 		(mux1) 		-- 		(add1);
+\draw [->, ArrowC2] 		(add1) 		-- 		(c2);
+\draw [->, ArrowC2] 		(add1) 		-| 		(tan2);
+    
+\draw [->, ArrowC2] (ibox1) -- (mux1);
+\draw [->, ArrowC2] (ibox2) |- (mux2);
+\draw [->, ArrowC2] (ibox3) -- (mux2);
+\draw [->, ArrowC2] (ibox4) -- (mux3);
+\draw [->, ArrowC2] (mux2) -| (add1);
+\draw [->, ArrowC2] (tan2) -| (mux3);
+
+\draw [->, ArrowC2] (mux3) -| (x2);
+\draw [ArrowC2] (mux3) -| (p1);
+\draw [->, ArrowC2] (p1) |- (h2);
+
+\end{tikzpicture}
+
+
