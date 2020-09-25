@@ -4,12 +4,77 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories.html</loc>
-    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/machine-learning.html</loc>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/machine-learning.html</loc>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/neural-network.html</loc>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/neural-network.html</loc>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post.html</loc>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2020/12/31/rnn-compressive-memory-part-3-the-compression-algorithm.html</loc>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags.html</loc>
+    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html</loc>
+    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/julia.html</loc>
+    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/julia.html</loc>
+    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/neural-odes.html</loc>
+    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/neural-odes.html</loc>
+    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2020/08/14/normalising-flows.html</loc>
+    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -24,16 +89,6 @@
   
   <url>
     <loc>/category/miscellaneous.html</loc>
-    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post.html</loc>
-    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags.html</loc>
     <lastmod>2020-08-12T00:00:00+00:00</lastmod>
   </url>
   
@@ -55,26 +110,6 @@
   <url>
     <loc>/talk.html</loc>
     <lastmod>2020-04-30T20:17:27+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/julia.html</loc>
-    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/julia.html</loc>
-    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/machine-learning.html</loc>
-    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/machine-learning.html</loc>
-    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -100,16 +135,6 @@
   <url>
     <loc>/2020/03/25/2020-03-25-forecasting-covid-19.html</loc>
     <lastmod>2020-03-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/neural-network.html</loc>
-    <lastmod>2020-03-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/neural-network.html</loc>
-    <lastmod>2020-03-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -215,6 +240,16 @@
   <url>
     <loc>/tag/rstudio.html</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/privacy.html</loc>
+    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/terms.html</loc>
+    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
   </url>
   
   <url>

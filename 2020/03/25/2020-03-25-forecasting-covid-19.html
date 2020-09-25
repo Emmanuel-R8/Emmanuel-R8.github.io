@@ -30,13 +30,28 @@
   
     
   
-  <meta name="description" content="The Neherlab COVID-19 forecast model Basic assumptions Overview Age cohorts Severity Seasonality Transmission reduction Details of the model Population compartments Model parameters Infection After infection   Load data Initialise parameters Fixed constants Infrastructure Parameter vector Population Parameters vector  Differential equation solver Bilibliography   The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning.">
+  <meta name="description" content="The Neherlab COVID-19 forecast model Basic assumptions  Overview Age cohorts Severity Seasonality Transmission reduction Details of the model  Population compartments Model parameters Infection After infection   Load data Initialise parameters  Fixed constants Infrastructure Parameter vector Population Parameters vector  Differential equation solver Bilibliography   The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning.">
 
   
   <link rel="alternate" hreflang="en-us" href="/2020/03/25/2020-03-25-forecasting-covid-19.html">
 
   
 
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
 
   
   
@@ -58,7 +73,7 @@
     
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
     
@@ -69,8 +84,8 @@
     
       
       
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin="anonymous" title="hl-light">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-dark" disabled>
       
     
 
@@ -198,6 +213,13 @@
 
       
     
+      
+
+      
+      
+
+      
+    
 
   
 
@@ -290,7 +312,7 @@
   <meta property="og:site_name" content="Back2Numbers">
   <meta property="og:url" content="/2020/03/25/2020-03-25-forecasting-covid-19.html">
   <meta property="og:title" content="Forecasting the progression of COVID-19 | Back2Numbers">
-  <meta property="og:description" content="The Neherlab COVID-19 forecast model Basic assumptions Overview Age cohorts Severity Seasonality Transmission reduction Details of the model Population compartments Model parameters Infection After infection   Load data Initialise parameters Fixed constants Infrastructure Parameter vector Population Parameters vector  Differential equation solver Bilibliography   The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  <meta property="og:description" content="The Neherlab COVID-19 forecast model Basic assumptions  Overview Age cohorts Severity Seasonality Transmission reduction Details of the model  Population compartments Model parameters Infection After infection   Load data Initialise parameters  Fixed constants Infrastructure Parameter vector Population Parameters vector  Differential equation solver Bilibliography   The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
@@ -340,7 +362,7 @@
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
     }
   },
-  "description": "The Neherlab COVID-19 forecast model Basic assumptions Overview Age cohorts Severity Seasonality Transmission reduction Details of the model Population compartments Model parameters Infection After infection   Load data Initialise parameters Fixed constants Infrastructure Parameter vector Population Parameters vector  Differential equation solver Bilibliography   The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning."
+  "description": "The Neherlab COVID-19 forecast model Basic assumptions  Overview Age cohorts Severity Seasonality Transmission reduction Details of the model  Population compartments Model parameters Infection After infection   Load data Initialise parameters  Fixed constants Infrastructure Parameter vector Population Parameters vector  Differential equation solver Bilibliography   The Neherlab COVID-19 forecast model using CSV, Dates; using DataFrames, DataFramesMeta; using Plots, PyPlot; using DifferentialEquations; This is more a data science post than machine learning."
 }
 </script>
 
@@ -361,7 +383,20 @@
   <title>Forecasting the progression of COVID-19 | Back2Numbers</title>
 
 </head>
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="dark">
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="dark ">
+
+  
+  
+  
+    <script>window.wcDarkLightEnabled = true;</script>
+  
+  
+    <script>const isSiteThemeDark = true;</script>
+  
+  
+  <script src="/js/load-theme.js"></script>
 
   <aside class="search-results" id="search">
   <div class="container">
@@ -396,6 +431,9 @@
 
 
   
+
+
+
 
 
 
@@ -444,16 +482,24 @@
         
 
         
+
         
         
         
         
+
         
           
+            
+            
           
           
             
-          
+            
+            
+              
+            
+            
           
         
 
@@ -473,16 +519,24 @@
         
 
         
+
         
         
         
         
+
         
           
+            
+            
           
           
             
-          
+            
+            
+              
+            
+            
           
         
 
@@ -502,16 +556,24 @@
         
 
         
+
         
         
         
         
+
         
           
+            
+            
           
           
             
-          
+            
+            
+              
+            
+            
           
         
 
@@ -531,16 +593,24 @@
         
 
         
+
         
         
         
         
+
         
           
+            
+            
           
           
             
-          
+            
+            
+              
+            
+            
           
         
 
@@ -560,16 +630,24 @@
         
 
         
+
         
         
         
         
+
         
           
+            
+            
           
           
             
-          
+            
+            
+              
+            
+            
           
         
 
@@ -588,15 +666,17 @@
 
     <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
       
+      
       <li class="nav-item">
         <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
       </li>
       
 
       
+      
       <li class="nav-item dropdown theme-dropdown">
-        <a href="#" class="nav-link js-theme-selector" data-toggle="dropdown" aria-haspopup="true">
-          <i class="fas fa-palette" aria-hidden="true"></i>
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true">
+          <i class="fas fa-moon" aria-hidden="true"></i>
         </a>
         <div class="dropdown-menu">
           <a href="#" class="dropdown-item js-set-theme-light">
@@ -618,6 +698,7 @@
 
   </div>
 </nav>
+
 
 
   <article class="article">
@@ -713,17 +794,20 @@
 
     <div class="article-style">
       
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 <div id="TOC">
 <ul>
 <li><a href="#the-neherlab-covid-19-forecast-model">The <span>Neherlab COVID-19</span> forecast model</a></li>
-<li><a href="#basic-assumptions">Basic assumptions</a><ul>
+<li><a href="#basic-assumptions">Basic assumptions</a>
+<ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#age-cohorts">Age cohorts</a></li>
 <li><a href="#severity">Severity</a></li>
 <li><a href="#seasonality">Seasonality</a></li>
 <li><a href="#transmission-reduction">Transmission reduction</a></li>
-<li><a href="#details-of-the-model">Details of the model</a><ul>
+<li><a href="#details-of-the-model">Details of the model</a>
+<ul>
 <li><a href="#population-compartments">Population compartments</a></li>
 <li><a href="#model-parameters">Model parameters</a></li>
 <li><a href="#infection">Infection</a></li>
@@ -731,7 +815,8 @@
 </ul></li>
 </ul></li>
 <li><a href="#load-data">Load data</a></li>
-<li><a href="#initialise-parameters">Initialise parameters</a><ul>
+<li><a href="#initialise-parameters">Initialise parameters</a>
+<ul>
 <li><a href="#fixed-constants">Fixed constants</a></li>
 <li><a href="#infrastructure">Infrastructure</a></li>
 <li><a href="#parameter-vector">Parameter vector</a></li>
@@ -1729,6 +1814,8 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
     <h3>Related</h3>
     <ul>
       
+      <li><a href="/2020/08/14/normalising-flows.html">Normalising Flows and Neural ODEs</a></li>
+      
       <li><a href="/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html">Presentation at the Kong Kong Machine Learning meetup</a></li>
       
       <li><a href="/2019/12/12/harvardx-gitbooks-available.html">HarvardX Gitbooks available</a></li>
@@ -1765,13 +1852,13 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
 
       
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/python.min.js"></script>
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/julia.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/julia.min.js"></script>
         
       
 
@@ -1785,11 +1872,6 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
     
     
     <script>const code_highlighting = true;</script>
-    
-
-    
-    
-    <script>const isSiteThemeDark = true;</script>
     
 
     
@@ -1843,6 +1925,9 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
 
     
     
+
+    
+    
     <script id="dsq-count-scr" src="https://https-emmanuel-r8-github-io.disqus.com/count.js" async></script>
     
 
@@ -1860,7 +1945,7 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
     
     
     
-    <script src="/js/academic.min.66c553246b0f279a03be6e5597f72b52.js"></script>
+    <script src="/js/academic.min.d21c308a08df2c7d0039ffaa74c9eaa9.js"></script>
 
     
 
@@ -1873,6 +1958,16 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
   
   <div class="container">
     <footer class="site-footer">
+  
+  <p class="powered-by">
+    
+      <a href="/privacy.html">Privacy Policy</a>
+    
+    
+       &middot; 
+      <a href="/terms.html">Terms</a>
+    
+  </p>
   
 
   <p class="powered-by">
@@ -1890,7 +1985,9 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
   <p class="powered-by">
     
     Published with
-    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic Website Builder</a>
+    <a href="https://wowchemy.com" target="_blank" rel="noopener">Wowchemy</a>  —
+    the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">
+    open source</a> website builder that empowers creators.
     
 
     
@@ -1933,9 +2030,6 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
     </div>
   </div>
 </div>
-  
 
 </body>
-
-
 </html>

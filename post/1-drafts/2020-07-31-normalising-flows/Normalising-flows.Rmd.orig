@@ -1,0 +1,413 @@
+---
+title: 'Normalising Flows and Neural ODEs'
+description: ''
+thumbnail: ''
+author: Emmanuel Rialland
+date: '2020-08-14'
+slug: normalising-flows
+categories:
+  - Machine Learning
+  - Neural ODEs
+  - Julia
+tags:
+  - Machine Learning`
+  - Neural ODEs
+  - Julia  
+ 
+math: true
+draft: true
+ 
+output:
+  blogdown::html_page:
+    toc: true
+
+bibliography: ['../../assets/Zotero_references.bib', '../../assets/References_other.bib']
+link-citations: true
+#nocite: |
+#  @kobyzevNormalizingFlowsIntroduction2020a
+#  @papamakariosNormalizingFlowsProbabilistic2019
+---
+ 
+```{r message=FALSE,echo=FALSE}
+Sys.setenv(RSTUDIO_PANDOC = "/usr/lib/rstudio/bin/pandoc")
+```
+
+
+```{r juliasetup,include=FALSE,eval=FALSE}
+# Start Julia background process
+
+knitr::opts_chunk$set(
+#  class.source = "numberLines lineAnchors",
+#  class.output = c("numberLines lineAnchors chunkout")
+)
+
+# options(htmltools.dir.version = FALSE)
+# options(servr.daemon = TRUE)
+
+JuliaCall::julia_markdown_setup(JULIA_HOME = "/opt/julia/bin", notebook = TRUE)
+```
+
+
+```{julia juliaenv,include=FALSE,eval=FALSE}
+using Pkg
+Pkg.activate(ENV["HOME"] * "/Development/git/ML/Time_Series_Neural_ODEs")
+Pkg.status()
+```
+
+
+One of the three best paper awarded at NIPS 2018 was _Neural Ordinary Differential Equations_ by Tian Qi Chen, Yulia Rubanova, Jesse Bettencourt and David Duvenaud [@chenNeuralOrdinaryDifferential2019]. Since then, the field has developed in multiple directions. This post runs through a few of the underlying ideas. The form does not intend to be incredibly rigorous but relate some of the intuitions.
+
+# A few words about Generative Models
+
+## Introduction
+
+__Generative models__ are about learning __representations__; how, from a few paratemeters, to generate realistic samples that are similar to a given dataset. Those few parameters usually follow simple distributions (e.g. uniform or Gaussian) and are transformed thoough complex transformation into  the more complex datasett distribution. This is an unsupervised procedure and, in some sense, a mirror of clustering methods: clustering starts from the dataset and summarises it into few parameters. 
+
+
+[DIAGRAM var 1D to another var 1D]
+
+[DIAGRAM var 1D to another var 2D] 
+
+Although unsupervised, the result of this learning can be used as a __pretraining__ step in a later supervised context, or where that dataset is a mix of labelled and un-labelled data. The properties of the well-understood starting probability distributions can then help draw conclusions about the dataset's distribution or generate synthetic datasets.
+
+The same methods can also be used in supervised learning to learn the representation of a target dataset (categorical or continuous) as a transformation of the features dataset. The unsupervised becomes supervised.
+
+What does _representation learning_ actually mean? It is the automatic search for a few parameters that encapsulate rich enough information to classify a dataset. Generative models learn those parameters and, starting from them, how to re-create samples similar to the original dataset.  
+
+Let's use cars as an analogy.
+
+All cars have 4 wheels, an engine, brakes, seats. One could be interested in comfort or racing them or lugging things around or safety or fitting as many kids as possible. Each base vector could be express any one of those characteristics, but they will all have an engine, breaks and seats. The generation function recreates everything that is common. It doesn't matter if the car is comfy or not; it needs seats and a driving wheel. The generative function has to create those features. However, the exact number of cylinders, its shape, the seats fabric, or stiffness of the suspension all depend on the type of car. 
+
+The tru fundamentals are not obvious. For a long time, American cars had softer suspension than European cars. The definition of comfortable is relative. The performance of an old car is objectively not  the same as compared to new ones. Maybe other characteristics are more relevant to generate. Maybe price? Consumption? Year of coming to market? All those factors are obviously inter-related. 
+
+Generative models are more than generating samples from a few fundamental parameters. They also learn what those parameters should be. 
+
+## Latent variables
+
+Still using the car analogy, if the year of a model was not given, the generative process might still be able to conclude that the model year _should_ be an implicit parameter to be learned since relevant to generate the dataset: year is an unstated parameter that explains the dataset. Both the Lamborghini Miura and Lamborghini Countach ^[Piece of trivia: It seems that this is pronounced Counta-tch instead of counta-sh.] were similar in terms of perceived performance and exclusivity at the time they were created. But actual performances and styling where incredibly different.
+
+If looking at the stock market: take a set of market prices at a given date; it would have significantly different meanings in a bull or a bear market. Market regime would be a reasonable latent variable. 
+
+## Examples of generative models
+
+There are quite a number of generative models such restricted Boltzmann machines, deep belief networks. Refer to [@theodoridisMachineLearningBayesian2020] and [@russellArtificialIntelligenceModern2020] for example. Let's consider generative adversarial networks and variational auto-encoders.
+
+### Generative Adversarial Networks (__GANS__)
+
+Recently, GANs have risen to the fore as a way to generate artificial datasets that are, for some definition, indistinguishable from a real dataset. They consist of two parts:
+
+
+```{r}
+# Editor at 
+# https://mermaid-js.github.io/mermaid-live-editor
+DiagrammeR::mermaid("GAN.mmd")
+```
+
+
+- A generator which is the generative model itself: given a simple representation, the generator proposes samples that aim to be undistinguishable from the dataset sample. 
+
+- A discriminator whose job is to identify whether a sample comes from the generator or from the dataset.
+
+Both are trained simultaneously: 
+
+- if the discriminator finds it obvious to guess, the generator is not doing a good job and needs to improve;
+
+- if the discriminator guesses 50/50 (does not do better than flipping a coin), it has to discover which true dataset features are truly relevant. 
+
+
+### Variational autoencoders
+
+A successful GAN can replicate the richness of a dataset, but not the its distribution. A GAN can generate a large number of correct sentences, but will not tell how likely to occur that sentence is (or at least guarantee that the distributions match). _'The dog chases the cat'_ and _'The Chihuahua chases the cat'_ are both perfectly valid, but the latter less unlikely to appear.
+
+Variable autoencoders (VAEs) take another approach by learning a generator (called _decoder_) _and_ learning the distribution of the parameters to reflect the distribution of the samples within the dataset (the _encoder_). Both are trained simultaneously on the dataset samples by projecting samples on the latent variables' space, proposing a generated sample from that projection and training on the reconstruction loss.  The encoder actually learns means and standard deviations of the each latent variable, wach being a normal distribution. The samples generated will be as rich as the GAN's, but the probability of a sample being generated will depend on the learned distributions.
+
+See [@kingmaIntroductionVariationalAutoencoders2019] for an approachable extensive introduction. The details of VAEs include implementation aspects (in particular the _reparametrization trick_) that are critical to the success of this approach.
+
+## Limitations
+
+We limited the introduction to those two techniques to merely highlight two fundamental aspect that generative models aim at:
+
+- explore and replicate the richness of the dataset;
+
+- replicate the probability distribution of the dataset.
+
+Note that depending on the circumstances, the latter aim may not necessarily be important.
+
+As usual, training and optimisation methods are at risk of getting stuck at local optima. In the case of those two techniques, this manifests itself in different ways:
+
+- _GANs Mode collapse_: Mode collapse occurs in GANs when the generator only explores limited domains. Imagine training a GAN to recognise mammals (the dataset would contain kangaroos, whales, dogs and cats...). If the generator proposes everything but kangoaroos, it is still properly generate mammals, but obviously misses out on a few possibilities. Essentially, the generator reaches a local minimum where the gradient becomes too small to explore alternatives. This is in part due to the difficulty of progressing the training of both the generator and the discriminator in a way that does not lock any one of them in a local optimum while the other still needs improving: if either converges too rapidly, the other will struggle improving.
+
+- _VAEs Posterior collapse_: Posterior collapse in VAEs arises when the generative model learns to ignore a subset of the latent variables (although the encoder generates those variables) [@lucasDonBlameELBO2019]. More technically, it happens when the variational distribution closely matches the uninformative prior for a subset of latent variables [@lucasUnderstandingPosteriorCollapse2019]. The exact reasons for this are not entirely understood and this remains an active area of research (refer this extensive list of [papers](https://github.com/sajadn/posterior-collapse-list) on the topic). 
+
+As we will see, normalising flows address those two difficulties. Intuitively:
+
+- Mode collapse reflects that the generative process does not generate enough possibilities; that the spectrum of possibilities is not as rich as that of the dataset. Normalising flows attempt to address this in two ways. Firstly, the optimising process aims as optimising (and matching) the amount of generated information to that of the dataset. Secondly, normalising flows allow to start from a sample in the dataset, flow back to the simple distribution and estimate how (un)likely the generative model would have generated this sample. If the dataset has a lot of whales, generating only dogs is clearly not good enough...
+
+- The posterior collapse could simply be a mismatch between the number of latent variables and the dimensionality of the dataset, difficulties to specify an effective loss function (and its gradients) or a local optima. As we will see, normalising flows impose that the generative model be a bijection. In a sense, this means that there should be the same 'complexity' in the latent variables as in the dataset (although not the same amount of information in the sense of information theory). 
+
+<!-->
+## __CHECK FOLLOWING__ Revival of neural networks
+
+> In this section, the discussion setting is to learn representations that are independent of a specific
+target task; the goal is to extract such information using the input data only. The reason for such a focus
+is twofold. First, learning a model representation of the input data can be used subsequently in different
+tasks in order to facilitate the training. Sometimes, this is also known as pretraining, where parameters
+learned using unlabeled data can be used as initial estimates of the parameters for another supervised
+learning. This can be useful when the number of labeled examples is not large enough (see, e.g., [148]
+for a discussion). It is worth pointing out that such a pretraining rationale is of a historical importance,
+because it led to the revival of neural networks, as will be discussed soon [86].
+
+86 is @FastLearningAlgorithm2006 from Bengio
+
+<!-->
+ 
+
+> All methodology involve finding a function $f$. Neural networks have long been known to be able to generate artificially complicated functions and the idea of using them as a way to represent $f$ is one of the reasons that led to their revivals.
+
+
+# Normalising flows
+
+Normalising Flows became popular around 2015 with two papers on density estimation [@dinhNICENonlinearIndependent2015] and use of variational inference [@rezendeVariationalInferenceNormalizing2016]. However, the concepts predated those papers. (See [@kobyzevNormalizingFlowsIntroduction2020a] and [@papamakariosNormalizingFlowsProbabilistic2019] for recent survey papers.)
+
+## Introduction
+
+One important limitations of the approaches described above is that the generation flow is unidirectional: one starts from a source distribution, sometimes with well-known properties, and generates a richer target distribution. However, given a particular sample in the target distribution, there is no guaranteed way to identify where it would fall in the original source distribution. That flow of transformation from source to target is not guaranteed to be bijective or invertible (same meaning, different crowds). (In the case of VAEs, this is the case in the encoder.)
+
+Normalising flows are a generic solution to that issue: it is a transformation of an original distribution into a more complex distribution by an invertible and differentiable mapping, where the probability density of a sample can be evaluated by transforming it back to the original distribution. The density is evaluated by computing the density of the normalised inverse-transformed sample. 
+
+In practice, this is a bit too general to be of any use. Breaking it down:
+
+- The original distribution is simple with well-known statistical properties: i.i.d. Gaussian or uniform distributions. 
+
+- The transformation function is expected to be complicated, and is normally specified as a series of successive transformations, each simpler (though expressive enough) and easy to parametrise.
+
+- Each simple transformation is itself invertible and differentiable, therefore guaranteeing that the overall transformation is too.
+
+- We want the transformation to be _normalised_: the cumulative probability density of the generated targets from latent variables has to be equal 1. Otherwise, flowing backwards to use the properties of the original would make no sense. The word _normalising_ refers to this operation, and not to the fact that the original distribution _could_ be normal.
+
+- Geometrically, the probability distribution around each point in the latent variables space has a certain volume that is successively transformed with each transformation. Keeping track of all the volume changes ensures that we can relate probability density functions in the original space and the target space.
+
+- How to keep track? This is where the condition of having invertible and differentiable transformation becomes important. (Math-speak: we have a series of diffeomorphisms which are transformations from one infinitesimal volume to another. They are invertible and differentiable, and their inverses are also differentiable.) If one imagines a small volume of space around a starting point, that volume gets distorted along the way. At each point, the transformation is differentiable and can be approximated by a linear transformation (a matrix). That matrix is the Jacobian of the transformation at that point (diffeomorphims also means that the Jacobian matrix exists and is invertible). Being invertible, the matrix has no zero eigenvalues and the change of volume is locally equal to the product of all the eigenvalues: the volume gets squeezed along some dimensions, expanded along others, rotations are irrelevant. The product of the eigenvalues is the determinant of the matrix. A negative eigenvalue would mean that the infinitesimal volume is 'flipped' along that direction. That sign is irrelevant: the local volume change is therefore the absolute value of the determinant.
+
+- We can already anticipate a calculation nightmare: determinants are computationally very heavy. Additionally, in order to backpropagate a loss to optimise the transformations' parameters, we will need the Jacobians of the inverse transformations (the inverse of the transformmation Jacobian). Without further simplifying assumptions or tricks, normalising flows would be impractical for large dimensions.
+
+### Some math
+
+The starting distribution is a random variable $X$ with a support in $\mathbb{R}^D$. For simplicity, we will assume just assume that the support is $\mathbb{R}^D$ since using measurable supports does not change the results. If $X$ is transformed into $Y$ by an invertible function/mapping $f: \mathbb{R}^D \rightarrow \mathbb{R}^D$ ($Y=f(X)$), then the density function of $Y$ is:
+
+$$
+\begin{aligned}
+P_Y(\vec{y}) & = P_X(\vec{x}) \left| \det \nabla f^{-1}(\vec{y})  \right| \\
+                & = P_X(\vec{x}) \left| \det\nabla f(\vec{x}) \right|^{-1}
+\end{aligned}
+$$
+
+where $\vec{x} = f^{-1}(\vec{y})$ and $\nabla$ represents the Jacobian operator. Note the use of $\vec{x}$ to denote vectors instead of the normal $\mathbf{x}$ which I find on-screen easy to mistake for a constant.
+
+Following $f$ is the _generative_ direction; following $f^{-1}$ is the _normalising_ direction (as well as being the _inference_ direction in a more general context). 
+
+If $f$ was a series of individual transformation $f = f_1 \circ f_i \circ \cdots \ f_N$, then it naturally follows that:
+
+$$
+\begin{aligned}
+\det\nabla f(\vec{x})      & = \prod_{i=1}^N{\det \nabla f_i(\vec{x}_i)} \\
+\det\nabla f^{-1}(\vec{x}) & = \prod_{i=1}^N{\det \nabla f_i^{-1}(\vec{x}_i)}
+\end{aligned}
+$$
+
+In order to make clear that the Jacobian is _not_ taken wrt the starting latent variables $x$, we use the notation:
+
+$$
+\vec{x}_i = f_{i-1}(\vec{x}_{i-1})
+$$
+
+## Training loss optimisation and information flow
+
+Before moving into examples for normalising flows, we need to comment on the loss function optimisation. How do we determine the generative model's parameters so that the generated distribution is as close as possible to the real distribution (or at least to the distribution of the samples drawn from that true distribution)?
+
+A standard way to do this is to calculate the Kullback-Leibler divergence between the two. Recall that the KL divergence $\mathbb{KL}(P \vert \vert Q)$ is _not_ a distance as it is not symmetric. I personally read $\mathbb{KL}(P \vert \vert Q)$ as "the loss of information on the true $P$ if using the approximation $Q$" as a way to keep the two distributions at their right place (writing $\mathbb{KL}(P_{true} \vert \vert Q_{est.})$ helps clarify the proper order). 
+
+The KL divergence is defined as:
+
+$$
+\begin{aligned}
+\mathbb{KL}(P_{true} \vert \vert Q_{est.}) = \mathbb{E}_{P_{true}(\vec{x})} \log \frac{P_{true}(\vec{x})}{Q_{est.}(\vec{x})}
+\end{aligned}
+$$
+Or for a discrete distribution:
+
+$$
+\begin{aligned}
+\mathbb{KL}(P_{true} \vert \vert Q_{est}) & =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{Q_{est}(\vec{x})} \\
+                                          & =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log Q_{est}(\vec{x}) \right] 
+\end{aligned} 
+$$
+
+In our particular case, this becomes:
+
+$$
+\begin{aligned}
+\mathbb{KL}(P_{true} \vert \vert P_Y) & = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{P_Y(\vec{y})}} \\
+                                      & = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log P_Y(\vec{y}) \right] }
+\end{aligned}
+$$
+
+since:
+
+$$
+\begin{aligned}
+P_Y(\vec{y}) & = P_X(\vec{x}) \left| det \nabla f^{-1}(\vec{y})  \right| \\
+& = P_X(\vec{x}) \left| det\nabla f(\vec{x}) \right|^{-1}
+\end{aligned}
+$$
+
+We end up with:
+
+$$
+\begin{split}
+\mathbb{KL}(P_{true} \vert \vert P_Y) & = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x})  - \log \left( P_X(\vec{x}) \left| det \nabla f(\vec{y})  \right|^{-1} \right) \right] }
+\end{split}
+$$
+Minimising this divergence is achieved by changing the parameters which generate $f$.
+
+
+The divergence is one of many measures that can be used to measure the distance (in the loose sense of the word) between the true and generated distributions. But the KL divergence illustrates how logarithms of the probability distributions naturally appear. A common formulation of the loss is the Wasserstein distance. In the setting of the normalising flows (and VAEs), we have two transformations: the inference direction (the encoder) and the generative direction (the decoder). Given the back-and-forth nature, it makes sense to _not_ favour one direction over the other. Instead of using the KL divergence which is not symmetric, use the mutual information (this is equivalent to using free energy as in [@rezendeVariationalInferenceNormalizing2016]).
+
+Regardless of the choice of loss function, it is obvious that optimising $\mathbb{KL}(P_{true} \vert \vert P_Y)$ cannot be contemplated without serious optimisations. Alternatively, finding more tractable alternative distance measurements is an active research topic ^[Incidentally, this observation is made in the last sentence of the last paragraph of the last chapter of the [Deep Learning Book](https://www.deeplearningbook.org/) [@GoodfellowDeepLearning2016] ].
+
+
+## Basic flows
+
+When normalizing flows were introduced by [@rezendeVariationalInferenceNormalizing2016], they experimented with simple transformations: a linear transformation (with a simple non-linear function) called _planar flows_ and flows within a space centered on a reference latent variable called _radial flows_.
+
+
+## Planar Flows
+
+A planar flow is formulated as follows:
+
+$$
+f_i(\vec{x}_i) = \vec{x}_i + \vec{u_i}  h(\vec{w}_i^\intercal \vec{x}_i + b_i)
+$$
+where $\vec{u}_i$ and $\vec{w}_i$ are vectors, $h()$ is a non-linear real function and $b_i$ is a scalar.
+
+By defining:
+
+$$
+\psi_i(\vec{z}) = h'(\vec{w}^\intercal \vec{z} + b_i) \vec{w}_i
+$$
+
+the determinant required to normalize the flow can be simplified to (see original paper for the short steps involved):
+
+$$
+\left| \det \frac{\partial f_i}{\partial x_i}  \right| = \left| \det \left( \mathbb{I} + \vec{u_i} \psi_i(\vec{x}_i)^\intercal \right) \right| = \left| 1 + \vec{u_i}^\intercal \psi_i(\vec{x}_i)  \right|
+$$
+
+This is a more tractable expression.
+
+### Radial flows
+
+The formulation of the radial flows takes a reference hyper-ball centered at a reference point $\vec{x}_0$. Any point $\vec{x}$ gets moved in the direction of $\vec{x} - \vec{x}_0$. That move is dependent on $\vec{x}$. In other words, imagine a plain hyper-ball, after many such transformations, you obtain a hyper-potato.
+
+The flows are defined as:
+
+$$
+f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec{x}_0 \right)
+$$
+
+where $\alpha_i$ is a strictly positive scalar, $\beta_i$ is a scalar,  $\rho_i = \left|| \vec{x}_i - \vec{x}_0 \right||$ and $h(\alpha_i, \rho_i) = \frac{1}{\alpha_i + \rho_i}$.
+
+This family of functions gives the following expression of the determinant:
+
+$$
+\left| \det \nabla f_i(\vec{x}_i) \right| = \left[ 1 + \beta_i h(\alpha_i, \rho_i) \right] ^{D-1} \left[ 1 + \beta_i h(\alpha_i, \rho_i) +  \beta_i \rho_i h'(\alpha_i, \rho_i) \right]
+$$
+
+Again, this is a more tractable expression.
+
+Unfortunately, it was found that those transformations do not scale well to high-dimensional latent space. 
+
+## More complex flows
+
+### Residual flows (discrete flows)
+
+Various proposals were initially put forward with common aims: replacing $f$ by a series of sequentially composed simpler but expressive base functions and paying particular attention the computational costs. (refer [@kobyzevNormalizingFlowsIntroduction2020a] and [@papamakariosNormalizingFlowsProbabilistic2019] for details).
+
+Residual flows [@heDeepResidualLearning2015] were a key development. As the name suggests, the transformations mirror the neural networks RevNet structure. Explicitly, $f$ is defined as $f(x) = x + \phi(x)$. The left-hand side identity term is a matrix where all the eigenvalues are 1 (duh). If $\phi(x)$ represented a simple matrix multiplication, imposing the condition that all its eigenvalues of the righthand side term are strictly strictly between 0 and 1 ensure that $f$ remains invertible. An equivalent, and more general condition, is to impose that $\phi$ is Lipschitz-continuous with a constant below 1. That is:
+
+$$
+\forall x, y \qquad  0 < \left| \phi(x) - \phi(y) \right| < \left| x - y \right|
+$$
+
+and therefore:
+
+$$
+\forall x, h>0 \qquad  0 < \frac{\left| \phi(x+h) - \phi(x) \right|}{h} < 1
+$$
+
+Thanks to this condition, not only $f$ is invertible, but all the eigenvalues of $\nabla f = \mathbb{I} + \nabla \phi(x)$ are strictly positive (adding a transformation with unity eigenvalues (i.e. $\mathbb{I}$) and a transformation with eigenvalues strictly below unity (in norm) cannot result in a transformation with nil eigenvalues). Therefore, we can be certain that $\vert \det \nabla f \vert = \vert \det (\mathbb{I} + \nabla \phi(x)) \vert =  \det (\mathbb{I} + \nabla \phi(x)) $ (no negative eigenvalues).
+
+Recalling that $det(e^A) = e^{tr(A)}$ and the Taylor expansion of $\log$, we obtain the following simplification:
+
+$$
+\begin{aligned}
+\log \enspace \vert \det \nabla f \vert & = \log \enspace \det(\mathbb{I} + \nabla \phi) \\ 
+                                       & = tr(\log (\mathbb{I} + \nabla \phi)) \\
+\log \enspace \vert \det \nabla f \vert & = \sum_{k=1}^{\infty}{(-1)^{k+1} \frac{tr(\nabla \phi)^k}{k}}
+\end{aligned}
+$$
+
+Obviously a trace is much easier to calculate than a determinant. However, the expression now becomes an infinite series. One of the core result of the cited paper is an algorithm to limit the number of terms to calculate in this infinite series. 
+
+## Other versions
+
+Table from Papamakorios
+
+## Continuous flows
+
+
+
+
+# Neural ordinary differential equations
+
+One of the Best Papers of NeurIPS 2018
+
+## Continuous flows
+
+### Continuous flows means no-crossover
+
+Not the case for residual which have discrete steps.
+
+
+## Universal ordinary differential equations
+
+## Stochastic differential equations
+
+## Other
+
+Previously mentioned generative models can be improved with normalising flows
+
+Flow-GAN Grover, Dhan Ermon, Flow-GAN combining Mx Likelihood and adversarial learning and generative model
+
+## Optimisation
+
+Divergence / distance measures
+
+Kullback-Leibner / Jensen-Shannon divergence / Wasserstein distance
+
+
+# References
+
+
+<div id="refs"></div>
+
+
+# (APPENDIX) Appendix {-} 
+
+# More information
+
+This will be Appendix A.
+
+# One more thing
+
+This will be Appendix B.
+
