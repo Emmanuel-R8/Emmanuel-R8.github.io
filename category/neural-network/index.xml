@@ -57,7 +57,7 @@
 &lt;h3&gt;From simple RNNs to LSTMs&lt;/h3&gt;
 &lt;p&gt;Traditional neural networks were developed to train/run on information provided in a single step in a consistent format (e.g. images with identical resolution). Conceptually, a neural network could similarly be taught on sequential information (e.g. a video as a series of images) looking at it as a single sample, but that would require (1) being trained on the full sequence (e.g. an entire video), (2) being able to cope with information of variable length (i.e. short vs. long video). (1) is computationally intractable, and (2) means that units analysing later parts of the video would not be receiving as much training as earlier units when ideally they should be all share the same amount of training .&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://emmanuel-r8.github.io/media/post/2020-rnn-compressive-memory/Recurrent_neural_network_unfold.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;assets/Recurrent_neural_network_unfold.svg&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Basic RNN&lt;/strong&gt; (source: &lt;em&gt;Wikipedia&lt;/em&gt;)&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;The original RNN address those issues:&lt;/p&gt;
@@ -73,7 +73,7 @@
 &lt;div id=&#34;longshort-term-memory-rnns&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Long/Short Term Memory RNNs&lt;/h3&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://emmanuel-r8.github.io/media/post/2020-rnn-compressive-memory/Long_Short-Term_Memory.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;assets/Long_Short-Term_Memory.svg&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Basic LSTM RNN&lt;/strong&gt; (source: &lt;em&gt;Wikipedia&lt;/em&gt;)&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Long/Short Term Memory RNNs (&lt;em&gt;LSTM&lt;/em&gt;) address this by passing two states:&lt;/p&gt;
@@ -87,7 +87,7 @@
 &lt;div id=&#34;attention&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Attention&lt;/h3&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://emmanuel-r8.github.io/media/post/2020-rnn-compressive-memory/Attention_RNN.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;assets/Attention_RNN.svg&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Attention RNN&lt;/strong&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;RNN were further extended with an &lt;em&gt;attention mechanism&lt;/em&gt;. Blog posts on attention by &lt;a href=&#34;https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/&#34;&gt;Jay Alammar&lt;/a&gt; and &lt;a href=&#34;https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html&#34;&gt;Lilian Weng&lt;/a&gt; are good introductions.&lt;/p&gt;
