@@ -3,265 +3,230 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/machine-learning.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/machine-learning.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/neural-network.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/neural-network.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/12/31/rnn-compressive-memory-part-3-the-compression-algorithm.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags.html</loc>
-    <lastmod>2020-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html</loc>
-    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/julia.html</loc>
-    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/julia.html</loc>
-    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/neural-odes.html</loc>
-    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/neural-odes.html</loc>
-    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/08/14/normalising-flows.html</loc>
-    <lastmod>2020-08-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2020/08/12/miscellaneous.html</loc>
+    <loc>https://emmanuel-r8.github.io/</loc>
     <lastmod>2020-08-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/miscellaneous.html</loc>
+    <loc>https://emmanuel-r8.github.io/categories/</loc>
     <lastmod>2020-08-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/category/miscellaneous.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2020/08/12/miscellaneous/</loc>
     <lastmod>2020-08-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/talk/hkml202004.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/miscellaneous/</loc>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/category/miscellaneous/</loc>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/post/</loc>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/tags/</loc>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/talk/hkml202004/</loc>
     <lastmod>2020-04-30T20:17:27+08:00</lastmod>
   </url>
   
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://emmanuel-r8.github.io/authors/</loc>
     <lastmod>2020-04-30T20:17:27+08:00</lastmod>
   </url>
   
   <url>
-    <loc>/author/emmanuel-rialland.html</loc>
+    <loc>https://emmanuel-r8.github.io/author/emmanuel-rialland/</loc>
     <lastmod>2020-04-30T20:17:27+08:00</lastmod>
   </url>
   
   <url>
-    <loc>/talk.html</loc>
+    <loc>https://emmanuel-r8.github.io/talk/</loc>
     <lastmod>2020-04-30T20:17:27+08:00</lastmod>
   </url>
   
   <url>
-    <loc>/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/julia/</loc>
     <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/covid-19.html</loc>
+    <loc>https://emmanuel-r8.github.io/category/julia/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/tag/machine-learning/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/category/machine-learning/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/post/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/tag/covid-19/</loc>
     <lastmod>2020-03-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/data-science.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/data-science/</loc>
     <lastmod>2020-03-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/category/data-science.html</loc>
+    <loc>https://emmanuel-r8.github.io/category/data-science/</loc>
     <lastmod>2020-03-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2020/03/25/2020-03-25-forecasting-covid-19.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2020/03/25/2020-03-25-forecasting-covid-19/</loc>
     <lastmod>2020-03-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2020/03/07/rnn-compressive-memory-part-1.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/neural-network/</loc>
     <lastmod>2020-03-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/project/lendingclub.html</loc>
+    <loc>https://emmanuel-r8.github.io/category/neural-network/</loc>
+    <lastmod>2020-03-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/post/2020/03/07/rnn-compressive-memory-part-1/</loc>
+    <lastmod>2020-03-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/project/lendingclub/</loc>
     <lastmod>2019-12-12T16:17:27+08:00</lastmod>
   </url>
   
   <url>
-    <loc>/project.html</loc>
+    <loc>https://emmanuel-r8.github.io/project/</loc>
     <lastmod>2019-12-12T16:17:27+08:00</lastmod>
   </url>
   
   <url>
-    <loc>/project/movielens.html</loc>
+    <loc>https://emmanuel-r8.github.io/project/movielens/</loc>
     <lastmod>2019-12-12T16:07:46+08:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/12/12/harvardx-gitbooks-available.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2019/12/12/harvardx-gitbooks-available/</loc>
     <lastmod>2019-12-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/r.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/r/</loc>
     <lastmod>2019-12-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/category/r.html</loc>
+    <loc>https://emmanuel-r8.github.io/category/r/</loc>
     <lastmod>2019-12-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/r-markdown.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/r-markdown/</loc>
     <lastmod>2019-12-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/statistical-learning.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/statistical-learning/</loc>
     <lastmod>2019-12-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</loc>
     <lastmod>2019-12-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/quick-thought.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/quick-thought/</loc>
     <lastmod>2019-10-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/category/quick-thought.html</loc>
+    <loc>https://emmanuel-r8.github.io/category/quick-thought/</loc>
     <lastmod>2019-10-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2019/10/25/quick-idea-universal-translator-and-same-language-translator/</loc>
     <lastmod>2019-10-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/what-about.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/what-about/</loc>
     <lastmod>2019-10-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/10/23/neural-network-incremental-growth.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2019/10/23/neural-network-incremental-growth/</loc>
     <lastmod>2019-10-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/10/05/harvardx-data-science-course-first-final-project.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2019/10/05/harvardx-data-science-course-first-final-project/</loc>
     <lastmod>2019-10-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/octave.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/octave/</loc>
     <lastmod>2019-08-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/08/02/stanford-online-machine-learning-c229.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2019/08/02/stanford-online-machine-learning-c229/</loc>
     <lastmod>2019-08-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/blogdown.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/blogdown/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/08/01/hello-blogdown.html</loc>
+    <loc>https://emmanuel-r8.github.io/post/2019/08/01/hello-blogdown/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/rstudio.html</loc>
+    <loc>https://emmanuel-r8.github.io/tag/rstudio/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/privacy.html</loc>
-    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
+    <loc>https://emmanuel-r8.github.io/author/emmanuel-rialland/</loc>
   </url>
   
   <url>
-    <loc>/terms.html</loc>
-    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
+    <loc>https://emmanuel-r8.github.io/publication_types/</loc>
   </url>
   
   <url>
-    <loc>/author/emmanuel-rialland.html</loc>
-  </url>
-  
-  <url>
-    <loc>/publication_types.html</loc>
-  </url>
-  
-  <url>
-    <loc>/publication.html</loc>
+    <loc>https://emmanuel-r8.github.io/publication/</loc>
   </url>
   
 </urlset>

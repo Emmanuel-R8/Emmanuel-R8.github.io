@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R | Back2Numbers</title>
-    <link>/category/r.html</link>
-      <atom:link href="/category/r/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://emmanuel-r8.github.io/category/r/</link>
+      <atom:link href="https://emmanuel-r8.github.io/category/r/index.xml" rel="self" type="application/rss+xml" />
     <description>R</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Thu, 12 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://emmanuel-r8.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>R</title>
-      <link>/category/r.html</link>
+      <link>https://emmanuel-r8.github.io/category/r/</link>
     </image>
     
     <item>
       <title>HarvardX Gitbooks available</title>
-      <link>/2019/12/12/harvardx-gitbooks-available.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/12/12/harvardx-gitbooks-available/</link>
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/12/12/harvardx-gitbooks-available/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;Both capstones for the HarvardX certificates are now available. Just click on the &lt;code&gt;Projects&lt;/code&gt; link!&lt;/p&gt;
@@ -29,11 +29,11 @@
     
     <item>
       <title>HarvardX Final Report - LendingClub dataset</title>
-      <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</link>
       <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;After 3 months of work, the final report for the HarvardX Data Science course was submitted.&lt;/p&gt;
@@ -55,11 +55,11 @@
     
     <item>
       <title>Hello Blogdown!</title>
-      <link>/2019/08/01/hello-blogdown.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/08/01/hello-blogdown/</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/08/01/hello-blogdown.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/08/01/hello-blogdown/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;

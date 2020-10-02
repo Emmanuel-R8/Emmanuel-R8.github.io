@@ -1,798 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Machine Learning` | Back2Numbers</title>
-    <link>/tag/machine-learning.html</link>
-      <atom:link href="/tag/machine-learning/index.xml" rel="self" type="application/rss+xml" />
-    <description>Machine Learning`</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Thu, 31 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <title>Machine Learning | Back2Numbers</title>
+    <link>https://emmanuel-r8.github.io/tag/machine-learning/</link>
+      <atom:link href="https://emmanuel-r8.github.io/tag/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <description>Machine Learning</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Thu, 30 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
-      <title>Machine Learning`</title>
-      <link>/tag/machine-learning.html</link>
+      <url>https://emmanuel-r8.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Machine Learning</title>
+      <link>https://emmanuel-r8.github.io/tag/machine-learning/</link>
     </image>
     
     <item>
-      <title>RNN Compressive Memory Part 3: The Compression algorithm</title>
-      <link>/2020/12/31/rnn-compressive-memory-part-3-the-compression-algorithm.html</link>
-      <pubDate>Thu, 31 Dec 2020 00:00:00 +0000</pubDate>
-      <guid>/2020/12/31/rnn-compressive-memory-part-3-the-compression-algorithm.html</guid>
-      <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
-
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#the-transformerxl&#34;&gt;The TransformerXL&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#background&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#compressive-memory&#34;&gt;Compressive Memory&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#background-1&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#model-overall-structure&#34;&gt;Model overall structure&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#memory-compression&#34;&gt;Memory compression&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#compression-function&#34;&gt;Compression function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#loss-function&#34;&gt;Loss function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#model-timing&#34;&gt;Model timing&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#attention-reconstruction-loss&#34;&gt;Attention-Reconstruction Loss&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#notation-summary&#34;&gt;Notation summary&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This is part 3 of a discussion of the DeepMind paper about &lt;a href=&#34;https://arxiv.org/abs/1911.05507&#34;&gt;Compressive Transformers for Long-Range Sequence Modelling&lt;/a&gt;.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;../07/rnn-compressive-memory-part-1.html&#34;&gt;Part 1&lt;/a&gt;: A high level introduction to Compressive Memory mechanics starting from basic RNNS;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Part 2 (here): a detailed explanation of the TransformerXL;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Part 3: an implementation using PyTorch;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Part 4: finally, its application to time series.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;This post describes the building blocks up to what makes a &lt;a href=&#34;https://arxiv.org/abs/1901.02860&#34;&gt;TransformerXL&lt;/a&gt; model as presented in June 2019. The compression mechanics are an add-on to the TransformerXL which therefore need to be detailed. Along the way, it will become clear that, in many ways, the implementation described only applies to embeddings, i.e. one-hot encodings, and not to to truly multi-dimensional variable inputs.&lt;/p&gt;
-&lt;div id=&#34;the-transformerxl&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The TransformerXL&lt;/h2&gt;
-&lt;div id=&#34;background&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Background&lt;/h3&gt;
-&lt;p&gt;The previous part introduced a chronological introduction starting with RNNs. However, it would have been more accurate to present those models as Sequential Neural Network: They are concerned with dealing with sequential pieces of information (individual elements) and capturing their respective interactions. &lt;em&gt;Recurrent&lt;/em&gt; networks are but one type of sequential networks.&lt;/p&gt;
-&lt;p&gt;The first generation Recurrent Neural Networks passes contextual information from one sequential unit to the next within a layer. A unit does not see anything past its preceding neighbour. Bidirectional networks do not feed a unit with information coming from both sides within a single layer, they are a combination of two layers going in opposite directions. RNNs do not capture information as a whole.&lt;/p&gt;
-&lt;p&gt;The addition of &lt;em&gt;attention&lt;/em&gt; is the first mechanism that captured the entire sequence. First, within an RNN layer, each unit receives an input from the preceding layer (or a training segment). Then, an attention layer (an &lt;em&gt;attention head&lt;/em&gt;) is fed with each and every output produced by the RNN layer. Each hidden state is weighted by trained parameters and the attention layer produces
-Several attention heads can be trained in parallel and combine their results using trained parameters into a final output.&lt;/p&gt;
-&lt;p&gt;The number of parameters for this type of model is extremely large.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;compressive-memory&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Compressive Memory&lt;/h2&gt;
-&lt;div id=&#34;background-1&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Background&lt;/h3&gt;
-&lt;p&gt;From the last post, recall that compressive transformer are an extension to the TransformerXL. TransformerXL trains using segments extracted from all the sequences available in the dataset. It also uses hidden states calculated when training prior segments. In a sense, it seeks to indirectly increase the size of the training segments. Naturally, the model stores past hidden states (past memories) in a buffer of limited size. It has to discard discarding the oldest memories from that primary memory when moving from a segment to the next.&lt;/p&gt;
-&lt;p&gt;The key addition of the compressive model is to avoid immediately the discarding by compressing those past states in a compressed representation (which itself will eventually be discarded). The training needs to cover the original TransformerXL and the quality of the compression mechanics. When training a typical network, the values of all the parameters are simultaneously optimised using the gradients calculated for each of those parameters. Instead, this model is trained as 2 separate models:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;The Transformer-XL layers are trained using a current segment, and the primary and compressed memories to train the cells’ parameters (and only those!). During that stage, the compressed memory parameters is given as a constant: no gradients are calculated. Conceptually, this is the normal TransformerXL where the inputs are the concatenation of the segment embeddings and all the memories (primary and compressed).&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;em&gt;Separately&lt;/em&gt;, another training process looks for an optimal compressed representation of past memories that would otherwise be discarded. Training the compression mechanism assumes that the transformer cells’ parameters are fixed and constant. This stage is only concerned with the efficiency of the representation. Note that certain compression mechanics, like pooling, have no parameters to optimise (although some hyperparameters might be involved).&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;model-overall-structure&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Model overall structure&lt;/h3&gt;
-&lt;p&gt;The authors describe the overall algorithm at a high level. We will retain the same notations, which are summarised at the end of of the post, but we will use a slightly different vocabulary. In particular, a &lt;em&gt;training set&lt;/em&gt; (for example a full text) is split into ordered &lt;em&gt;sequences&lt;/em&gt; that for a conceptual whole (a full sentence). Each sequence is fed into the model which has a limited number of inputs. If the size of a sequence is too large, it is split into &lt;em&gt;segments&lt;/em&gt;. The size of a segment is the number of input of the model. The key attraction of the compressive memory is to lengthen the memory of a TransformerXL: for an identical computation budget, the paper shows that it is valuable to shorten the segments (fewer self-attention heads), in exchange for keeping longer compressed past memories (the self-attention heads become larger to give attention to compressed memories).&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/post/2020-03-RNN-compressive-memory/Compressive-template.png&#34; alt=&#34;&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Compressive TransformerXL&lt;/strong&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;To complete the notation, we use the following form of indices: &lt;span class=&#34;math inline&#34;&gt;\(h^{(l), v}_t\)&lt;/span&gt; which should be read as &lt;span class=&#34;math inline&#34;&gt;\(h^{(\text{Layer index}), \text{Segment index}}_{\text{Time step}}\)&lt;/span&gt;. In addition, &lt;span class=&#34;math inline&#34;&gt;\(h^{(1)}\)&lt;/span&gt; represents the inputs into the first layer, i.e. equals the current training segment &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;.&lt;/p&gt;
-&lt;ol style=&#34;list-style-type: lower-alpha&#34;&gt;
-&lt;li&gt;&lt;p&gt;The model starts with transformer layers (&lt;span class=&#34;math inline&#34;&gt;\(l\)&lt;/span&gt; layers). (see step (a) on the diagram).&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Each layer takes a number of entries (a segment of &lt;span class=&#34;math inline&#34;&gt;\(n_s\)&lt;/span&gt; inputs), each being a vector of dimension &lt;span class=&#34;math inline&#34;&gt;\(d\)&lt;/span&gt;. Note that &lt;span class=&#34;math inline&#34;&gt;\(d\)&lt;/span&gt; is the dimension of the initial input embeddings, and of all input/output vectors of further layers. This could however be a flexible model parameter.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Each individual transformer layer has an identical structure with the same number of self-attention heads (&lt;span class=&#34;math inline&#34;&gt;\(n_{head}\)&lt;/span&gt; heads). Recall that an attention head is a triplet of matrices &lt;span class=&#34;math inline&#34;&gt;\((W^{(i)}_q, W^{(i)}_k, W^{(i)}_v)\)&lt;/span&gt; and a multi-layer perceptron. &lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;At each iteration, the self-attention heads are trained using the outputs from the previous layer, and primary and compressed memories.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;After an input is processed by a layer, it is pushed into memory. The memory size &lt;span class=&#34;math inline&#34;&gt;\(n_m\)&lt;/span&gt; has the capacity to store a number &lt;span class=&#34;math inline&#34;&gt;\(n_{slots}\)&lt;/span&gt; of segments. Therefore &lt;span class=&#34;math inline&#34;&gt;\(n_m = n_{slots} \times n_s\)&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The new memory pushes the oldest one out, which is compressed into a compressed memory with a &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; compression ratio. the compressed memory can hold &lt;span class=&#34;math inline&#34;&gt;\(n_{old}\)&lt;/span&gt; compressed memories. &lt;span class=&#34;math inline&#34;&gt;\(n_{cm}\)&lt;/span&gt; is a multiple of &lt;span class=&#34;math inline&#34;&gt;\(n_{old}\)&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;memory-compression&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Memory compression&lt;/h2&gt;
-&lt;p&gt;Let’s focus on Step (f). The compression mechanics are optimised independently from the TransformerXL layers and require choosing a compression scheme (function &lt;span class=&#34;math inline&#34;&gt;\(f_c\)&lt;/span&gt;) and, if there are parameters to be trained, a loss function to minimise.&lt;/p&gt;
-&lt;div id=&#34;compression-function&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Compression function&lt;/h3&gt;
-&lt;p&gt;The authors reviewed several choices for the function &lt;span class=&#34;math inline&#34;&gt;\(f^{(i)}_c\)&lt;/span&gt;.&lt;/p&gt;
-&lt;div id=&#34;pooling&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Pooling&lt;/h4&gt;
-&lt;p&gt;The simplest is &lt;em&gt;Max and/or mean pooling&lt;/em&gt;, where the kernel and stride is set to the compression rate c. This is fast, requires no training (no parameters) and was used as a simple baseline.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;convolution&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Convolution&lt;/h4&gt;
-&lt;p&gt;&lt;em&gt;1D-convolution&lt;/em&gt; also with kernel and stride set to c. This is defined by parameters which require training.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;dilated-convolution&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Dilated convolution&lt;/h4&gt;
-&lt;p&gt;&lt;em&gt;Dilated convolutions&lt;/em&gt; which were proposed in 2016 as an alternative to traditional image convolution (for image classification) when dealing with semantic networks. See &lt;a href=&#34;https://arxiv.org/abs/1511.07122&#34;&gt;Multi-Scale Context Aggregation by Dilated Convolutions&lt;/a&gt;. In essence, dilated convolutions are large scale convolutions (large kernel) defined with the same number of parameters as a small kernel. They are better suited to capture distant relationships present in semantic networks.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;most-used-compression&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Most-used compression&lt;/h4&gt;
-&lt;p&gt;&lt;em&gt;Most-used&lt;/em&gt; compression where the memories are sorted by their average attention(usage) and the most-used are preserved. The most-used compression scheme is inspired from the garbage collection mechanism in the Differentiable Neural Computer (&lt;em&gt;DNC&lt;/em&gt;) where low-usage memories are erased. This is described in the 2016 DeepMind paper &lt;a href=&#34;https://www.gwern.net/docs/rl/2016-graves.pdf&#34;&gt;Hybrid computing using a neural network with dynamic external memory&lt;/a&gt;. A DNC is network augmented with memory, where a controller can read and write memory banks. The DNC article is very detailed on the technical aspects. We understand that most-used algorithm is presented in appendix under the &lt;em&gt;Dynamic memory allocation&lt;/em&gt; subsection.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;auto-encoders&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Auto-encoders&lt;/h4&gt;
-&lt;p&gt;As we understand, the authors did not consider auto-encoding networks with &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; fewer parameters. It might be that they were considered but rejected.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;compression-ratio&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Compression ratio&lt;/h4&gt;
-&lt;p&gt;If the compression ratio is &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt;, what are the dimensions of the compressed memory tensors?&lt;/p&gt;
-&lt;p&gt;The paper leaves this unspecified.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Pooling and 1D-convolution will produce tensors where the dimension of the attention heads (along the &lt;span class=&#34;math inline&#34;&gt;\(d\)&lt;/span&gt; axis) are divided by &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Our understanding of the most-used algorithm would be to zero all values save for a &lt;span class=&#34;math inline&#34;&gt;\(1 / c\)&lt;/span&gt; proportion, but retaining identical dimensions.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;However, we do not see &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; memory attention heads compressed into a single vector (compression along the &lt;span class=&#34;math inline&#34;&gt;\(n_s\)&lt;/span&gt; axis).&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;loss-function&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Loss function&lt;/h3&gt;
-&lt;p&gt;Several loss functions were considered.&lt;/p&gt;
-&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
-&lt;li&gt;&lt;p&gt;A whole-model optimisation where all parameters (compression mechanics + TransformerXL Layers) are trained at once using the training set error. However they found the size overwhelming, especially when old compressed memories were unrolled into full-form memories. They then used &lt;em&gt;backpropagating-through-time&lt;/em&gt; (BPTT), which by definition does not do full-model optimisation to avoid vanishing/exploding gradients. See &lt;a href=&#34;https://d2l.ai/chapter_recurrent-neural-networks/bptt.html&#34;&gt;BPTT&lt;/a&gt; for a good overview. Note that this is not what we introduced as a two-step optimisation.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The compression is a form of representation learning / auto-encoding which optimises an encoder (presumably &lt;span class=&#34;math inline&#34;&gt;\(c\)&lt;/span&gt; fewer parameters) by simultaneously training a decoder. The paper tried a &lt;span class=&#34;math inline&#34;&gt;\(\mathcal{L}_2\)&lt;/span&gt; (square) error on the ability to reconstruct the memory tensors. It does not go into detail aside from mentioning it. The posts will not explore this.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The paper goes into more detail about the two-step training of an &lt;em&gt;attention-reconstruction loss&lt;/em&gt;. Transformers optimise attention parameters (the attention head matrices). Optimising for the ability of retaining that information makes complete sense. This loss function is the &lt;span class=&#34;math inline&#34;&gt;\(\mathcal{L}_2\)&lt;/span&gt; error between the attention matrix of a memory slot and reconstructed attention. Next section focuses on the loss function.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;div id=&#34;model-timing&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Model timing&lt;/h3&gt;
-&lt;p&gt;Let’s be clearer about the details of what takes place as time goes by (as segments are presented) and how the compression optimisation proceeds (at the risk of being repetitive).&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;The set of the model’s state vectors (the &lt;span class=&#34;math inline&#34;&gt;\(h^{(i)}\)&lt;/span&gt;) is the model’s reaction to a particular input. They are an immediate reaction to an current input. They reflect the values of the current attention heads’ parameters.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;A memory slot is a set of a layer’s state vectors created in the past for a past input when the model’s parameters were different.&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; It is the past model’s reaction to something that happened in the past (the input at that time).&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;That memory slot reflects the experience of the model at that time (the attention heads parameters). Since then, the model has been trained further. The recent updated model would have yielded a different set of state vectors for that past input.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Attention heads are not state vectors. They are functions to be trained.&lt;a href=&#34;#fn3&#34; class=&#34;footnote-ref&#34; id=&#34;fnref3&#34;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt; Those functions, for any input state vectors, will produce a different answer, a different set of state vectors.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Attention heads are trained and after training they will eventually be constants. However, the the state vectors will change as and when the inputs do.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The compression is also a function that will be frozen after training which will use (if it relies on parameters).&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Those precisions are relevant because a compression takes place now (i.e. at the time of a current segment). It is applied to a past memory which reflects a past reaction to a past input with a past model. We optimise compression parameters &lt;em&gt;now&lt;/em&gt; using values and parameters that are all from the past.&lt;/p&gt;
-&lt;p&gt;Optimising for attention reconstruction means:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Right now, the model gives a particular set of current state vectors for a given current input.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;This model has a past memory that is about to be lost (as in a normal TransformerXL).&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;In this model, the old memory is about to be compressed. If compressed, the original memory could be reconstructed.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;If the compression (and reconstruction) algorithm is perfect, it should not matter whether the compressed memory (after reconstruction) or the old memory is used.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The optimisation is therefore to minimise the difference what the model does with the past memory (not yet discarded) and what would happen if the past memory was reconstructed from its compressed form.&lt;/p&gt;
-&lt;p&gt;The difference between the 2 situations is the loss function to be minimised. Transformers are about attention; the compression algorithm is judged by its ability to retain past attention (what was worthy of attention in the past).&lt;/p&gt;
-&lt;p&gt;As the paper indicates, this is a lossy objective. The reconstruction is not optimised to replicate the old memory. It is instead optimised to reconstruct an &lt;em&gt;alternative memory&lt;/em&gt; that gives a better reconstruction of the attentions. The paper asserts that this gives superior results to the reconstruction of the memory. Keeping in mind that the ultimate purpose of the model is to optimise self-attentions, possible explanations are:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Memories are used as input into the attention heads to determine the self-attention. So will a reconstructed memory. Therefore, primary memory reconstruction errors are then compounded with the modelling errors of the attention heads’ matrices. Skipping the intermediary avoids this.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Maybe more interesting, the past memory is mechanically imperfect: it is based on old model parameters. Optimising the reconstruction to reproduce an imperfect memory implicitly means incorporating attention heads’ parameters that were used at the time the memory was created. The reconstructed memory includes the errors of the past attention heads which have since been reduced (hopefully). In other words, the reconstructed memory is an &lt;em&gt;alternative memory&lt;/em&gt; which might include later corrections to the model attention heads.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;attention-reconstruction-loss&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Attention-Reconstruction Loss&lt;/h3&gt;
-&lt;p&gt;For sake of completeness, we include the &lt;em&gt;attention-reconstruction loss&lt;/em&gt; algorithm detailed in the paper (&lt;em&gt;Algorithm 2&lt;/em&gt; on page 4). &lt;a href=&#34;#fn4&#34; class=&#34;footnote-ref&#34; id=&#34;fnref4&#34;&gt;&lt;sup&gt;4&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Its overall organisation is independent from the actual loss calculation (the stop-gradient mechanics), therefore remains of value. It is replicated here with slight modifications for type consistency. Note that at Step 6 the published algorithm uses a &lt;span class=&#34;math inline&#34;&gt;\(\sigma\)&lt;/span&gt;. This could suggest that a sigmoid activation is used, but it would make no sense to compare attentions calculated with different activation functions (&lt;span class=&#34;math inline&#34;&gt;\(softmax\)&lt;/span&gt; in the layers vs. &lt;span class=&#34;math inline&#34;&gt;\(sigmoid\)&lt;/span&gt; in the the reconstruction).&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{array}{ll}
-&amp;amp; \textit{Reset the attention loss} \\
-&amp;amp; \hline \\
-1: &amp;amp; \mathcal{L} \leftarrow 0 \\
-\\
-&amp;amp; \textit{Main Loop} \\
-&amp;amp; \hline \\
-&amp;amp; \text{Now that the loss is reset, loop through the layers, one at a time} \\
-2: &amp;amp; \textit{for layer }i = 1, 2, \cdots , l \textit{ do} \\
-\\
-&amp;amp; \textit{Stop all gradients for anything but the compression function parameters} \\
-&amp;amp; \hline \\
-&amp;amp; \text{TensorFlow uses stop_gradient()} \\
-&amp;amp; \text{PyTorch uses .detach()} \\
-&amp;amp; \text{We&amp;#39;ll use DetachGradient() to make both happy!} \\
-3:  &amp;amp;  DetachGradient(h^{(i)}) \\
-4:  &amp;amp;  DetachGradient(M^{(i)}_{t-n_{slots}}) \text{ --- oldest Primary memory slot about to be discarded}  \\
-5:  &amp;amp;  DetachGradient(Q, K, V) \text{ --- parameters of all the attention heads matrices}  \\
-\\
-&amp;amp; \textit{Define the content-based attention being the same calculation as inside the layers}\\
-&amp;amp; \hline \\
-6: &amp;amp;   Attention(h, m) \leftarrow softmax((hQ).(mK))(mV)  \\
-\\
-&amp;amp; \textit{Calculate the new compressed memory}\\
-&amp;amp; \hline \\
-7: &amp;amp;   CM^{(i)}_{1} \leftarrow f^{(i)}_c(M^{(i)}_{t-n_{slots}})   \\
-\\
-&amp;amp; \textit{Calculate a reconstructed attention from the proposed compressed memory}\\
-&amp;amp; \hline \\
-7: &amp;amp;   R^{(i)} \leftarrow Reconstruction(CM^{(i)}_{1})  \\
-\\
-&amp;amp; \textit{Update the loss for the loss at the current layer}\\
-&amp;amp; \hline \\
-8: &amp;amp;   \mathcal{L} \leftarrow \mathcal{L} + \left| Attention(h^{(i)}, M^{(i)}_{t-n_{slots}}) - Attention(h^{(i)}, R^{(i)}) \right|_2 \\
-\\
-&amp;amp; \hline \\
-&amp;amp; \textit{End loop} \\
-&amp;amp; \hline \\
-\end{array}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;conclusion&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;This post presents the &lt;em&gt;Compressive Transformers&lt;/em&gt; in more details, including the articulation between training the attention heads and training the compression mechanics.&lt;/p&gt;
-&lt;p&gt;To come in part 3, the code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;notation-summary&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Notation summary&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Size parameters&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{array}{ll}
-l:        &amp;amp;   \text{number of layers, starting from 1} \\
-d:        &amp;amp;   \text{dimension of all input (including embeddings) AND output vectors passed from a layer to the next} \\
-n_{head}: &amp;amp;   \text{number of self-attention heads in a TransformerXL layer} \\
-n_s:      &amp;amp;   \text{size of a training segment = number of inputs into and outputs from a layer} \\
-s = n_s:  &amp;amp;   s \text{ will be used as index name to represent the input dimension when using named tensors,}  \\
-&amp;amp; \text{i.e. Einstein summation.}  \\
-b:        &amp;amp;   \text{size of a training batch, i.e. number of segments in a batch. Used in named tensors as well} \\
-\\
-n_m:      &amp;amp;   \text{number of hidden states kept in the primary memory. n_m is a multiple of n_s} \\
-c:        &amp;amp;   \text{memory compression ratio} \\
-n_{cm}:   &amp;amp;   \text{number of states kept in the compressed memory. n_{cm} }  \\
-\end{array}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;footnotes&#34;&gt;
-&lt;hr /&gt;
-&lt;ol&gt;
-&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;We only consider a wide self-attention model, in part having in mind the application to time series where we will work with embeddings of smaller size. We therefore ignore the narrow self-attention model variant.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;We ignore the possible impact of training in batches.&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li id=&#34;fn3&#34;&gt;&lt;p&gt;We ignore the multi-perceptrons.&lt;a href=&#34;#fnref3&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li id=&#34;fn4&#34;&gt;&lt;p&gt;Forgive the algorithm formatting. R markdown resisted naive efforts to use Latex algorithms.&lt;a href=&#34;#fnref4&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>RNN Compressive Memory Part 2: The TransformerXL</title>
-      <link>/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html</link>
-      <pubDate>Wed, 30 Dec 2020 00:00:00 +0000</pubDate>
-      <guid>/2020/12/30/rnn-compressive-memory-part-2-the-transformerxl.html</guid>
-      <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
-
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#the-transformerxl&#34;&gt;The TransformerXL&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#algorithm-for-a-single-layer-with-matrix-dimension&#34;&gt;Algorithm for a single layer with matrix dimension&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#notation-summary&#34;&gt;Notation summary&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#useful-references&#34;&gt;Useful references&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This is part 2 of a discussion of the DeepMind paper about &lt;a href=&#34;https://arxiv.org/abs/1911.05507&#34;&gt;Compressive Transformers for Long-Range Sequence Modelling&lt;/a&gt;.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;../../03/07/rnn-compressive-memory-part-1.html&#34;&gt;Part 1&lt;/a&gt;: A high level introduction to Compressive Memory mechanics starting from basic RNNS;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Part 2 (here): more details about the TransformerXL;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Part 3: an implementation using PyTorch (soon);&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Part 4: finally, its application to time series (soon).&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;This post describes the building blocks up to what makes a &lt;a href=&#34;https://arxiv.org/abs/1901.02860&#34;&gt;TransformerXL&lt;/a&gt; model as presented in June 2019. The compression mechanics are an add-on to the TransformerXL which therefore need to be detailed. Along the way, it will become clear that, in many ways, the implementation described only applies to embeddings, i.e. one-hot encodings, and not to to truly multi-dimensional variable inputs.&lt;/p&gt;
-&lt;div id=&#34;the-transformerxl&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The TransformerXL&lt;/h2&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{array}{l}
-\text{Notation:} &amp;amp; \\
-\tau &amp;amp; \text{time step or index on successive segments} \\
-b &amp;amp; \text{batch size} \\
-h &amp;amp; \text{number of heads} \\
-s_s &amp;amp; \text{length of a segment} \\
-s_m &amp;amp; \text{length of the memory} \\
-s = s_m + s_s &amp;amp; \text{length of segment + memory} \\
-d &amp;amp; \text{size of an embedding} \\
-d_{in} &amp;amp; \text{size of the embedding as input to a given layer} \\
-d_{out} &amp;amp; \text{size of the embedding as output from a given layer} \\
-(b, h, s, d): &amp;amp; \text{tensor of 4 dimension reflecting those dimensions}\\
-l &amp;amp; \text{index of a layer} \\
-\end{array}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;The number of parameters for this type of model is extremely large.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;algorithm-for-a-single-layer-with-matrix-dimension&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Algorithm for a single layer with matrix dimension&lt;/h2&gt;
-&lt;p&gt;The implementation will use the &lt;a href=&#34;https://pytorch-lightning.readthedocs.io/en/latest/&#34;&gt;Pytorch Lightning&lt;/a&gt; library. The entire code is on &lt;a href=&#34;https://github.com/Emmanuel-R8/Time_Series_Transformers&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import sys
-import inspect
-
-from typing import *
-
-import torch
-import torch.nn as nn
-
-from pytorch_lightning.core.lightning import LightningModule
-
-from utils.exp_utils import logging&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;# From https://github.com/harvardnlp/annotated-transformer
-class PositionalEncoding(LightningModule):
-    &amp;quot;Implement the edited PE function, depends on sequence length rather than input dimensionnality.&amp;quot;
-
-    def __init__(self, runParam, dropout=0.1):
-        super().__init__()
-        self.dropout = nn.Dropout(p=dropout)
-        
-        batch
-
-        # Compute the positional encodings once in log_2 space ceiled to sequence_length.
-        b = math.ceil(math.log(max_sequence_length * 4, 2))
-        a = int(2**b / 4)  # Up to a quarter of a sine wave
-        x1 = np.array([[math.cos(0.5**i*x*2*math.pi) for x in range(max_sequence_length, 0, -1)] for i in range(1, b+1)])
-        x2 = np.array([[math.sin(0.5**i*x*2*math.pi) for x in range(max_sequence_length, 0, -1)] for i in range(2, b+2)])
-        x = np.concatenate([x1, x2], axis=0)
-        print(&amp;quot;x.shape():&amp;quot;, x.shape)
-        x = np.expand_dims(x, 0).repeat(repeats=batch_size, axis=0)
-        print(&amp;quot;x.shape():&amp;quot;, x.shape)
-
-        # Register it into PyTorch
-        pe = torch.from_numpy(x).float()
-        pe = pe.transpose(-1, -2)
-        print(&amp;quot;pe.size():&amp;quot;, pe.size())
-        self.register_buffer(&amp;#39;pe&amp;#39;, pe)
-
-    def forward(self, x):
-        pos = Variable(self.pe, requires_grad=False)
-        # print(pos.size(), x.size())  # [batch_size, -1, sequence_length], [batch_size, sequence_length, hidden_size]
-        pe = self.pe[:, -x.size(1):]  # limiting positional encoding to a poentially shorter sequence_length
-        print(&amp;quot;pe.size(), x.size():&amp;quot;, pe.size(), x.size())
-        x = torch.cat([x, pe], dim=-1)
-        return self.dropout(x), pos&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{array}{l}
-\text{Step for a} &amp;amp; &amp;amp; \text{Dimensions for multiple layers} \\
-\text{single layer} &amp;amp; &amp;amp; \text{(with Einstein summation)} \\
-\hline \\
-h^{l-1}_\tau &amp;amp; &amp;amp; (l, h, s_s, d_{in}) \\
-\hline \\
-\tilde{h}^{l-1}_\tau = &amp;amp; \left[ StopGradient(m^{l-1}_\tau) \circ  h^{l-1}_\tau \right]  &amp;amp; (l, h, s, d_{in}) = (l, h, s_m, d_{in}) \circ (l, h, s_s, d_{in}) \\
-\hline \\
-q^l_\tau = &amp;amp; h^{l-1}_\tau \cdot {W^l_Q}^\top &amp;amp; (l, h, s_s, d_{in}) = (l, h, s_s, d_{in}) \dot {(l, h, d_{in}, d_{in})}^\top \\
-&amp;amp; &amp;amp; lhsd_1,lhsd_1d_2 \rightarrow lhsd_2 \\
-\hline \\
-k^l_\tau = &amp;amp; \tilde{h}^{l-1}_\tau \cdot {W^l_K}^\top &amp;amp; (l, h, s, d_{in}) = (l, h, s, d_{in}) \dot {(l, h, d_{in}, d_{in})}^\top \\
-&amp;amp; &amp;amp; lhsd_1,lhsd_1d_2 \rightarrow lhd_2 \\
-\hline \\
-v^l_\tau = &amp;amp; \tilde{h}^{l-1}_\tau \cdot {W^l_V}^\top &amp;amp; (l, h, s, d_{in}) = (l, h, s, d_{in}) \dot {(l, h, d_{in}, d_{in})}^\top \\
-&amp;amp; &amp;amp; lhsd_1,lhsd_1d_2 \rightarrow lhd_2 \\
-\hline \\
-A^l_\tau = &amp;amp; {Q^l}^\top \dot \\
-\end{array}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;notation-summary&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Notation summary&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Size parameters&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{array}{ll}
-l:        &amp;amp;   \text{number of layers, starting from 1} \\
-d:        &amp;amp;   \text{dimension of all input (including embeddings) AND output vectors passed from a layer to the next} \\
-n_{head}: &amp;amp;   \text{number of self-attention heads in a TransformerXL layer} \\
-n_s:      &amp;amp;   \text{size of a training segment = number of inputs into and outputs from a layer} \\
-s = n_s:  &amp;amp;   s \text{ will be used as index name to represent the input dimension when using named tensors,}  \\
-&amp;amp; \text{i.e. Einstein summation.}  \\
-b:        &amp;amp;   \text{size of a training batch, i.e. number of segments in a batch. Used in named tensors as well} \\
-\\
-n_m:      &amp;amp;   \text{number of hidden states kept in the primary memory. n_m is a multiple of n_s} \\
-c:        &amp;amp;   \text{memory compression ratio} \\
-n_{cm}:   &amp;amp;   \text{number of states kept in the compressed memory. n_{cm} }  \\
-\end{array}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;useful-references&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Useful references&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://nlp.seas.harvard.edu/2018/04/03/attention.html&#34;&gt;The Annotated Transformer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.fromkk.com/posts/the-annotated-the-annotated-transformer/&#34;&gt;The Annotated The Annotated Transformer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://d2l.ai/chapter%5Fattention-mechanisms/transformer.html&#34;&gt;Dive into Deep Learning - 10.3 Transformer&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Normalising Flows and Neural ODEs</title>
-      <link>/2020/08/14/normalising-flows.html</link>
-      <pubDate>Fri, 14 Aug 2020 00:00:00 +0000</pubDate>
-      <guid>/2020/08/14/normalising-flows.html</guid>
-      <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/d3/d3.min.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/dagre/dagre-d3.min.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;/rmarkdown-libs/mermaid/dist/mermaid.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;script src=&#34;/rmarkdown-libs/mermaid/dist/mermaid.slim.min.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;/rmarkdown-libs/DiagrammeR-styles/styles.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;script src=&#34;/rmarkdown-libs/chromatography/chromatography.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/DiagrammeR-binding/DiagrammeR.js&#34;&gt;&lt;/script&gt;
-
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#a-few-words-about-generative-models&#34;&gt;A few words about Generative Models&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#latent-variables&#34;&gt;Latent variables&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#examples-of-generative-models&#34;&gt;Examples of generative models&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#generative-adversarial-networks-gans&#34;&gt;Generative Adversarial Networks (&lt;strong&gt;GANS&lt;/strong&gt;)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#variational-autoencoders&#34;&gt;Variational autoencoders&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#limitations&#34;&gt;Limitations&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#normalising-flows&#34;&gt;Normalising flows&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction-1&#34;&gt;Introduction&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#some-math&#34;&gt;Some math&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#training-loss-optimisation-and-information-flow&#34;&gt;Training loss optimisation and information flow&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#basic-flows&#34;&gt;Basic flows&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#planar-flows&#34;&gt;Planar Flows&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#radial-flows&#34;&gt;Radial flows&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#more-complex-flows&#34;&gt;More complex flows&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#residual-flows-discrete-flows&#34;&gt;Residual flows (discrete flows)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#other-versions&#34;&gt;Other versions&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#continuous-flows&#34;&gt;Continuous flows&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#neural-ordinary-differential-equations&#34;&gt;Neural ordinary differential equations&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#continuous-flows-1&#34;&gt;Continuous flows&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#continuous-flows-means-no-crossover&#34;&gt;Continuous flows means no-crossover&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#universal-ordinary-differential-equations&#34;&gt;Universal ordinary differential equations&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#stochastic-differential-equations&#34;&gt;Stochastic differential equations&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#other&#34;&gt;Other&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#optimisation&#34;&gt;Optimisation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;
-&lt;li class=&#34;appendix&#34;&gt;&lt;span&gt;&lt;b&gt;Appendix&lt;/b&gt;&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#more-information&#34;&gt;More information&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#one-more-thing&#34;&gt;One more thing&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;p&gt;One of the three best papers awarded at NIPS 2018 was &lt;em&gt;Neural Ordinary Differential Equations&lt;/em&gt; by Tian Qi Chen, Yulia Rubanova, Jesse Bettencourt and David Duvenaud &lt;span class=&#34;citation&#34;&gt;(Chen et al. &lt;a href=&#34;#ref-chenNeuralOrdinaryDifferential2019&#34; role=&#34;doc-biblioref&#34;&gt;2019&lt;/a&gt;)&lt;/span&gt;. Since then, the field has developed in multiple directions. This post goes through some background about generative models, normalising flows and finally a few of the underlying ideas of the paper. The form does not intend to be mathematically rigorous but convey some intuitions.&lt;/p&gt;
-&lt;div id=&#34;a-few-words-about-generative-models&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;A few words about Generative Models&lt;/h1&gt;
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Generative models&lt;/strong&gt; are about learning simple &lt;strong&gt;representations&lt;/strong&gt; of a complex datasets; how to, from a few parameters, generate realistic samples that are similar to a given dataset. Those few parameters usually follow simple distributions (e.g. uniform or Gaussian), and are transformed through complex transformations into the more complex dataset distribution. This is an unsupervised procedure which, in a sense, mirrors clustering methods: clustering starts from the dataset and summarises it into few parameters.&lt;/p&gt;
-&lt;p&gt;[DIAGRAM var 1D to another var 1D]&lt;/p&gt;
-&lt;p&gt;[DIAGRAM var 1D to another var 2D]&lt;/p&gt;
-&lt;p&gt;Although unsupervised, the result of this learning can be used as a &lt;strong&gt;pretraining&lt;/strong&gt; step in a later supervised context, or where that dataset is a mix of labelled and un-labelled data. The properties of the well-understood starting probability distributions can then help draw conclusions about the dataset’s distribution or generate synthetic datasets.&lt;/p&gt;
-&lt;p&gt;The same methods can also be used in supervised learning to learn the representation of a target dataset (categorical or continuous) as a transformation of the features dataset. The unsupervised becomes supervised.&lt;/p&gt;
-&lt;p&gt;What does &lt;em&gt;representation learning&lt;/em&gt; actually mean? It is the automatic search for a few parameters that encapsulate rich enough information to generate a dataset. Generative models learn those parameters and, starting from them, how to re-create samples similar to the original dataset.&lt;/p&gt;
-&lt;p&gt;Let’s use cars as an analogy.&lt;/p&gt;
-&lt;p&gt;All cars have 4 wheels, an engine, brakes, seats. One could be interested in comfort or racing them or lugging things around or safety or fitting as many kids as possible. Each base vector could be express any one of those characteristics, but they will all have an engine, breaks and seats. The generation function recreates everything that is common. It doesn’t matter if the car is comfy or not; it needs seats and a driving wheel. The generative function has to create those features. However, the exact number of cylinders, its shape, the seats fabric, or stiffness of the suspension all depend on the type of car.&lt;/p&gt;
-&lt;p&gt;The tru fundamentals are not obvious. For a long time, American cars had softer suspension than European cars. The definition of comfortable is relative. The performance of an old car is objectively not the same as compared to new ones. Maybe other characteristics are more relevant to generate. Maybe price? Consumption? Year of coming to market? All those factors are obviously inter-related.&lt;/p&gt;
-&lt;p&gt;Generative models are more than generating samples from a few fundamental parameters. They also learn what those parameters should be.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;latent-variables&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Latent variables&lt;/h2&gt;
-&lt;p&gt;Still using the car analogy, if the year of a model was not given, the generative process might still be able to conclude that the model year &lt;em&gt;should&lt;/em&gt; be an implicit parameter to be learned since relevant to generate the dataset: year is an unstated parameter that explains the dataset. Both the Lamborghini Miura and Lamborghini Countach&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; were similar in terms of perceived performance and exclusivity at the time they were created. But actual performances and styling where incredibly different.&lt;/p&gt;
-&lt;p&gt;If looking at the stock market: take a set of market prices at a given date; it would have significantly different meanings in a bull or a bear market. Market regime would be a reasonable latent variable.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;examples-of-generative-models&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Examples of generative models&lt;/h2&gt;
-&lt;p&gt;There are quite a number of generative models such restricted Boltzmann machines, deep belief networks. Refer to &lt;span class=&#34;citation&#34;&gt;(Theodoridis &lt;a href=&#34;#ref-theodoridisMachineLearningBayesian2020&#34; role=&#34;doc-biblioref&#34;&gt;2020&lt;/a&gt;)&lt;/span&gt; and &lt;span class=&#34;citation&#34;&gt;(Russell and Norvig &lt;a href=&#34;#ref-russellArtificialIntelligenceModern2020&#34; role=&#34;doc-biblioref&#34;&gt;2020&lt;/a&gt;)&lt;/span&gt; for example. Let’s consider generative adversarial networks and variational auto-encoders.&lt;/p&gt;
-&lt;div id=&#34;generative-adversarial-networks-gans&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Generative Adversarial Networks (&lt;strong&gt;GANS&lt;/strong&gt;)&lt;/h3&gt;
-&lt;p&gt;Recently, GANs have risen to the fore as a way to generate artificial datasets that are, for some definition, indistinguishable from a real dataset. They consist of two parts:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Editor at 
-# https://mermaid-js.github.io/mermaid-live-editor
-DiagrammeR::mermaid(&amp;quot;GAN.mmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;DiagrammeR html-widget&#34;&gt;&lt;/div&gt;
-&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;diagram&#34;:&#34;\ngraph LR\n\n  subgraph Generative Model\n    Representation[\&#34;Representation &lt;br/&gt; (latent space)\&#34;] --&gt; Generator[&lt;b&gt;Generator&lt;\/b&gt;]\n  end\n\n  Generator--&gt; Discriminator[&lt;b&gt;Discriminator&lt;\/b&gt;]\n\n  Sample\n\n  Sample[Sample] --&gt; Discriminator\n\n  Discriminator --&gt; ID[Identification as &lt;br/&gt; generated or true]\n\n  ID -.-&gt;|Feedback| Discriminator\n  ID -.-&gt;|Feedback| Generator&#34;},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;A generator which is the generative model itself: given a simple representation, the generator proposes samples that aim to be undistinguishable from the dataset sample.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;A discriminator whose job is to identify whether a sample comes from the generator or from the dataset.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Both are trained simultaneously:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;if the discriminator finds it obvious to guess, the generator is not doing a good job and needs to improve;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;if the discriminator guesses 50/50 (does not do better than flipping a coin), it has to discover which true dataset features are truly relevant.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;variational-autoencoders&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Variational autoencoders&lt;/h3&gt;
-&lt;p&gt;A successful GAN can replicate the richness of a dataset, but not the its distribution. A GAN can generate a large number of correct sentences, but will not tell how likely to occur that sentence is (or at least guarantee that the distributions match). &lt;em&gt;‘The dog chases the cat’&lt;/em&gt; and &lt;em&gt;‘The Chihuahua chases the cat’&lt;/em&gt; are both perfectly valid, but the latter less unlikely to appear.&lt;/p&gt;
-&lt;p&gt;Variable autoencoders (VAEs) take another approach by learning a generator (called &lt;em&gt;decoder&lt;/em&gt;) &lt;em&gt;and&lt;/em&gt; learning the distribution of the parameters to reflect the distribution of the samples within the dataset (the &lt;em&gt;encoder&lt;/em&gt;). Both are trained simultaneously on the dataset samples by projecting samples on the latent variables’ space, proposing a generated sample from that projection and training on the reconstruction loss. The encoder actually learns means and standard deviations of the each latent variable, wach being a normal distribution. The samples generated will be as rich as the GAN’s, but the probability of a sample being generated will depend on the learned distributions.&lt;/p&gt;
-&lt;p&gt;See &lt;span class=&#34;citation&#34;&gt;(Kingma and Welling &lt;a href=&#34;#ref-kingmaIntroductionVariationalAutoencoders2019&#34; role=&#34;doc-biblioref&#34;&gt;2019&lt;/a&gt;)&lt;/span&gt; for an approachable extensive introduction. The details of VAEs include implementation aspects (in particular the &lt;em&gt;reparametrization trick&lt;/em&gt;) that are critical to the success of this approach.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;limitations&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Limitations&lt;/h2&gt;
-&lt;p&gt;We limited the introduction to those two techniques to merely highlight two fundamental aspect that generative models aim at:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;explore and replicate the richness of the dataset;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;replicate the probability distribution of the dataset.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Note that depending on the circumstances, the latter aim may not necessarily be important.&lt;/p&gt;
-&lt;p&gt;As usual, training and optimisation methods are at risk of getting stuck at local optima. In the case of those two techniques, this manifests itself in different ways:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;em&gt;GANs Mode collapse&lt;/em&gt;: Mode collapse occurs in GANs when the generator only explores limited domains. Imagine training a GAN to recognise mammals (the dataset would contain kangaroos, whales, dogs and cats…). If the generator proposes everything but kangoaroos, it is still properly generate mammals, but obviously misses out on a few possibilities. Essentially, the generator reaches a local minimum where the gradient becomes too small to explore alternatives. This is in part due to the difficulty of progressing the training of both the generator and the discriminator in a way that does not lock any one of them in a local optimum while the other still needs improving: if either converges too rapidly, the other will struggle improving.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;em&gt;VAEs Posterior collapse&lt;/em&gt;: Posterior collapse in VAEs arises when the generative model learns to ignore a subset of the latent variables (although the encoder generates those variables) &lt;span class=&#34;citation&#34;&gt;(Lucas et al. &lt;a href=&#34;#ref-lucasDonBlameELBO2019&#34; role=&#34;doc-biblioref&#34;&gt;2019&lt;/a&gt;&lt;a href=&#34;#ref-lucasDonBlameELBO2019&#34; role=&#34;doc-biblioref&#34;&gt;b&lt;/a&gt;)&lt;/span&gt;. More technically, it happens when the variational distribution closely matches the uninformative prior for a subset of latent variables &lt;span class=&#34;citation&#34;&gt;(Lucas et al. &lt;a href=&#34;#ref-lucasUnderstandingPosteriorCollapse2019&#34; role=&#34;doc-biblioref&#34;&gt;2019&lt;/a&gt;&lt;a href=&#34;#ref-lucasUnderstandingPosteriorCollapse2019&#34; role=&#34;doc-biblioref&#34;&gt;a&lt;/a&gt;)&lt;/span&gt;. The exact reasons for this are not entirely understood and this remains an active area of research (refer this extensive list of &lt;a href=&#34;https://github.com/sajadn/posterior-collapse-list&#34;&gt;papers&lt;/a&gt; on the topic).&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;As we will see, normalising flows address those two difficulties. Intuitively:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Mode collapse reflects that the generative process does not generate enough possibilities; that the spectrum of possibilities is not as rich as that of the dataset. Normalising flows attempt to address this in two ways. Firstly, the optimising process aims as optimising (and matching) the amount of generated information to that of the dataset. Secondly, normalising flows allow to start from a sample in the dataset, flow back to the simple distribution and estimate how (un)likely the generative model would have generated this sample. If the dataset has a lot of whales, generating only dogs is clearly not good enough…&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The posterior collapse could simply be a mismatch between the number of latent variables and the dimensionality of the dataset, difficulties to specify an effective loss function (and its gradients) or a local optima. As we will see, normalising flows impose that the generative model be a bijection. In a sense, this means that there should be the same ‘complexity’ in the latent variables as in the dataset (although not the same amount of information in the sense of information theory).&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&amp;lt;!–&amp;gt;
-## &lt;strong&gt;CHECK FOLLOWING&lt;/strong&gt; Revival of neural networks&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;In this section, the discussion setting is to learn representations that are independent of a specific
-target task; the goal is to extract such information using the input data only. The reason for such a focus
-is twofold. First, learning a model representation of the input data can be used subsequently in different
-tasks in order to facilitate the training. Sometimes, this is also known as pretraining, where parameters
-learned using unlabeled data can be used as initial estimates of the parameters for another supervised
-learning. This can be useful when the number of labeled examples is not large enough (see, e.g., [148]
-for a discussion). It is worth pointing out that such a pretraining rationale is of a historical importance,
-because it led to the revival of neural networks, as will be discussed soon [86].&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;86 is &lt;span class=&#34;citation&#34;&gt;(“A Fast Learning Algorithm for Deep Belief Nets” &lt;a href=&#34;#ref-FastLearningAlgorithm2006&#34; role=&#34;doc-biblioref&#34;&gt;2006&lt;/a&gt;)&lt;/span&gt; from Bengio&lt;/p&gt;
-&lt;p&gt;&amp;lt;!–&amp;gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;All methodology involve finding a function &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt;. Neural networks have long been known to be able to generate artificially complicated functions and the idea of using them as a way to represent &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; is one of the reasons that led to their revivals.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;normalising-flows&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Normalising flows&lt;/h1&gt;
-&lt;p&gt;Normalising Flows became popular around 2015 with two papers on density estimation &lt;span class=&#34;citation&#34;&gt;(Dinh, Krueger, and Bengio &lt;a href=&#34;#ref-dinhNICENonlinearIndependent2015&#34; role=&#34;doc-biblioref&#34;&gt;2015&lt;/a&gt;)&lt;/span&gt; and use of variational inference &lt;span class=&#34;citation&#34;&gt;(Rezende and Mohamed &lt;a href=&#34;#ref-rezendeVariationalInferenceNormalizing2016&#34; role=&#34;doc-biblioref&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt;. However, the concepts predated those papers. (See &lt;span class=&#34;citation&#34;&gt;(Kobyzev, Prince, and Brubaker &lt;a href=&#34;#ref-kobyzevNormalizingFlowsIntroduction2020a&#34; role=&#34;doc-biblioref&#34;&gt;2020&lt;/a&gt;)&lt;/span&gt; and &lt;span class=&#34;citation&#34;&gt;(Papamakarios et al. &lt;a href=&#34;#ref-papamakariosNormalizingFlowsProbabilistic2019&#34; role=&#34;doc-biblioref&#34;&gt;2019&lt;/a&gt;)&lt;/span&gt; for recent survey papers.)&lt;/p&gt;
-&lt;div id=&#34;introduction-1&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;One important limitations of the approaches described above is that the generation flow is unidirectional: one starts from a source distribution, sometimes with well-known properties, and generates a richer target distribution. However, given a particular sample in the target distribution, there is no guaranteed way to identify where it would fall in the original source distribution. That flow of transformation from source to target is not guaranteed to be bijective or invertible (same meaning, different crowds). (In the case of VAEs, this is the case in the encoder.)&lt;/p&gt;
-&lt;p&gt;Normalising flows are a generic solution to that issue: it is a transformation of an original distribution into a more complex distribution by an invertible and differentiable mapping, where the probability density of a sample can be evaluated by transforming it back to the original distribution. The density is evaluated by computing the density of the normalised inverse-transformed sample.&lt;/p&gt;
-&lt;p&gt;In practice, this is a bit too general to be of any use. Breaking it down:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;The original distribution is simple with well-known statistical properties: i.i.d. Gaussian or uniform distributions.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The transformation function is expected to be complicated, and is normally specified as a series of successive transformations, each simpler (though expressive enough) and easy to parametrise.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Each simple transformation is itself invertible and differentiable, therefore guaranteeing that the overall transformation is too.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;We want the transformation to be &lt;em&gt;normalised&lt;/em&gt;: the cumulative probability density of the generated targets from latent variables has to be equal 1. Otherwise, flowing backwards to use the properties of the original would make no sense. The word &lt;em&gt;normalising&lt;/em&gt; refers to this operation, and not to the fact that the original distribution &lt;em&gt;could&lt;/em&gt; be normal.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Geometrically, the probability distribution around each point in the latent variables space has a certain volume that is successively transformed with each transformation. Keeping track of all the volume changes ensures that we can relate probability density functions in the original space and the target space.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;How to keep track? This is where the condition of having invertible and differentiable transformation becomes important. (Math-speak: we have a series of diffeomorphisms which are transformations from one infinitesimal volume to another. They are invertible and differentiable, and their inverses are also differentiable.) If one imagines a small volume of space around a starting point, that volume gets distorted along the way. At each point, the transformation is differentiable and can be approximated by a linear transformation (a matrix). That matrix is the Jacobian of the transformation at that point (diffeomorphims also means that the Jacobian matrix exists and is invertible). Being invertible, the matrix has no zero eigenvalues and the change of volume is locally equal to the product of all the eigenvalues: the volume gets squeezed along some dimensions, expanded along others, rotations are irrelevant. The product of the eigenvalues is the determinant of the matrix. A negative eigenvalue would mean that the infinitesimal volume is ‘flipped’ along that direction. That sign is irrelevant: the local volume change is therefore the absolute value of the determinant.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;We can already anticipate a calculation nightmare: determinants are computationally very heavy. Additionally, in order to backpropagate a loss to optimise the transformations’ parameters, we will need the Jacobians of the inverse transformations (the inverse of the transformmation Jacobian). Without further simplifying assumptions or tricks, normalising flows would be impractical for large dimensions.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div id=&#34;some-math&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Some math&lt;/h3&gt;
-&lt;p&gt;The starting distribution is a random variable &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; with a support in &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{R}^D\)&lt;/span&gt;. For simplicity, we will assume just assume that the support is &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{R}^D\)&lt;/span&gt; since using measurable supports does not change the results. If &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; is transformed into &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; by an invertible function/mapping &lt;span class=&#34;math inline&#34;&gt;\(f: \mathbb{R}^D \rightarrow \mathbb{R}^D\)&lt;/span&gt; (&lt;span class=&#34;math inline&#34;&gt;\(Y=f(X)\)&lt;/span&gt;), then the density function of &lt;span class=&#34;math inline&#34;&gt;\(Y\)&lt;/span&gt; is:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{aligned}
-P_Y(\vec{y}) &amp;amp; = P_X(\vec{x}) \left| \det \nabla f^{-1}(\vec{y})  \right| \\
-                &amp;amp; = P_X(\vec{x}) \left| \det\nabla f(\vec{x}) \right|^{-1}
-\end{aligned}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(\vec{x} = f^{-1}(\vec{y})\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\nabla\)&lt;/span&gt; represents the Jacobian operator. Note the use of &lt;span class=&#34;math inline&#34;&gt;\(\vec{x}\)&lt;/span&gt; to denote vectors instead of the normal &lt;span class=&#34;math inline&#34;&gt;\(\mathbf{x}\)&lt;/span&gt; which I find on-screen easy to mistake for a constant.&lt;/p&gt;
-&lt;p&gt;Following &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; is the &lt;em&gt;generative&lt;/em&gt; direction; following &lt;span class=&#34;math inline&#34;&gt;\(f^{-1}\)&lt;/span&gt; is the &lt;em&gt;normalising&lt;/em&gt; direction (as well as being the &lt;em&gt;inference&lt;/em&gt; direction in a more general context).&lt;/p&gt;
-&lt;p&gt;If &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; was a series of individual transformation &lt;span class=&#34;math inline&#34;&gt;\(f = f_1 \circ f_i \circ \cdots \ f_N\)&lt;/span&gt;, then it naturally follows that:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{aligned}
-\det\nabla f(\vec{x})      &amp;amp; = \prod_{i=1}^N{\det \nabla f_i(\vec{x}_i)} \\
-\det\nabla f^{-1}(\vec{x}) &amp;amp; = \prod_{i=1}^N{\det \nabla f_i^{-1}(\vec{x}_i)}
-\end{aligned}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;In order to make clear that the Jacobian is &lt;em&gt;not&lt;/em&gt; taken wrt the starting latent variables &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;, we use the notation:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\vec{x}_i = f_{i-1}(\vec{x}_{i-1})
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;training-loss-optimisation-and-information-flow&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Training loss optimisation and information flow&lt;/h2&gt;
-&lt;p&gt;Before moving into examples for normalising flows, we need to comment on the loss function optimisation. How do we determine the generative model’s parameters so that the generated distribution is as close as possible to the real distribution (or at least to the distribution of the samples drawn from that true distribution)?&lt;/p&gt;
-&lt;p&gt;A standard way to do this is to calculate the Kullback-Leibler divergence between the two. Recall that the KL divergence &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{KL}(P \vert \vert Q)\)&lt;/span&gt; is &lt;em&gt;not&lt;/em&gt; a distance as it is not symmetric. I personally read &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{KL}(P \vert \vert Q)\)&lt;/span&gt; as “the loss of information on the true &lt;span class=&#34;math inline&#34;&gt;\(P\)&lt;/span&gt; if using the approximation &lt;span class=&#34;math inline&#34;&gt;\(Q\)&lt;/span&gt;” as a way to keep the two distributions at their right place (writing &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{KL}(P_{true} \vert \vert Q_{est.})\)&lt;/span&gt; helps clarify the proper order).&lt;/p&gt;
-&lt;p&gt;The KL divergence is defined as:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{aligned}
-\mathbb{KL}(P_{true} \vert \vert Q_{est.}) = \mathbb{E}_{P_{true}(\vec{x})} \log \frac{P_{true}(\vec{x})}{Q_{est.}(\vec{x})}
-\end{aligned}
-\]&lt;/span&gt;
-Or for a discrete distribution:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{aligned}
-\mathbb{KL}(P_{true} \vert \vert Q_{est}) &amp;amp; =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{Q_{est}(\vec{x})} \\
-                                          &amp;amp; =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log Q_{est}(\vec{x}) \right] 
-\end{aligned} 
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;In our particular case, this becomes:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{aligned}
-\mathbb{KL}(P_{true} \vert \vert P_Y) &amp;amp; = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{P_Y(\vec{y})}} \\
-                                      &amp;amp; = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log P_Y(\vec{y}) \right] }
-\end{aligned}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;since:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{aligned}
-P_Y(\vec{y}) &amp;amp; = P_X(\vec{x}) \left| det \nabla f^{-1}(\vec{y})  \right| \\
-&amp;amp; = P_X(\vec{x}) \left| det\nabla f(\vec{x}) \right|^{-1}
-\end{aligned}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;We end up with:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{split}
-\mathbb{KL}(P_{true} \vert \vert P_Y) &amp;amp; = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x})  - \log \left( P_X(\vec{x}) \left| det \nabla f(\vec{y})  \right|^{-1} \right) \right] }
-\end{split}
-\]&lt;/span&gt;
-Minimising this divergence is achieved by changing the parameters which generate &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;The divergence is one of many measures that can be used to measure the distance (in the loose sense of the word) between the true and generated distributions. But the KL divergence illustrates how logarithms of the probability distributions naturally appear. A common formulation of the loss is the Wasserstein distance. In the setting of the normalising flows (and VAEs), we have two transformations: the inference direction (the encoder) and the generative direction (the decoder). Given the back-and-forth nature, it makes sense to &lt;em&gt;not&lt;/em&gt; favour one direction over the other. Instead of using the KL divergence which is not symmetric, use the mutual information (this is equivalent to using free energy as in &lt;span class=&#34;citation&#34;&gt;(Rezende and Mohamed &lt;a href=&#34;#ref-rezendeVariationalInferenceNormalizing2016&#34; role=&#34;doc-biblioref&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt;).&lt;/p&gt;
-&lt;p&gt;Regardless of the choice of loss function, it is obvious that optimising &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{KL}(P_{true} \vert \vert P_Y)\)&lt;/span&gt; cannot be contemplated without serious optimisations. Alternatively, finding more tractable alternative distance measurements is an active research topic.&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;basic-flows&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Basic flows&lt;/h2&gt;
-&lt;p&gt;When normalizing flows were introduced by &lt;span class=&#34;citation&#34;&gt;(Rezende and Mohamed &lt;a href=&#34;#ref-rezendeVariationalInferenceNormalizing2016&#34; role=&#34;doc-biblioref&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt;, they experimented with simple transformations: a linear transformation (with a simple non-linear function) called &lt;em&gt;planar flows&lt;/em&gt; and flows within a space centered on a reference latent variable called &lt;em&gt;radial flows&lt;/em&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;planar-flows&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Planar Flows&lt;/h2&gt;
-&lt;p&gt;A planar flow is formulated as follows:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-f_i(\vec{x}_i) = \vec{x}_i + \vec{u_i}  h(\vec{w}_i^\intercal \vec{x}_i + b_i)
-\]&lt;/span&gt;
-where &lt;span class=&#34;math inline&#34;&gt;\(\vec{u}_i\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\vec{w}_i\)&lt;/span&gt; are vectors, &lt;span class=&#34;math inline&#34;&gt;\(h()\)&lt;/span&gt; is a non-linear real function and &lt;span class=&#34;math inline&#34;&gt;\(b_i\)&lt;/span&gt; is a scalar.&lt;/p&gt;
-&lt;p&gt;By defining:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\psi_i(\vec{z}) = h&amp;#39;(\vec{w}^\intercal \vec{z} + b_i) \vec{w}_i
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;the determinant required to normalize the flow can be simplified to (see original paper for the short steps involved):&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\left| \det \frac{\partial f_i}{\partial x_i}  \right| = \left| \det \left( \mathbb{I} + \vec{u_i} \psi_i(\vec{x}_i)^\intercal \right) \right| = \left| 1 + \vec{u_i}^\intercal \psi_i(\vec{x}_i)  \right|
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;This is a more tractable expression.&lt;/p&gt;
-&lt;div id=&#34;radial-flows&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Radial flows&lt;/h3&gt;
-&lt;p&gt;The formulation of the radial flows takes a reference hyper-ball centered at a reference point &lt;span class=&#34;math inline&#34;&gt;\(\vec{x}_0\)&lt;/span&gt;. Any point &lt;span class=&#34;math inline&#34;&gt;\(\vec{x}\)&lt;/span&gt; gets moved in the direction of &lt;span class=&#34;math inline&#34;&gt;\(\vec{x} - \vec{x}_0\)&lt;/span&gt;. That move is dependent on &lt;span class=&#34;math inline&#34;&gt;\(\vec{x}\)&lt;/span&gt;. In other words, imagine a plain hyper-ball, after many such transformations, you obtain a hyper-potato.&lt;/p&gt;
-&lt;p&gt;The flows are defined as:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec{x}_0 \right)
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(\alpha_i\)&lt;/span&gt; is a strictly positive scalar, &lt;span class=&#34;math inline&#34;&gt;\(\beta_i\)&lt;/span&gt; is a scalar, &lt;span class=&#34;math inline&#34;&gt;\(\rho_i = \left|| \vec{x}_i - \vec{x}_0 \right||\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(h(\alpha_i, \rho_i) = \frac{1}{\alpha_i + \rho_i}\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;This family of functions gives the following expression of the determinant:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\left| \det \nabla f_i(\vec{x}_i) \right| = \left[ 1 + \beta_i h(\alpha_i, \rho_i) \right] ^{D-1} \left[ 1 + \beta_i h(\alpha_i, \rho_i) +  \beta_i \rho_i h&amp;#39;(\alpha_i, \rho_i) \right]
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Again, this is a more tractable expression.&lt;/p&gt;
-&lt;p&gt;Unfortunately, it was found that those transformations do not scale well to high-dimensional latent space.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;more-complex-flows&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;More complex flows&lt;/h2&gt;
-&lt;div id=&#34;residual-flows-discrete-flows&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Residual flows (discrete flows)&lt;/h3&gt;
-&lt;p&gt;Various proposals were initially put forward with common aims: replacing &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; by a series of sequentially composed simpler but expressive base functions and paying particular attention the computational costs. (refer &lt;span class=&#34;citation&#34;&gt;(Kobyzev, Prince, and Brubaker &lt;a href=&#34;#ref-kobyzevNormalizingFlowsIntroduction2020a&#34; role=&#34;doc-biblioref&#34;&gt;2020&lt;/a&gt;)&lt;/span&gt; and &lt;span class=&#34;citation&#34;&gt;(Papamakarios et al. &lt;a href=&#34;#ref-papamakariosNormalizingFlowsProbabilistic2019&#34; role=&#34;doc-biblioref&#34;&gt;2019&lt;/a&gt;)&lt;/span&gt; for details).&lt;/p&gt;
-&lt;p&gt;Residual flows &lt;span class=&#34;citation&#34;&gt;(He et al. &lt;a href=&#34;#ref-heDeepResidualLearning2015&#34; role=&#34;doc-biblioref&#34;&gt;2015&lt;/a&gt;)&lt;/span&gt; were a key development. As the name suggests, the transformations mirror the neural networks RevNet structure. Explicitly, &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; is defined as &lt;span class=&#34;math inline&#34;&gt;\(f(x) = x + \phi(x)\)&lt;/span&gt;. The left-hand side identity term is a matrix where all the eigenvalues are 1 (duh). If &lt;span class=&#34;math inline&#34;&gt;\(\phi(x)\)&lt;/span&gt; represented a simple matrix multiplication, imposing the condition that all its eigenvalues of the righthand side term are strictly strictly between 0 and 1 ensure that &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; remains invertible. An equivalent, and more general condition, is to impose that &lt;span class=&#34;math inline&#34;&gt;\(\phi\)&lt;/span&gt; is Lipschitz-continuous with a constant below 1. That is:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\forall x, y \qquad  0 &amp;lt; \left| \phi(x) - \phi(y) \right| &amp;lt; \left| x - y \right|
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;and therefore:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\forall x, h&amp;gt;0 \qquad  0 &amp;lt; \frac{\left| \phi(x+h) - \phi(x) \right|}{h} &amp;lt; 1
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Thanks to this condition, not only &lt;span class=&#34;math inline&#34;&gt;\(f\)&lt;/span&gt; is invertible, but all the eigenvalues of &lt;span class=&#34;math inline&#34;&gt;\(\nabla f = \mathbb{I} + \nabla \phi(x)\)&lt;/span&gt; are strictly positive (adding a transformation with unity eigenvalues (i.e. &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{I}\)&lt;/span&gt;) and a transformation with eigenvalues strictly below unity (in norm) cannot result in a transformation with nil eigenvalues). Therefore, we can be certain that $f = ( + (x)) = ( + (x)) $ (no negative eigenvalues).&lt;/p&gt;
-&lt;p&gt;Recalling that &lt;span class=&#34;math inline&#34;&gt;\(det(e^A) = e^{tr(A)}\)&lt;/span&gt; and the Taylor expansion of &lt;span class=&#34;math inline&#34;&gt;\(\log\)&lt;/span&gt;, we obtain the following simplification:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-\begin{aligned}
-\log \enspace \vert \det \nabla f \vert &amp;amp; = \log \enspace \det(\mathbb{I} + \nabla \phi) \\ 
-                                       &amp;amp; = tr(\log (\mathbb{I} + \nabla \phi)) \\
-\log \enspace \vert \det \nabla f \vert &amp;amp; = \sum_{k=1}^{\infty}{(-1)^{k+1} \frac{tr(\nabla \phi)^k}{k}}
-\end{aligned}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Obviously a trace is much easier to calculate than a determinant. However, the expression now becomes an infinite series. One of the core result of the cited paper is an algorithm to limit the number of terms to calculate in this infinite series.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;other-versions&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Other versions&lt;/h2&gt;
-&lt;p&gt;Table from Papamakorios&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;continuous-flows&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Continuous flows&lt;/h2&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;neural-ordinary-differential-equations&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Neural ordinary differential equations&lt;/h1&gt;
-&lt;p&gt;One of the Best Papers of NeurIPS 2018&lt;/p&gt;
-&lt;div id=&#34;continuous-flows-1&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Continuous flows&lt;/h2&gt;
-&lt;div id=&#34;continuous-flows-means-no-crossover&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Continuous flows means no-crossover&lt;/h3&gt;
-&lt;p&gt;Not the case for residual which have discrete steps.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;universal-ordinary-differential-equations&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Universal ordinary differential equations&lt;/h2&gt;
-&lt;/div&gt;
-&lt;div id=&#34;stochastic-differential-equations&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Stochastic differential equations&lt;/h2&gt;
-&lt;/div&gt;
-&lt;div id=&#34;other&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Other&lt;/h2&gt;
-&lt;p&gt;Previously mentioned generative models can be improved with normalising flows&lt;/p&gt;
-&lt;p&gt;Flow-GAN Grover, Dhan Ermon, Flow-GAN combining Mx Likelihood and adversarial learning and generative model&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;optimisation&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Optimisation&lt;/h2&gt;
-&lt;p&gt;Divergence / distance measures&lt;/p&gt;
-&lt;p&gt;Kullback-Leibner / Jensen-Shannon divergence / Wasserstein distance&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;references&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;References&lt;/h1&gt;
-&lt;div id=&#34;refs&#34; class=&#34;references hanging-indent&#34;&gt;
-&lt;div id=&#34;ref-FastLearningAlgorithm2006&#34;&gt;
-&lt;p&gt;“A Fast Learning Algorithm for Deep Belief Nets.” 2006. &lt;em&gt;MIT Press Journals&lt;/em&gt;, Neural Computation,, May. &lt;a href=&#34;https://www.mitpressjournals.org/doi/10.1162/neco.2006.18.7.1527&#34;&gt;https://www.mitpressjournals.org/doi/10.1162/neco.2006.18.7.1527&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-chenNeuralOrdinaryDifferential2019&#34;&gt;
-&lt;p&gt;Chen, Ricky T. Q., Yulia Rubanova, Jesse Bettencourt, and David Duvenaud. 2019. “Neural Ordinary Differential Equations,” December. &lt;a href=&#34;http://arxiv.org/abs/1806.07366&#34;&gt;http://arxiv.org/abs/1806.07366&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-dinhNICENonlinearIndependent2015&#34;&gt;
-&lt;p&gt;Dinh, Laurent, David Krueger, and Yoshua Bengio. 2015. “NICE: Non-Linear Independent Components Estimation,” April. &lt;a href=&#34;http://arxiv.org/abs/1410.8516&#34;&gt;http://arxiv.org/abs/1410.8516&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-GoodfellowDeepLearning2016&#34;&gt;
-&lt;p&gt;Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. 2016. &lt;em&gt;Deep Learning&lt;/em&gt;. MIT Press.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-heDeepResidualLearning2015&#34;&gt;
-&lt;p&gt;He, Kaiming, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. 2015. “Deep Residual Learning for Image Recognition,” December. &lt;a href=&#34;http://arxiv.org/abs/1512.03385&#34;&gt;http://arxiv.org/abs/1512.03385&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-kingmaIntroductionVariationalAutoencoders2019&#34;&gt;
-&lt;p&gt;Kingma, Diederik P., and Max Welling. 2019. “An Introduction to Variational Autoencoders.” &lt;em&gt;Foundations and Trends in Machine Learning&lt;/em&gt; 12 (4): 307–92. &lt;a href=&#34;https://doi.org/10/ggfm34&#34;&gt;https://doi.org/10/ggfm34&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-kobyzevNormalizingFlowsIntroduction2020a&#34;&gt;
-&lt;p&gt;Kobyzev, Ivan, Simon J. D. Prince, and Marcus A. Brubaker. 2020. “Normalizing Flows: An Introduction and Review of Current Methods.” &lt;em&gt;IEEE Transactions on Pattern Analysis and Machine Intelligence&lt;/em&gt;, 1–1. &lt;a href=&#34;https://doi.org/10.1109/TPAMI.2020.2992934&#34;&gt;https://doi.org/10.1109/TPAMI.2020.2992934&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-lucasUnderstandingPosteriorCollapse2019&#34;&gt;
-&lt;p&gt;Lucas, James, George Tucker, Roger Grosse, and Mohammad Norouzi. 2019a. “Understanding Posterior Collapse in Generative Latent Variable Models | Semantic Scholar.” In &lt;em&gt;DeepGenStruct Worshop&lt;/em&gt;. &lt;a href=&#34;https://www.semanticscholar.org/paper/Understanding-Posterior-Collapse-in-Generative-Lucas-Tucker/7e2f5af5d44890c08ef72a5070340e0ffd3643ea&#34;&gt;https://www.semanticscholar.org/paper/Understanding-Posterior-Collapse-in-Generative-Lucas-Tucker/7e2f5af5d44890c08ef72a5070340e0ffd3643ea&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-lucasDonBlameELBO2019&#34;&gt;
-&lt;p&gt;———. 2019b. “Don’t Blame the ELBO! A Linear VAE Perspective on Posterior Collapse,” November. &lt;a href=&#34;http://arxiv.org/abs/1911.02469&#34;&gt;http://arxiv.org/abs/1911.02469&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-papamakariosNormalizingFlowsProbabilistic2019&#34;&gt;
-&lt;p&gt;Papamakarios, George, Eric Nalisnick, Danilo Jimenez Rezende, Shakir Mohamed, and Balaji Lakshminarayanan. 2019. “Normalizing Flows for Probabilistic Modeling and Inference,” December. &lt;a href=&#34;http://arxiv.org/abs/1912.02762&#34;&gt;http://arxiv.org/abs/1912.02762&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-rezendeVariationalInferenceNormalizing2016&#34;&gt;
-&lt;p&gt;Rezende, Danilo Jimenez, and Shakir Mohamed. 2016. “Variational Inference with Normalizing Flows,” June. &lt;a href=&#34;http://arxiv.org/abs/1505.05770&#34;&gt;http://arxiv.org/abs/1505.05770&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-russellArtificialIntelligenceModern2020&#34;&gt;
-&lt;p&gt;Russell, Stuart, and Peter Norvig. 2020. &lt;em&gt;Artificial Intelligence: A Modern Approach&lt;/em&gt;. 4th ed. Pearson Series on Artificial Intelligence. Pearson. &lt;a href=&#34;http://aima.cs.berkeley.edu/&#34;&gt;http://aima.cs.berkeley.edu/&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;ref-theodoridisMachineLearningBayesian2020&#34;&gt;
-&lt;p&gt;Theodoridis, Sergios. 2020. &lt;em&gt;Machine Learning: A Bayesian and Optimization Perspective&lt;/em&gt;. Amsterdam Boston Heidelberg London New York Oxford Paris San Diego San Francisco Singapore Sydney Tokyo: Elsevier, AP. &lt;a href=&#34;https://doi.org/10.1016/C2019-0-03772-7&#34;&gt;https://doi.org/10.1016/C2019-0-03772-7&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;appendix-appendix&#34; class=&#34;section level1 unnumbered&#34;&gt;
-&lt;h1&gt;Appendix&lt;/h1&gt;
-&lt;/div&gt;
-&lt;div id=&#34;more-information&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;More information&lt;/h1&gt;
-&lt;p&gt;This will be Appendix A.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;one-more-thing&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;One more thing&lt;/h1&gt;
-&lt;p&gt;This will be Appendix B.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;footnotes&#34;&gt;
-&lt;hr /&gt;
-&lt;ol&gt;
-&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;Piece of trivia: It seems that this is pronounced Counta-tch instead of counta-sh.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;Incidentally, this observation is made in the last sentence of the last paragraph of the last chapter of the &lt;a href=&#34;https://www.deeplearningbook.org/&#34;&gt;Deep Learning Book&lt;/a&gt; &lt;span class=&#34;citation&#34;&gt;(Goodfellow, Bengio, and Courville &lt;a href=&#34;#ref-GoodfellowDeepLearning2016&#34; role=&#34;doc-biblioref&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt; &lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Presentation at the Kong Kong Machine Learning meetup</title>
-      <link>/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html</link>
+      <link>https://emmanuel-r8.github.io/post/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup/</link>
       <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;I recently made a presentation at the regular &lt;a href=&#34;https://www.meetup.com/Hong-Kong-Machine-Learning-Meetup&#34;&gt;Hong Kong Machine Learning meetup&lt;/a&gt; organised by &lt;a href=&#34;https://gmarti.gitlab.io/&#34;&gt;Gautier Marti&lt;/a&gt;.&lt;/p&gt;
@@ -803,11 +29,11 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
     
     <item>
       <title>RNN Compressive Memory Part 1: A high level introduction.</title>
-      <link>/2020/03/07/rnn-compressive-memory-part-1.html</link>
+      <link>https://emmanuel-r8.github.io/post/2020/03/07/rnn-compressive-memory-part-1/</link>
       <pubDate>Sat, 07 Mar 2020 00:00:00 +0000</pubDate>
-      <guid>/2020/03/07/rnn-compressive-memory-part-1.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2020/03/07/rnn-compressive-memory-part-1/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
@@ -833,7 +59,7 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
 &lt;p&gt;Currently, the ambition of the series is to follow this plan:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Part 1 (here): A high level introduction to Compressive Memory mechanics starting from basic RNNS;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;../../05/20/rnn-compressive-memory-part-2.html&#34;&gt;Part 2&lt;/a&gt;: a detailed explanation of the TransformerXL;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;../rnn-compressive-memory-part-1/index.html&#34;&gt;Part 2&lt;/a&gt;: a detailed explanation of the TransformerXL;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Part 3: an implementation using PyTorch (soon);&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Part 4: finally, its application to time series (soon).&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -846,7 +72,7 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
 &lt;h3&gt;From simple RNNs to LSTMs&lt;/h3&gt;
 &lt;p&gt;Traditional neural networks were developed to train/run on information provided in a single step in a consistent format (e.g. images with identical resolution). Conceptually, a neural network could similarly be taught on sequential information (e.g. a video as a series of images) looking at it as a single sample, but that would require (1) being trained on the full sequence (e.g. an entire video), (2) being able to cope with information of variable length (i.e. short vs. long video). (1) is computationally intractable, and (2) means that units analysing later parts of the video would not be receiving as much training as earlier units when ideally they should be all share the same amount of training .&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/media/post/2020-rnn-compressive-memory/Recurrent_neural_network_unfold.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://emmanuel-r8.github.io/media/post/2020-rnn-compressive-memory/Recurrent_neural_network_unfold.svg&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Basic RNN&lt;/strong&gt; (source: &lt;em&gt;Wikipedia&lt;/em&gt;)&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;The original RNN address those issues:&lt;/p&gt;
@@ -862,7 +88,7 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
 &lt;div id=&#34;longshort-term-memory-rnns&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Long/Short Term Memory RNNs&lt;/h3&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/media/post/2020-rnn-compressive-memory/Long_Short-Term_Memory.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://emmanuel-r8.github.io/media/post/2020-rnn-compressive-memory/Long_Short-Term_Memory.svg&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Basic LSTM RNN&lt;/strong&gt; (source: &lt;em&gt;Wikipedia&lt;/em&gt;)&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Long/Short Term Memory RNNs (&lt;em&gt;LSTM&lt;/em&gt;) address this by passing two states:&lt;/p&gt;
@@ -876,7 +102,7 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
 &lt;div id=&#34;attention&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Attention&lt;/h3&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/media/post/2020-rnn-compressive-memory/Attention_RNN.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://emmanuel-r8.github.io/media/post/2020-rnn-compressive-memory/Attention_RNN.svg&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;&lt;strong&gt;Attention RNN&lt;/strong&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;RNN were further extended with an &lt;em&gt;attention mechanism&lt;/em&gt;. Blog posts on attention by &lt;a href=&#34;https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/&#34;&gt;Jay Alammar&lt;/a&gt; and &lt;a href=&#34;https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html&#34;&gt;Lilian Weng&lt;/a&gt; are good introductions.&lt;/p&gt;
@@ -964,11 +190,11 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
     
     <item>
       <title>HarvardX Gitbooks available</title>
-      <link>/2019/12/12/harvardx-gitbooks-available.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/12/12/harvardx-gitbooks-available/</link>
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/12/12/harvardx-gitbooks-available.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/12/12/harvardx-gitbooks-available/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;Both capstones for the HarvardX certificates are now available. Just click on the &lt;code&gt;Projects&lt;/code&gt; link!&lt;/p&gt;
@@ -979,11 +205,11 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
     
     <item>
       <title>HarvardX Final Report - LendingClub dataset</title>
-      <link>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</link>
       <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/12/11/harvardx-final-report-lendingclub-dataset.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;After 3 months of work, the final report for the HarvardX Data Science course was submitted.&lt;/p&gt;
@@ -1005,11 +231,11 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
     
     <item>
       <title>Quick Thought: Universal translator and same language translator</title>
-      <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/10/25/quick-idea-universal-translator-and-same-language-translator/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/10/25/quick-idea-universal-translator-and-same-language-translator/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;blockquote&gt;
@@ -1030,11 +256,11 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
     
     <item>
       <title>Neural Network - Incremental Growth</title>
-      <link>/2019/10/23/neural-network-incremental-growth.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/10/23/neural-network-incremental-growth/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/10/23/neural-network-incremental-growth.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/10/23/neural-network-incremental-growth/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
@@ -1053,7 +279,6 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
 &lt;li&gt;&lt;a href=&#34;#by-2-decision-matrix&#34;&gt;2-by-2 decision matrix&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#todo-other-principal-components-methods&#34;&gt;[TODO] Other Principal Components methods&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#todo-proof-of-the-pudding&#34;&gt;[TODO] Proof of the pudding…&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#limitations-and-further-questions&#34;&gt;Limitations and further questions&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#limitations&#34;&gt;Limitations&lt;/a&gt;&lt;/li&gt;
@@ -1114,7 +339,7 @@ O = f \odot (M \times I)
 &lt;p&gt;The idea is then produce a 2x2 decision matrix with high/low rotation mess and high/low eigenvalues.&lt;/p&gt;
 &lt;p&gt;A picture is gives the intuition of what we are after:&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/media/post/3-random-thoughts/2019-10-23-neural-network-incremental-growth/Network-Incremental-Growth-Matrix-Split.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;assets/Network-Incremental-Growth-Matrix-Split.png&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Transformation of the Layer Matrix&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Looking from top to bottom at what the “after” matrices would be:&lt;/p&gt;
@@ -1141,18 +366,23 @@ m \times n &amp;amp;   &amp;amp; m \times m &amp;amp; m \times n &amp;amp; n \ti
 &lt;p&gt;The &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; can be written as:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 I =
-\begin{pmatrix} |   &amp;amp;        &amp;amp; |    \\ i_1 &amp;amp; \cdots &amp;amp; i_m  \\ |   &amp;amp;        &amp;amp; |    \\ \end{pmatrix} 
+\begin{pmatrix} |   &amp;amp;        &amp;amp; |    \\ i_1 &amp;amp; \cdots &amp;amp; i_m  \\ |   &amp;amp;        &amp;amp; |    \\ \end{pmatrix}
 \qquad \text{and} \qquad
 O =
 \begin{pmatrix} |   &amp;amp;       &amp;amp; | \\ o_1 &amp;amp; \cdots &amp;amp; o_n \\ |   &amp;amp;       &amp;amp; | \\ \end{pmatrix}
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Then:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-M =
-O \Sigma I^\intercal =
-\begin{pmatrix} | &amp;amp;&amp;amp; | \\ o_1 &amp;amp; \dots &amp;amp; o_m \\ | &amp;amp; &amp;amp; | \\ \end{pmatrix}
-\begin{pmatrix} \sigma_1 \\ &amp;amp; \sigma_2 \\ &amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp; \sigma_r \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ \end{pmatrix}
-\begin{pmatrix} - &amp;amp; i_1 &amp;amp; - \\ &amp;amp; \vdots &amp;amp; \\ -  &amp;amp; i_n &amp;amp; - \\ \end{pmatrix}
+\begin{aligned}
+M &amp;amp; = O \Sigma I^\intercal \\
+  &amp;amp; =      \begin{pmatrix}    |  &amp;amp;       &amp;amp;   |    \\
+                             o_1 &amp;amp; \dots &amp;amp;  o_m   \\
+                              |  &amp;amp;       &amp;amp;   |    \\ \end{pmatrix}                                                    \times \\
+  &amp;amp; \times \begin{pmatrix} \sigma_1 \\ &amp;amp; \sigma_2 \\ &amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp; \sigma_r \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ \end{pmatrix} \times \\
+  &amp;amp; \times \begin{pmatrix}    -  &amp;amp;  i_1   &amp;amp; -     \\
+                                 &amp;amp; \vdots &amp;amp;       \\
+                              -  &amp;amp;  i_n   &amp;amp; -     \\ \end{pmatrix}
+\end{aligned}
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(\Sigma\)&lt;/span&gt; has &lt;span class=&#34;math inline&#34;&gt;\(r\)&lt;/span&gt; non-zero eigenvalues.&lt;/p&gt;
 &lt;/div&gt;
@@ -1176,7 +406,7 @@ O \Sigma I^\intercal =
 &lt;div id=&#34;by-2-decision-matrix&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;2-by-2 decision matrix&lt;/h2&gt;
 &lt;p&gt;Based on those regularisation, we would propose the following:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ 
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \begin{matrix}
                     &amp;amp; \text{low rotation messiness} &amp;amp; \text{high rotation messiness} \\
 \text{high } \sigma &amp;amp; \text{Double height}          &amp;amp; \text{Double depth}            \\
@@ -1189,10 +419,6 @@ O \Sigma I^\intercal =
 &lt;h1&gt;[TODO] Other Principal Components methods&lt;/h1&gt;
 &lt;p&gt;SVD is PCA. Projects information on hyperplanes.&lt;/p&gt;
 &lt;p&gt;Reflect on non-linear versions: Principal Curves, Kernel Principal Components, Sparse Principal Components, Independent Component Analysis. (_Elements of Statistical Learning s. 14.5 seq.).&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;todo-proof-of-the-pudding&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;[TODO] Proof of the pudding…&lt;/h1&gt;
-&lt;p&gt;Implementations!!!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;limitations-and-further-questions&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Limitations and further questions&lt;/h1&gt;
@@ -1265,11 +491,11 @@ O \Sigma I^\intercal =
     
     <item>
       <title>Stanford Online - Machine Learning C229 </title>
-      <link>/2019/08/02/stanford-online-machine-learning-c229.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/08/02/stanford-online-machine-learning-c229/</link>
       <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/08/02/stanford-online-machine-learning-c229.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/08/02/stanford-online-machine-learning-c229/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;

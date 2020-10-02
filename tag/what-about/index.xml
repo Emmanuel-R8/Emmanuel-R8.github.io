@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>What About? | Back2Numbers</title>
-    <link>/tag/what-about.html</link>
-      <atom:link href="/tag/what-about/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://emmanuel-r8.github.io/tag/what-about/</link>
+      <atom:link href="https://emmanuel-r8.github.io/tag/what-about/index.xml" rel="self" type="application/rss+xml" />
     <description>What About?</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://emmanuel-r8.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>What About?</title>
-      <link>/tag/what-about.html</link>
+      <link>https://emmanuel-r8.github.io/tag/what-about/</link>
     </image>
     
     <item>
       <title>Quick Thought: Universal translator and same language translator</title>
-      <link>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/10/25/quick-idea-universal-translator-and-same-language-translator/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/10/25/quick-idea-universal-translator-and-same-language-translator.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/10/25/quick-idea-universal-translator-and-same-language-translator/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;blockquote&gt;
@@ -39,11 +39,11 @@
     
     <item>
       <title>Neural Network - Incremental Growth</title>
-      <link>/2019/10/23/neural-network-incremental-growth.html</link>
+      <link>https://emmanuel-r8.github.io/post/2019/10/23/neural-network-incremental-growth/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>/2019/10/23/neural-network-incremental-growth.html</guid>
+      <guid>https://emmanuel-r8.github.io/post/2019/10/23/neural-network-incremental-growth/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://emmanuel-r8.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
@@ -62,7 +62,6 @@
 &lt;li&gt;&lt;a href=&#34;#by-2-decision-matrix&#34;&gt;2-by-2 decision matrix&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#todo-other-principal-components-methods&#34;&gt;[TODO] Other Principal Components methods&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#todo-proof-of-the-pudding&#34;&gt;[TODO] Proof of the pudding…&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#limitations-and-further-questions&#34;&gt;Limitations and further questions&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#limitations&#34;&gt;Limitations&lt;/a&gt;&lt;/li&gt;
@@ -123,7 +122,7 @@ O = f \odot (M \times I)
 &lt;p&gt;The idea is then produce a 2x2 decision matrix with high/low rotation mess and high/low eigenvalues.&lt;/p&gt;
 &lt;p&gt;A picture is gives the intuition of what we are after:&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/media/post/3-random-thoughts/2019-10-23-neural-network-incremental-growth/Network-Incremental-Growth-Matrix-Split.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;assets/Network-Incremental-Growth-Matrix-Split.png&#34; alt=&#34;&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Transformation of the Layer Matrix&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;Looking from top to bottom at what the “after” matrices would be:&lt;/p&gt;
@@ -150,18 +149,23 @@ m \times n &amp;amp;   &amp;amp; m \times m &amp;amp; m \times n &amp;amp; n \ti
 &lt;p&gt;The &lt;span class=&#34;math inline&#34;&gt;\(I\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(O\)&lt;/span&gt; can be written as:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 I =
-\begin{pmatrix} |   &amp;amp;        &amp;amp; |    \\ i_1 &amp;amp; \cdots &amp;amp; i_m  \\ |   &amp;amp;        &amp;amp; |    \\ \end{pmatrix} 
+\begin{pmatrix} |   &amp;amp;        &amp;amp; |    \\ i_1 &amp;amp; \cdots &amp;amp; i_m  \\ |   &amp;amp;        &amp;amp; |    \\ \end{pmatrix}
 \qquad \text{and} \qquad
 O =
 \begin{pmatrix} |   &amp;amp;       &amp;amp; | \\ o_1 &amp;amp; \cdots &amp;amp; o_n \\ |   &amp;amp;       &amp;amp; | \\ \end{pmatrix}
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Then:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-M =
-O \Sigma I^\intercal =
-\begin{pmatrix} | &amp;amp;&amp;amp; | \\ o_1 &amp;amp; \dots &amp;amp; o_m \\ | &amp;amp; &amp;amp; | \\ \end{pmatrix}
-\begin{pmatrix} \sigma_1 \\ &amp;amp; \sigma_2 \\ &amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp; \sigma_r \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ \end{pmatrix}
-\begin{pmatrix} - &amp;amp; i_1 &amp;amp; - \\ &amp;amp; \vdots &amp;amp; \\ -  &amp;amp; i_n &amp;amp; - \\ \end{pmatrix}
+\begin{aligned}
+M &amp;amp; = O \Sigma I^\intercal \\
+  &amp;amp; =      \begin{pmatrix}    |  &amp;amp;       &amp;amp;   |    \\
+                             o_1 &amp;amp; \dots &amp;amp;  o_m   \\
+                              |  &amp;amp;       &amp;amp;   |    \\ \end{pmatrix}                                                    \times \\
+  &amp;amp; \times \begin{pmatrix} \sigma_1 \\ &amp;amp; \sigma_2 \\ &amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp; \sigma_r \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; \ddots \\ &amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp; 0 \\ \end{pmatrix} \times \\
+  &amp;amp; \times \begin{pmatrix}    -  &amp;amp;  i_1   &amp;amp; -     \\
+                                 &amp;amp; \vdots &amp;amp;       \\
+                              -  &amp;amp;  i_n   &amp;amp; -     \\ \end{pmatrix}
+\end{aligned}
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(\Sigma\)&lt;/span&gt; has &lt;span class=&#34;math inline&#34;&gt;\(r\)&lt;/span&gt; non-zero eigenvalues.&lt;/p&gt;
 &lt;/div&gt;
@@ -185,7 +189,7 @@ O \Sigma I^\intercal =
 &lt;div id=&#34;by-2-decision-matrix&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;2-by-2 decision matrix&lt;/h2&gt;
 &lt;p&gt;Based on those regularisation, we would propose the following:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ 
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \begin{matrix}
                     &amp;amp; \text{low rotation messiness} &amp;amp; \text{high rotation messiness} \\
 \text{high } \sigma &amp;amp; \text{Double height}          &amp;amp; \text{Double depth}            \\
@@ -198,10 +202,6 @@ O \Sigma I^\intercal =
 &lt;h1&gt;[TODO] Other Principal Components methods&lt;/h1&gt;
 &lt;p&gt;SVD is PCA. Projects information on hyperplanes.&lt;/p&gt;
 &lt;p&gt;Reflect on non-linear versions: Principal Curves, Kernel Principal Components, Sparse Principal Components, Independent Component Analysis. (_Elements of Statistical Learning s. 14.5 seq.).&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;todo-proof-of-the-pudding&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;[TODO] Proof of the pudding…&lt;/h1&gt;
-&lt;p&gt;Implementations!!!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;limitations-and-further-questions&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Limitations and further questions&lt;/h1&gt;

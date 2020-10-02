@@ -1,0 +1,56 @@
+---
+title: 'TITLE'
+description: ''
+thumbnail: ''
+author: Emmanuel Rialland
+date: '2020-09-15'
+
+slug: 'thisisaslug'
+
+categories:
+  - Machine Learning
+  - Neural ODEs
+  - Julia
+tags:
+  - Machine Learning`
+  - Neural ODEs
+  - Julia
+
+editor_options:
+  markdown:
+    mode: markdown
+    wrap:
+      120
+      sentence
+
+math: true
+draft: true
+
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+```{r message=FALSE,echo=FALSE}
+Sys.setenv(RSTUDIO_PANDOC = "/opt/rstudio/bin/pandoc")
+#options(blogdown.new_bundle = TRUE)
+```
+
+```{r juliasetup,include=FALSE,eval=FALSE}
+# Start Julia background process
+
+knitr::opts_chunk$set(
+#  class.source = "numberLines lineAnchors",
+#  class.output = c("numberLines lineAnchors chunkout")
+)
+
+# options(htmltools.dir.version = FALSE)
+# options(servr.daemon = TRUE)
+ 
+JuliaCall::julia_markdown_setup(JULIA_HOME = "/opt/julia/bin", notebook = TRUE) 
+```
+
+  
+![IMAGE](assets/hongkong.jpg)
+
+
