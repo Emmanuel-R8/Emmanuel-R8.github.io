@@ -1,0 +1,157 @@
+---
+#title: 'Normalising Flows and Neural ODEs'
+#description: ''
+#humbnail: ''
+#author: Emmanuel Rialland
+#date: '2020-09-02'
+
+#editor_options:
+#  markdown:
+#  mode: markdown
+#  wrap:
+#   120
+#    sentence
+
+#math: true
+#draft: true
+
+#output:
+#  blogdown::html_page:
+#  # theme: spacelab
+#  toc: TRUE
+#  number_sections: TRUE
+  #toc_float:
+  #  smooth_scroll: FALSE
+
+#fig_caption: yes
+
+#bibliography: ['Zotero_references.bib', 'References_other.bib']
+#link-citations: true
+
+#nocite: |
+#  @kobyzevNormalizingFlowsIntroduction2020a
+#  @papamakariosNormalizingFlowsProbabilistic2019
+---
+
+```{r}
+library(reticulate)
+reticulate::use_condaenv(condaenv = "torchdyn", required = TRUE)
+py_discover_config()
+py_config()
+```
+
+
+```{python}
+import sys
+#sys.path.append('~/Development/envs/torchdyn/bin/')
+
+from torchdyn import *
+from torchdyn.models import *
+from torchdyn.datasets import *
+
+import torch
+import torch.utils.data as data
+import torch.nn as nn
+
+import pytorch_lightning as pl
+
+import matplotlib.pyplot as plt
+
+```
+
+```{python}
+n_points = 100
+X = torch.linspace(-1,1, n_points).reshape(-1,1)
+y = -X
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+X_train, y_train = torch.Tensor(X).to(device), torch.Tensor(y).to(device)
+
+bs = len(X)
+train = data.TensorDataset(X_train, y_train)
+trainloader = data.DataLoader(train, batch_size=bs, shuffle=False)
+```
+
+```{python}
+class Learner(pl.LightningModule):
+    def __init__(self, model:nn.Module, settings:dict={}):
+        super().__init__()
+        
+        self.model = model
+        # self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=False)
+    
+    def forward(self, x):
+        return self.model(x)
+    
+    def training_step(self, batch, batch_idx):
+        x, y = batch      
+        y_hat = self.model(x)   
+        loss = nn.MSELoss()(y_hat, y)
+        logs = {'train_loss': loss}
+        return {'loss': loss, 'log': logs}   
+    
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.model.parameters(), lr=0.01)
+
+    def train_dataloader(self):
+        return trainloader
+```
+
+```{python}
+# vanilla depth-invariant
+func = nn.Sequential(
+        nn.Linear(1, 64),
+        nn.Tanh(),
+        nn.Linear(64,1)
+        )
+
+
+# vanilla depth-variant
+func_dv = nn.Sequential(DepthCat(1),
+        nn.Linear(2, 64),
+        nn.Tanh(),
+        nn.Linear(64,1)
+        )
+
+funcs = [func, func_dv]
+```
+
+```{python}
+plt.figure(figsize=(12,4))
+plot_settings = {'n_grid':30, 'x_span':[-1,1], 'device':device}
+
+for i, f in enumerate(funcs):
+    # define the model
+    model = NeuralDE(f, solver='dopri5').to(device)
+    # train the neural ODE
+    learn = Learner(model)
+    trainer = pl.Trainer(min_epochs=50, max_epochs=100, progress_bar_refresh_rate=0)
+    trainer.fit(learn)
+    
+    # plot the learned flows
+    plt.subplot(1,2,1+i)
+    s_span = torch.linspace(0,1,100)
+    traj = model.trajectory(X_train, s_span).cpu().detach()
+    plot_traj_vf_1D(model, s_span, traj, n_grid=30, x_span=[-1,1], device=device);
+```
+
+```{python}
+# Generate 3D nested spheres data
+d = ToyDataset()
+X, yn = d.generate(n_samples=2 << 12, dataset_type='spheres')  
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+c = ['blue', 'orange']
+fig = plt.figure(figsize=(6,6))
+ax = fig.add_subplot(111, projection='3d')
+for i in range(2):
+    ax.scatter(X[yn==i,0], X[yn==i,1], X[yn==i,2], s=5, alpha=0.5, c=c[i])
+```
+
+
+
+
+
+

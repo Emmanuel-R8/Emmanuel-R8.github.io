@@ -62,7 +62,7 @@
   
   
   
-  <script src="/js/mathjax-config.js"></script>
+  <script src="../../../../../js/mathjax-config.js"></script>
   
 
   
@@ -237,7 +237,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.css">
+  <link rel="stylesheet" href="../../../../../css/academic.css">
 
   
 
@@ -290,9 +290,9 @@
 
   
 
-  <link rel="manifest" href="/index.webmanifest">
-  <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
-  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+  <link rel="manifest" href="../../../../../index.webmanifest">
+  <link rel="icon" type="image/png" href="../../../../../images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../../../../images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
 
   <link rel="canonical" href="https://emmanuel-r8.github.io/post/2020/03/25/2020-03-25-forecasting-covid-19/">
 
@@ -396,7 +396,7 @@
     <script>const isSiteThemeDark = true;</script>
   
   
-  <script src="/js/load-theme.js"></script>
+  <script src="../../../../../js/load-theme.js"></script>
 
   <aside class="search-results" id="search">
   <div class="container">
@@ -448,7 +448,7 @@
 
     
     <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/">Back2Numbers</a>
+      <a class="navbar-brand" href="../../../../../">Back2Numbers</a>
     </div>
     
 
@@ -461,7 +461,7 @@
 
     
     <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/">Back2Numbers</a>
+      <a class="navbar-brand" href="../../../../../">Back2Numbers</a>
     </div>
     
 
@@ -504,7 +504,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          <a class="nav-link " href="../../../../../#posts"><span>Posts</span></a>
         </li>
 
         
@@ -541,7 +541,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+          <a class="nav-link " href="../../../../../#projects"><span>Projects</span></a>
         </li>
 
         
@@ -578,7 +578,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#talks"><span>Recent talks</span></a>
+          <a class="nav-link " href="../../../../../#talks"><span>Recent talks</span></a>
         </li>
 
         
@@ -615,7 +615,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#about"><span>#> whoami </span></a>
+          <a class="nav-link " href="../../../../../#about"><span>#> whoami </span></a>
         </li>
 
         
@@ -652,7 +652,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#contact"><span>Contact me </span></a>
+          <a class="nav-link " href="../../../../../#contact"><span>Contact me </span></a>
         </li>
 
         
@@ -758,14 +758,14 @@
   
   
   <span class="middot-divider"></span>
-  <a href="/post/2020/03/25/2020-03-25-forecasting-covid-19/#disqus_thread"></a>
+  <a href="../../../../../post/2020/03/25/2020-03-25-forecasting-covid-19/#disqus_thread"></a>
   
 
   
   
   <span class="middot-divider"></span>
   <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/data-science/">Data Science</a>, <a href="/category/julia/">Julia</a></span>
+    <i class="fas fa-folder mr-1"></i><a href="../../../../../category/data-science/">Data Science</a>, <a href="../../../../../category/julia/">Julia</a></span>
   
 
 </div>
@@ -794,7 +794,7 @@
 
     <div class="article-style">
       
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<script src="../../../../../rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 <div id="TOC">
 <ul>
@@ -1000,7 +1000,7 @@ end;</code></pre>
 <div id="population-compartments" class="section level3">
 <h3>Population compartments</h3>
 <p>Qualitatively, the epidemy model dynamics tracks several sub-groups (compartments):</p>
-<p><img src="/media/post/2020-COVID/images/States.svg"></p>
+<p><img src="../../../../../media/post/2020-COVID/images/States.svg"></p>
 <ul>
 <li><p>Susceptible individuals (<span class="math inline">\(S\)</span>) are healthy and susceptible to being exposed to the virus by contact with an infected individual.</p></li>
 <li><p>Exposed individuals (<span class="math inline">\(E\)</span>) are infected but asymptomatic. They progress towards a symptomatic state on average time <span class="math inline">\(t_l\)</span>. Reports are that asymptomatic individuals are contagious. We will assume that they are proportionally less contagious than symptomatic individuals as a percentage <span class="math inline">\(\gamma_E\)</span> of <span class="math inline">\(R_0\)</span>. For the purposes of modelling we will assume (without supporting evidence, but will be the object of parameter estimation):</p></li>
@@ -1140,7 +1140,7 @@ E2S_a(t) &amp; = -S2E_a(t) \\
 <p>Quantitatively, the model expresses how many individuals transfer from one situation/compartment to another. Flows from compartment X to Y are written as <span class="math inline">\(X2Y\)</span> (obviously <span class="math inline">\(X2Y = - Y2X\)</span>).</p>
 <p>Note that the compartments are split into age groups.</p>
 <div class="figure">
-<img src="/media/post/2020-COVID/images/Transitions.svg" alt="" />
+<img src="../../../../../media/post/2020-COVID/images/Transitions.svg" alt="" />
 <p class="caption">Transitions between compartments</p>
 </div>
 <div id="epidemiology" class="section level4">
@@ -1357,7 +1357,7 @@ ax.set_yscale(&quot;log&quot;);
 
 PyPlot.savefig(&quot;images/Deaths.png&quot;);</code></pre>
 <div class="figure">
-<img src="/media/post/2020-COVID/images/Deaths.png" alt="" />
+<img src="../../../../../media/post/2020-COVID/images/Deaths.png" alt="" />
 <p class="caption">Deaths</p>
 </div>
 <p>This file contains ICU beds figures.</p>
@@ -1504,7 +1504,7 @@ ax.set_yscale(&quot;log&quot;);
 PyPlot.savefig(&quot;images/DeathsForecast.png&quot;);
 </code></pre>
 <div class="figure">
-<img src="/media/post/2020-COVID/images/DeathsForecast.png" alt="" />
+<img src="../../../../../media/post/2020-COVID/images/DeathsForecast.png" alt="" />
 <p class="caption">Increase in Recoveries and Deaths over time</p>
 </div>
 <p>It is clear the model forecasts a faster growth than reality. A parameter estimation is necessary.</p>
@@ -1525,7 +1525,7 @@ ax.set_yscale(&quot;linear&quot;);
 PyPlot.savefig(&quot;images/BedUsage.png&quot;);
 </code></pre>
 <div class="figure">
-<img src="/media/post/2020-COVID/images/BedUsage.png" alt="" />
+<img src="../../../../../media/post/2020-COVID/images/BedUsage.png" alt="" />
 <p class="caption">Bed Usage over time</p>
 </div>
 <p>It is clear that the requirements for beds quickly hits the available capacity</p>
@@ -1546,11 +1546,11 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
 
 <div class="article-tags">
   
-  <a class="badge badge-light" href="/tag/data-science/">Data Science</a>
+  <a class="badge badge-light" href="../../../../../tag/data-science/">Data Science</a>
   
-  <a class="badge badge-light" href="/tag/julia/">Julia</a>
+  <a class="badge badge-light" href="../../../../../tag/julia/">Julia</a>
   
-  <a class="badge badge-light" href="/tag/covid-19/">COVID-19</a>
+  <a class="badge badge-light" href="../../../../../tag/covid-19/">COVID-19</a>
   
 </div>
 
@@ -1669,7 +1669,7 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
     <div class="media author-card content-widget-hr">
       
         
-        <img class="avatar mr-3 avatar-circle" src="/author/emmanuel-rialland/avatar_hu52a603635ecebd45650b162dadabb4e5_12861_270x270_fill_q90_lanczos_center.jpg" alt="Emmanuel Rialland">
+        <img class="avatar mr-3 avatar-circle" src="../../../../../author/emmanuel-rialland/avatar_hu52a603635ecebd45650b162dadabb4e5_12861_270x270_fill_q90_lanczos_center.jpg" alt="Emmanuel Rialland">
       
 
       <div class="media-body">
@@ -1814,13 +1814,15 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
     <h3>Related</h3>
     <ul>
       
-      <li><a href="/post/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup/">Presentation at the Kong Kong Machine Learning meetup</a></li>
+      <li><a href="../../../../../post/2020/09/11/normalising-flows/">Normalising Flows and Neural ODEs</a></li>
       
-      <li><a href="/post/2019/12/12/harvardx-gitbooks-available/">HarvardX Gitbooks available</a></li>
+      <li><a href="../../../../../post/2020/04/30/presentation-at-the-hong-kong-machine-learning-meetup/">Presentation at the Kong Kong Machine Learning meetup</a></li>
       
-      <li><a href="/post/2019/12/11/harvardx-final-report-lendingclub-dataset/">HarvardX Final Report - LendingClub dataset</a></li>
+      <li><a href="../../../../../post/2019/12/12/harvardx-gitbooks-available/">HarvardX Gitbooks available</a></li>
       
-      <li><a href="/post/2019/10/05/harvardx-data-science-course-first-final-project/">HarvardX Data Science course - First final project</a></li>
+      <li><a href="../../../../../post/2019/12/11/harvardx-final-report-lendingclub-dataset/">HarvardX Final Report - LendingClub dataset</a></li>
+      
+      <li><a href="../../../../../post/2019/10/05/harvardx-data-science-course-first-final-project/">HarvardX Data Science course - First final project</a></li>
       
     </ul>
   </div>
@@ -1943,7 +1945,7 @@ PyPlot.savefig(&quot;images/BedUsage.png&quot;);
     
     
     
-    <script src="/js/academic.min.d21c308a08df2c7d0039ffaa74c9eaa9.js"></script>
+    <script src="../../../../../js/academic.min.d21c308a08df2c7d0039ffaa74c9eaa9.js"></script>
 
     
 

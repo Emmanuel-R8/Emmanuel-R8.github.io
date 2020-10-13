@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Appendix | LendingClub Loans Pricing</title>
+  <meta name="description" content="HarvardX - PH125.9x Data Science Capstone" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Appendix | LendingClub Loans Pricing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="HarvardX - PH125.9x Data Science Capstone" />
+  <meta name="github-repo" content="Emmanuel_R8/HarvardX-LendingClub" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Appendix | LendingClub Loans Pricing" />
+  
+  <meta name="twitter:description" content="HarvardX - PH125.9x Data Science Capstone" />
+  
+
+<meta name="author" content="Emmanuel Rialland - https://github.com/Emmanuel_R8" />
+
+
+<meta name="date" content="2019-12-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="errands-and-post-mortem.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./introduction.html" target="blank>LendingClub Loans Pricing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="internal-rate-of-return-credit-margins-and-net-present-values.html"><a href="internal-rate-of-return-credit-margins-and-net-present-values.html"><i class="fa fa-check"></i><b>1</b> Internal Rate of Return, Credit Margins and Net Present Values</a><ul>
+<li class="chapter" data-level="1.1" data-path="internal-rate-of-return-credit-margins-and-net-present-values.html"><a href="internal-rate-of-return-credit-margins-and-net-present-values.html#background"><i class="fa fa-check"></i><b>1.1</b> Background</a></li>
+<li class="chapter" data-level="1.2" data-path="internal-rate-of-return-credit-margins-and-net-present-values.html"><a href="internal-rate-of-return-credit-margins-and-net-present-values.html#internal-rate-of-return"><i class="fa fa-check"></i><b>1.2</b> Internal Rate of Return</a></li>
+<li class="chapter" data-level="1.3" data-path="internal-rate-of-return-credit-margins-and-net-present-values.html"><a href="internal-rate-of-return-credit-margins-and-net-present-values.html#dataset-calculation"><i class="fa fa-check"></i><b>1.3</b> Dataset calculation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="internal-rate-of-return-credit-margins-and-net-present-values.html"><a href="internal-rate-of-return-credit-margins-and-net-present-values.html#irr"><i class="fa fa-check"></i><b>1.3.1</b> IRR</a></li>
+<li class="chapter" data-level="1.3.2" data-path="internal-rate-of-return-credit-margins-and-net-present-values.html"><a href="internal-rate-of-return-credit-margins-and-net-present-values.html#credit-margins"><i class="fa fa-check"></i><b>1.3.2</b> Credit Margins</a></li>
+<li class="chapter" data-level="1.3.3" data-path="internal-rate-of-return-credit-margins-and-net-present-values.html"><a href="internal-rate-of-return-credit-margins-and-net-present-values.html#npv"><i class="fa fa-check"></i><b>1.3.3</b> NPV</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dataset.html"><a href="dataset.html"><i class="fa fa-check"></i><b>2</b> Dataset</a><ul>
+<li class="chapter" data-level="2.1" data-path="dataset.html"><a href="dataset.html#preamble"><i class="fa fa-check"></i><b>2.1</b> Preamble</a></li>
+<li class="chapter" data-level="2.2" data-path="dataset.html"><a href="dataset.html#general-presentation"><i class="fa fa-check"></i><b>2.2</b> General presentation</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="dataset.html"><a href="dataset.html#business-volume"><i class="fa fa-check"></i><b>2.2.1</b> Business volume</a></li>
+<li class="chapter" data-level="2.2.2" data-path="dataset.html"><a href="dataset.html#loan-lifecyle-and-status"><i class="fa fa-check"></i><b>2.2.2</b> Loan lifecyle and status</a></li>
+<li class="chapter" data-level="2.2.3" data-path="dataset.html"><a href="dataset.html#loan-application"><i class="fa fa-check"></i><b>2.2.3</b> Loan application</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="dataset.html"><a href="dataset.html#rates"><i class="fa fa-check"></i><b>2.3</b> Rates</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="dataset.html"><a href="dataset.html#sec:feature-engineering"><i class="fa fa-check"></i><b>2.3.1</b> IRR and required credit margins</a></li>
+<li class="chapter" data-level="2.3.2" data-path="dataset.html"><a href="dataset.html#choice-of-predictors"><i class="fa fa-check"></i><b>2.3.2</b> Choice of predictors</a></li>
+<li class="chapter" data-level="2.3.3" data-path="dataset.html"><a href="dataset.html#interest-rates"><i class="fa fa-check"></i><b>2.3.3</b> Interest rates</a></li>
+<li class="chapter" data-level="2.3.4" data-path="dataset.html"><a href="dataset.html#purpose"><i class="fa fa-check"></i><b>2.3.4</b> Purpose</a></li>
+<li class="chapter" data-level="2.3.5" data-path="dataset.html"><a href="dataset.html#payments"><i class="fa fa-check"></i><b>2.3.5</b> Payments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="dataset.html"><a href="dataset.html#net-present-value"><i class="fa fa-check"></i><b>2.4</b> Net present value</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="dataset.html"><a href="dataset.html#average-npv-and-credit-margin-by-subgrade"><i class="fa fa-check"></i><b>2.4.1</b> Average NPV and credit margin by subgrade</a></li>
+<li class="chapter" data-level="2.4.2" data-path="dataset.html"><a href="dataset.html#distribution-of-principal-losses-by-rating"><i class="fa fa-check"></i><b>2.4.2</b> Distribution of principal losses by rating</a></li>
+<li class="chapter" data-level="2.4.3" data-path="dataset.html"><a href="dataset.html#npv-distribution-by-rating"><i class="fa fa-check"></i><b>2.4.3</b> NPV distribution by rating</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="dataset.html"><a href="dataset.html#loan-decision"><i class="fa fa-check"></i><b>2.5</b> Loan decision</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html"><i class="fa fa-check"></i><b>3</b> Logistic Regression Model and Credit Scorecard</a><ul>
+<li class="chapter" data-level="3.1" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#logistic-regression"><i class="fa fa-check"></i><b>3.1</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#data-preparation"><i class="fa fa-check"></i><b>3.1.1</b> Data preparation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#binning-and-weight-of-evidence"><i class="fa fa-check"></i><b>3.2</b> Binning and Weight of Evidence</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#background-1"><i class="fa fa-check"></i><b>3.2.1</b> Background</a></li>
+<li class="chapter" data-level="3.2.2" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#binning"><i class="fa fa-check"></i><b>3.2.2</b> Binning</a></li>
+<li class="chapter" data-level="3.2.3" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#woe-and-iv-definitions"><i class="fa fa-check"></i><b>3.2.3</b> WOE and IV definitions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#calculating-woe-and-iv"><i class="fa fa-check"></i><b>3.2.4</b> Calculating WoE and IV</a></li>
+<li class="chapter" data-level="3.2.5" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#loop-through-all-variables"><i class="fa fa-check"></i><b>3.2.5</b> Loop through all variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#select-relevant-variables"><i class="fa fa-check"></i><b>3.2.6</b> Select relevant variables</a></li>
+<li class="chapter" data-level="3.2.7" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#create-data-table-with-one-hot-encoding"><i class="fa fa-check"></i><b>3.2.7</b> Create data table with one-hot encoding</a></li>
+<li class="chapter" data-level="3.2.8" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#comparison-of-individual-characteristics"><i class="fa fa-check"></i><b>3.2.8</b> Comparison of individual characteristics</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#logistic-regression-1"><i class="fa fa-check"></i><b>3.3</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#remove-identical-bins"><i class="fa fa-check"></i><b>3.3.1</b> Remove identical bins</a></li>
+<li class="chapter" data-level="3.3.2" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#first-model---complete-dataset"><i class="fa fa-check"></i><b>3.3.2</b> First model - complete dataset</a></li>
+<li class="chapter" data-level="3.3.3" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#second-training---fitted-model-less-colinear-bins"><i class="fa fa-check"></i><b>3.3.3</b> Second training - fitted model less colinear bins</a></li>
+<li class="chapter" data-level="3.3.4" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#third-training---second-fitted-model-less-non-significant-bins"><i class="fa fa-check"></i><b>3.3.4</b> Third training - second fitted model less non-significant bins</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#model-results"><i class="fa fa-check"></i><b>3.4</b> Model results</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#final-list-of-variables"><i class="fa fa-check"></i><b>3.4.1</b> Final list of variables</a></li>
+<li class="chapter" data-level="3.4.2" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#scoring"><i class="fa fa-check"></i><b>3.4.2</b> Scoring</a></li>
+<li class="chapter" data-level="3.4.3" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#model-scorecard"><i class="fa fa-check"></i><b>3.4.3</b> Model scorecard</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#training-set"><i class="fa fa-check"></i><b>3.5</b> Training set</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#densities-of-the-training-results"><i class="fa fa-check"></i><b>3.5.1</b> Densities of the training results</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#test-set"><i class="fa fa-check"></i><b>3.6</b> Test set</a></li>
+<li class="chapter" data-level="3.7" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#confusion-matrix"><i class="fa fa-check"></i><b>3.7</b> Confusion matrix</a></li>
+<li class="chapter" data-level="3.8" data-path="logistic-regression-model-and-credit-scorecard.html"><a href="logistic-regression-model-and-credit-scorecard.html#roc-curve"><i class="fa fa-check"></i><b>3.8</b> ROC Curve</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>4</b> Conclusion</a></li>
+<li class="chapter" data-level="5" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html"><i class="fa fa-check"></i><b>5</b> Errands and post-mortem</a><ul>
+<li class="chapter" data-level="5.1" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#modeling"><i class="fa fa-check"></i><b>5.1</b> Modeling</a></li>
+<li class="chapter" data-level="5.2" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#geographical-data"><i class="fa fa-check"></i><b>5.2</b> Geographical data</a></li>
+<li class="chapter" data-level="5.3" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#stochastic-gradient-descent"><i class="fa fa-check"></i><b>5.3</b> Stochastic Gradient Descent</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#conclusions"><i class="fa fa-check"></i><b>5.3.1</b> Conclusions</a></li>
+<li class="chapter" data-level="5.3.2" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#gradient-descent"><i class="fa fa-check"></i><b>5.3.2</b> Gradient descent</a></li>
+<li class="chapter" data-level="5.3.3" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#stochastic-gradient-descent-1"><i class="fa fa-check"></i><b>5.3.3</b> Stochastic Gradient Descent</a></li>
+<li class="chapter" data-level="5.3.4" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#cost-function-for-multi-modal-npv"><i class="fa fa-check"></i><b>5.3.4</b> Cost function for multi-modal NPV</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="errands-and-post-mortem.html"><a href="errands-and-post-mortem.html#final-final-conclusion"><i class="fa fa-check"></i><b>5.4</b> Final final Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>6</b> Appendix</a><ul>
+<li class="chapter" data-level="6.1" data-path="appendix.html"><a href="appendix.html#sec:list-assumptions"><i class="fa fa-check"></i><b>6.1</b> List of assumptions / limitations regarding the dataset</a></li>
+<li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#data-preparation-and-formatting"><i class="fa fa-check"></i><b>6.2</b> Data preparation and formatting</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#sec:lendingclub-dataset"><i class="fa fa-check"></i><b>6.2.1</b> LendingClub dataset</a></li>
+<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#zip-codes-and-fips-codes"><i class="fa fa-check"></i><b>6.2.2</b> Zip codes and FIPS codes</a></li>
+<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#market-interest-rates"><i class="fa fa-check"></i><b>6.2.3</b> Market interest rates</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="appendix.html"><a href="appendix.html#sec:list-model-variables"><i class="fa fa-check"></i><b>6.3</b> List of variables</a></li>
+<li class="chapter" data-level="6.4" data-path="appendix.html"><a href="appendix.html#maxima-derivation-of-the-cost-function"><i class="fa fa-check"></i><b>6.4</b> Maxima derivation of the cost function</a></li>
+<li class="chapter" data-level="6.5" data-path="appendix.html"><a href="appendix.html#system-version"><i class="fa fa-check"></i><b>6.5</b> System version</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org/" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">LendingClub Loans Pricing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendix" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Appendix</h1>
+
+
+<div id="sec:list-assumptions" class="section level2">
+<h2><span class="header-section-number">6.1</span> List of assumptions / limitations regarding the dataset</h2>
+<p>As mentioned during this report, we had to make numerous assumptions given the lack of clarity of the variable descriptions.</p>
+<ul>
+<li><p><em>Dataset quality</em>: Aside from cents rounding issues, the dataset does not contain any flagrant errors that we could see (e.g. minor error of amount or rate, zipcode). Quality of the variable description is a different matter altogether.</p></li>
+<li><p><em>Ratings</em>: The day-1 rating is between A1 and (and no lower than) G5. No note is rated lower than E5 after 6 November 2017, and lower than D5 after 30 June 2019.</p></li>
+<li><p><em>Credit history</em>: Credit history information for the principal borrower relates to pre-approval and not post-funding. This is clear for the joint applicants, but simply an assumption for the principal borrower.</p></li>
+<li><p><em>Recoveries</em>: Recoveries (if any) are assumed to be paid 3 months after the last scheduled payment date (variable <code>last_pymnt_d</code>)</p></li>
+<li><p><em>Survival effect</em>: The dataset does not include applications that were rejected by the lender (for whatever reason) or by the borrower (for example because the interest rate quote is too high). It may also be the case that some actual loans were excluded as and when the dataset changed over the years.</p></li>
+<li><p>LIBOR funding rate: we use the 3-year and 5-year swap rates. In reality, we should have used average tenor-weighted swap rates (i.e. ca. 1.5 Y and 2.5 Y). This requires a full swap curve and more calculation than necessary for our purpose. The principles of this report should not be significantly affted by this approximation.</p></li>
+</ul>
+<p>We expect that LendingClub investors receive information of much better quality since the largest investors are now banks.</p>
+</div>
+<div id="data-preparation-and-formatting" class="section level2">
+<h2><span class="header-section-number">6.2</span> Data preparation and formatting</h2>
+<p>We used different sources of information:</p>
+<ul>
+<li><p>The LendingClub dataset made available on Kaggle;</p></li>
+<li><p>US geographical data about zip and FIPS codes;</p></li>
+<li><p>Market interest rates from the Saint Louis Federal Reserve Bank; and,</p></li>
+<li><p>Macro data from the same source.</p></li>
+</ul>
+<p>We here show the code used to prepare the data. It was automatically formatted by <em>RStudio</em>.</p>
+<div id="sec:lendingclub-dataset" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> LendingClub dataset</h3>
+<p>See <code>Scripts/R-Data-Preparation.R</code>.</p>
+</div>
+<div id="zip-codes-and-fips-codes" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Zip codes and FIPS codes</h3>
+<p>The R package <code>zipcode</code> was installed.</p>
+<p><span class="math display">\[\text{ }\]</span></p>
+
+<div class="sourceCode" id="cb74"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" href="#cb74-1" data-line-number="1"><span class="co">#</span></a>
+<a class="sourceLine" id="cb74-2" href="#cb74-2" data-line-number="2"><span class="co"># ZIPCodes dataset.</span></a>
+<a class="sourceLine" id="cb74-3" href="#cb74-3" data-line-number="3"><span class="co">#</span></a>
+<a class="sourceLine" id="cb74-4" href="#cb74-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb74-5" href="#cb74-5" data-line-number="5"><span class="kw">library</span>(zipcode)</a>
+<a class="sourceLine" id="cb74-6" href="#cb74-6" data-line-number="6"><span class="kw">data</span>(zipcode)</a>
+<a class="sourceLine" id="cb74-7" href="#cb74-7" data-line-number="7">zips &lt;-<span class="st"> </span>zipcode <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb74-8" href="#cb74-8" data-line-number="8"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb74-9" href="#cb74-9" data-line-number="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zip =</span> <span class="kw">as.integer</span>(<span class="kw">str_sub</span>(zip, <span class="dv">1</span>, <span class="dv">3</span>)))</a>
+<a class="sourceLine" id="cb74-10" href="#cb74-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb74-11" href="#cb74-11" data-line-number="11"><span class="kw">saveRDS</span>(zips, <span class="st">&quot;datasets/zips.rds&quot;</span>)</a></code></pre></div>
+
+</div>
+<div id="market-interest-rates" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> Market interest rates</h3>
+<p>Market interest rates (3-year and 5-year swap rates) were download from the Saint Louis Federal Reserve Bank. Datasets are split between before and after the LIBOR fixing scandal. The datasets are merged with disctinct dates.</p>
+<p>Download sources are:</p>
+<ul>
+<li>Pre-LIBOR 3-y swap <a href="https://fred.stlouisfed.org/series/DSWP3" class="uri">https://fred.stlouisfed.org/series/DSWP3</a></li>
+<li><p>Post-LIBOR 3-y swap <a href="https://fred.stlouisfed.org/series/ICERATES1100USD3Y" class="uri">https://fred.stlouisfed.org/series/ICERATES1100USD3Y</a></p></li>
+<li>Pre-LIBOR 5-y swap <a href="https://fred.stlouisfed.org/series/MSWP5" class="uri">https://fred.stlouisfed.org/series/MSWP5</a></li>
+<li><p>Post-LIBOR 5-y swap <a href="https://fred.stlouisfed.org/series/ICERATES1100USD5Y" class="uri">https://fred.stlouisfed.org/series/ICERATES1100USD5Y</a></p></li>
+</ul>
+<p>See <code>Scripts/R-LIBOR-Rates.R</code>.</p>
+</div>
+</div>
+<div id="sec:list-model-variables" class="section level2">
+<h2><span class="header-section-number">6.3</span> List of variables</h2>
+<p>This table presents the list of variables provided in the original dataset. The descriptions come from a spreadsheet attached with the dataset and, unfortunately, are not extremely precise and subject to interpretation. We added comments and/or particular interpretations in <em>CAPITAL LETTERS</em>.</p>
+
+
+
+<div class="sourceCode" id="cb75"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" href="#cb75-1" data-line-number="1">LC_variable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-2" href="#cb75-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(variable_name, inModel, description) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-3" href="#cb75-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">inModel =</span> <span class="kw">if_else</span>(inModel, <span class="st">&quot;YES&quot;</span>, <span class="st">&quot;NO&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb75-4" href="#cb75-4" data-line-number="4"><span class="st">  </span></a>
+<a class="sourceLine" id="cb75-5" href="#cb75-5" data-line-number="5"><span class="st">  </span><span class="co"># Format the table.</span></a>
+<a class="sourceLine" id="cb75-6" href="#cb75-6" data-line-number="6"><span class="st">  </span><span class="kw">kable</span>(</a>
+<a class="sourceLine" id="cb75-7" href="#cb75-7" data-line-number="7">    <span class="st">&quot;latex&quot;</span>,</a>
+<a class="sourceLine" id="cb75-8" href="#cb75-8" data-line-number="8">    <span class="dt">caption =</span> <span class="st">&quot;Description of the dataset variables as provided in the dataset downloaded from Kaggle&quot;</span>,</a>
+<a class="sourceLine" id="cb75-9" href="#cb75-9" data-line-number="9">    <span class="dt">booktabs =</span> T,</a>
+<a class="sourceLine" id="cb75-10" href="#cb75-10" data-line-number="10">    <span class="dt">longtable =</span> T,</a>
+<a class="sourceLine" id="cb75-11" href="#cb75-11" data-line-number="11">    <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&quot;Variable Name&quot;</span>, <span class="st">&quot;Used in model?&quot;</span>, <span class="st">&quot;Description&quot;</span>)</a>
+<a class="sourceLine" id="cb75-12" href="#cb75-12" data-line-number="12">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-13" href="#cb75-13" data-line-number="13"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F,</a>
+<a class="sourceLine" id="cb75-14" href="#cb75-14" data-line-number="14">                <span class="dt">latex_options =</span> <span class="kw">c</span>(<span class="st">&quot;repeat_header&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-15" href="#cb75-15" data-line-number="15"><span class="st">  </span><span class="kw">column_spec</span>(<span class="dv">1</span>, <span class="dt">width =</span> <span class="st">&quot;4cm&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-16" href="#cb75-16" data-line-number="16"><span class="st">  </span><span class="kw">column_spec</span>(<span class="dv">2</span>, <span class="dt">width =</span> <span class="st">&quot;3cm&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb75-17" href="#cb75-17" data-line-number="17"><span class="st">  </span><span class="kw">column_spec</span>(<span class="dv">3</span>, <span class="dt">width =</span> <span class="st">&quot;7cm&quot;</span>)</a></code></pre></div>
+
+
+</div>
+<div id="maxima-derivation-of-the-cost-function" class="section level2">
+<h2><span class="header-section-number">6.4</span> Maxima derivation of the cost function</h2>
+<p><span class="math display">\[\text{ }\]</span></p>
+<pre><code>PDF1(x, Q) := alpha1( Q) * sqrt( 1 / ( 2 * pi)) * 
+              exp( - 1 / 2*(( log( -( x - m1( Q)) / m1( Q)) + sigma1( Q) ^ 2) / 
+              sigma1( Q)) ^ 2) / ( -( x - m1(Q)) * sigma1( Q)) ;
+
+PDF2(x, Q) := alpha2( Q) * sqrt( 1 / ( 2 * pi)) * 
+              exp( - 1 / 2*(( log( -( x - m2( Q)) / m2( Q)) + sigma2( Q) ^ 2) / 
+              sigma2( Q)) ^ 2) / ( -( x - m2( Q)) * sigma2( Q)) ;
+
+PDF3(x, Q) := alpha3( Q) * sqrt( 1 / ( 2 (* pi)) * 
+              exp( - 1 / 2*(( log( -( x - m3( Q)) / m3( Q)) + sigma3( Q) ^ 2) / 
+              sigma3( Q)) ^ 2) / ( -( x - m3( Q)) * sigma3( Q)) ;
+
+PDF4(x, Q) := alpha4( Q) * sqrt( 1 / ( 2 * pi)) * 
+              exp( - 1 / 2*(( log( ( x - m4( Q)) / m4( Q)) + sigma4( Q) ^ 2) / 
+              sigma4( Q)) ^ 2) / ( ( x - m4( Q)) * sigma4( Q)) ;
+
+
+alpha1(Q) := am1* Q + an1 ;
+alpha2(Q) := am2* Q + an2 ;
+alpha3(Q) := am3* Q + an3 ;
+alpha4(Q) := am4* Q + an4 ;
+
+m1(Q) := mm1* Q + mn1 ;
+m2(Q) := mm2* Q + mn2 ;
+m3(Q) := mm3* Q + mn3 ;
+m4(Q) := mm4* Q + mn4 ;
+
+sigma1(Q) := sm1* Q + sn1 ;
+sigma2(Q) := sm2* Q + sn2 ;
+sigma3(Q) := sm3* Q + sn3 ;
+sigma4(Q) := sm4* Q + sn4 ;
+
+J(x, Q): = -( x - ( PDF1( x, Q) + PDF2( x, Q) + PDF3( x, Q) + PDF4( x, Q))) ^ 2 ; 
+
+diff( PDF1(x, Q), Q) ; </code></pre>
+<p><span class="math display">\[\text{ }\]</span></p>
+</div>
+<div id="system-version" class="section level2">
+<h2><span class="header-section-number">6.5</span> System version</h2>
+<p><span class="math display">\[\text{ }\]</span></p>
+
+<div class="sourceCode" id="cb77"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" href="#cb77-1" data-line-number="1"><span class="kw">Sys.info</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">enframe</span>() <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+sysname
+</td>
+<td style="text-align:left;">
+Linux
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+release
+</td>
+<td style="text-align:left;">
+5.3.0-24-generic
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+version
+</td>
+<td style="text-align:left;">
+#26-Ubuntu SMP Thu Nov 14 01:33:18 UTC 2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nodename
+</td>
+<td style="text-align:left;">
+x260
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+machine
+</td>
+<td style="text-align:left;">
+x86_64
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb78"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" href="#cb78-1" data-line-number="1">(<span class="kw">.packages</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">enframe</span>(<span class="dt">name =</span> <span class="st">&quot;&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;Loaded Package&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+</th>
+<th style="text-align:left;">
+Loaded Package
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+binner
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+bookdown
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+knitr
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+dslabs
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+kableExtra
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+gridExtra
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+lubridate
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+forcats
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+stringr
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+dplyr
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+purrr
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+readr
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+tidyr
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+tibble
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+ggplot2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+tidyverse
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:left;">
+stats
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+graphics
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+grDevices
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+utils
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+datasets
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+methods
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+base
+</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<div class="sourceCode" id="cb79"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" href="#cb79-1" data-line-number="1"><span class="cf">if</span> (knitr<span class="op">::</span><span class="kw">is_html_output</span>()) <span class="st">&#39;# References {-} </span><span class="ch">\n</span><span class="st"> This list of references contains all the key documents we can point to that have supported this report. But unfortunately it is probably not exhaustive. </span><span class="ch">\n</span><span class="st">&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode numberSource numberLines lineAnchors chunkout"><code class="sourceCode"><a class="sourceLine" id="cb80-1" href="#cb80-1" data-line-number="1">## [1] &quot;# References {-} \n This list of references contains all the key documents we can point to that have supported this report. But unfortunately it is probably not exhaustive. \n&quot;</a></code></pre></div>
+
+
+<div class="sourceCode" id="cb81"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" href="#cb81-1" data-line-number="1"><span class="co"># automatically create a bib database for R packages</span></a>
+<a class="sourceLine" id="cb81-2" href="#cb81-2" data-line-number="2">knitr<span class="op">::</span><span class="kw">write_bib</span>(<span class="kw">c</span>(<span class="kw">.packages</span>(), <span class="st">&quot;bookdown&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span>), <span class="st">&quot;packages.bib&quot;</span>)</a></code></pre></div>
+
+
+<div id="refs" class="references">
+<div>
+<p>Bokhari, Mohammad Mubasil. 2019. “Credit Risk Analysis in Peer to Peer Lending Data Set: Lending Club.”</p>
+</div>
+<div>
+<p>De Prado, Marcos Lopez. 2018. <em>Advances in Financial Machine Learning</em>. John Wiley &amp; Sons.</p>
+</div>
+<div>
+<p>Hothorn, Torsten, Kurt Hornik, and Achim Zeileis. 2006. “Unbiased Recursive Partitioning: A Conditional Inference Framework.” <em>Journal of Computational and Graphical Statistics</em> 15 (3). Taylor &amp; Francis: 651–74. <a href="https://doi.org/10.1198/106186006X133933" class="uri">https://doi.org/10.1198/106186006X133933</a>.</p>
+</div>
+<div>
+<p>Hothorn, Torsten, and Achim Zeileis. 2015. “Partykit: A Modular Toolkit for Recursive Partytioning in R.” <em>Journal of Machine Learning Research</em> 16 (118): 3905–9. <a href="http://jmlr.org/papers/v16/hothorn15a.html" class="uri">http://jmlr.org/papers/v16/hothorn15a.html</a>.</p>
+</div>
+<div>
+<p>Kim, Aleum, and Sung-Bae Cho. 2019. “An Ensemble Semi-Supervised Learning Method for Predicting Defaults in Social Lending.” <em>Engineering Applications of Artificial Intelligence</em> 81. Elsevier: 193–99.</p>
+</div>
+<div>
+<p>Miner, SAS Enterprise. 2012. “SAS Global Forum 2012 Financial Services Paper 141-2012 Building Loss Given Default Scorecard Using Weight of Evidence Bins in Sas®.” <a href="https://support.sas.com/resources/papers/proceedings12/141-2012.pdf" class="uri">https://support.sas.com/resources/papers/proceedings12/141-2012.pdf</a>.</p>
+</div>
+<div>
+<p>Peng, Roger. 2012. <em>Exploratory Data Analysis with R</em>. Lulu. com.</p>
+</div>
+<div>
+<p>Preparation: Wendy Kan, LendingClub Corporation -. 2019. “Kaggle - LendingClub dataset.” <a href="https://www.kaggle.com/wendykan/lending-club-loan-data" class="uri">https://www.kaggle.com/wendykan/lending-club-loan-data</a>.</p>
+</div>
+<div>
+<p>San Francisco - California, LendingClub Corporation -. 2019. “Prospectus Regulatory Filing S3-ASR for Member Payment Dependent Notes.” <a href="https://www.sec.gov/Archives/edgar/data/1409970/000140997019000988/0001409970-19-000988-index.htm" class="uri">https://www.sec.gov/Archives/edgar/data/1409970/000140997019000988/0001409970-19-000988-index.htm</a>.</p>
+</div>
+<div>
+<p>Sing, Tobias, Oliver Sander, Niko Beerenwinkel, and Thomas Lengauer. 2005. “ROCR: visualizing classifier performance in R.” <em>Bioinformatics</em> 21 (20): 3940–1. <a href="https://doi.org/10.1093/bioinformatics/bti623" class="uri">https://doi.org/10.1093/bioinformatics/bti623</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="errands-and-post-mortem.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Emmanuel-R8/HarvardX-LendingClub/edit/master/08-appendix.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["HarvardX Credit Scoring of the LendingClub Dataset.pdf", "HarvardX Credit Scoring of the LendingClub Dataset.epub"],
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
