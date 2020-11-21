@@ -824,13 +824,20 @@
 <li><a href="#latent-space"><span class="toc-section-number">2.2.6</span> Latent space</a></li>
 <li><a href="#training"><span class="toc-section-number">2.2.7</span> Training</a></li>
 <li><a href="#sampling"><span class="toc-section-number">2.2.8</span> Sampling</a></li>
-<li><a href="#radial-flows"><span class="toc-section-number">2.2.9</span> Radial flows</a></li>
 </ul></li>
-<li><a href="#more-complex-flows"><span class="toc-section-number">2.3</span> More complex flows</a>
+<li><a href="#into-the-maths"><span class="toc-section-number">2.3</span> Into the maths</a></li>
+<li><a href="#training-loss-optimisation-and-information-flow"><span class="toc-section-number">2.4</span> Training loss optimisation and information flow</a></li>
+<li><a href="#basic-flows"><span class="toc-section-number">2.5</span> Basic flows</a>
 <ul>
-<li><a href="#residual-flows-discrete-flows"><span class="toc-section-number">2.3.1</span> Residual flows (discrete flows)</a></li>
+<li><a href="#planar-flows"><span class="toc-section-number">2.5.1</span> Planar Flows</a></li>
+<li><a href="#planar-flow-example"><span class="toc-section-number">2.5.2</span> Planar flow example</a></li>
+<li><a href="#radial-flows"><span class="toc-section-number">2.5.3</span> Radial flows</a></li>
 </ul></li>
-<li><a href="#other-versions"><span class="toc-section-number">2.4</span> Other versions</a></li>
+<li><a href="#more-complex-flows"><span class="toc-section-number">2.6</span> More complex flows</a>
+<ul>
+<li><a href="#residual-flows-discrete-flows"><span class="toc-section-number">2.6.1</span> Residual flows (discrete flows)</a></li>
+</ul></li>
+<li><a href="#other-versions"><span class="toc-section-number">2.7</span> Other versions</a></li>
 </ul></li>
 <li><a href="#continuous-flows-and-neural-ordinary-differential-equations"><span class="toc-section-number">3</span> Continuous Flows and Neural ordinary differential equations</a>
 <ul>
@@ -1362,145 +1369,108 @@ Figure 2.5: Flows
 <div id="julia-version-7" class="section level4" number="2.2.8.2">
 <h4><span class="header-section-number">2.2.8.2</span> Julia version</h4>
 <p>We plot the progress of the 100 iterations:</p>
-<p>```{, cache=FALSE, eval=FALSE}
-anim = <span class="citation">(<a href="#ref-animate" role="doc-biblioref"><strong>animate?</strong></a>)</span> for i ∈ 1:length(list_plots)
-# Necessary to create a new plot for each frame
-Plots.plot(1)
-Plots.plot!(list_plots[i])
-end</p>
-<p>gif(anim) # GIF converted to mp4 to reduce animation file size</p>
-<pre><code>
+<pre class="julia"><code>anim = @animate for i ∈ 1:length(list_plots)
+    # Necessary to create a new plot for each frame
+    Plots.plot(1)
+    Plots.plot!(list_plots[i])
+end
 
-&lt;video width=&quot;320&quot; height=&quot;240&quot; controls&gt;
-  &lt;source src=&quot;assets/plots.mp4&quot; type=&quot;video/mp4&quot;&gt;
-&lt;/video&gt;
-
-
-## Into the maths
-
-The starting distribution is a random variable $X$ with a support in $\mathbb{R}^D$. For simplicity, we will assume just assume that the support is $\mathbb{R}^D$ since using measurable supports does not change the results. If $X$ is transformed into $Y$ by an invertible function/mapping $f: \mathbb{R}^D \rightarrow \mathbb{R}^D$ ($Y=f(X)$), then the density function of $Y$ is:
-
-$$
+gif(anim) # GIF converted to mp4 to reduce animation file size</code></pre>
+<video width="320" height="240" controls>
+<source src="assets/plots.mp4" type="video/mp4">
+</video>
+</div>
+</div>
+</div>
+<div id="into-the-maths" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Into the maths</h2>
+<p>The starting distribution is a random variable <span class="math inline">\(X\)</span> with a support in <span class="math inline">\(\mathbb{R}^D\)</span>. For simplicity, we will assume just assume that the support is <span class="math inline">\(\mathbb{R}^D\)</span> since using measurable supports does not change the results. If <span class="math inline">\(X\)</span> is transformed into <span class="math inline">\(Y\)</span> by an invertible function/mapping <span class="math inline">\(f: \mathbb{R}^D \rightarrow \mathbb{R}^D\)</span> (<span class="math inline">\(Y=f(X)\)</span>), then the density function of <span class="math inline">\(Y\)</span> is:</p>
+<p><span class="math display">\[
 \begin{aligned}
 P_Y(\vec{y}) &amp; = P_X(\vec{x}) \left| \det \nabla f^{-1}(\vec{y})  \right| \\
                 &amp; = P_X(\vec{x}) \left| \det\nabla f(\vec{x}) \right|^{-1}
 \end{aligned}
-$$
-
-where $\vec{x} = f^{-1}(\vec{y})$ and $\nabla$ represents the Jacobian operator. Note the use of $\vec{x}$ to denote vectors instead of the usual $\mathbf{x}$ which on-screen is easily read as a scalar.
-
-Following the direction of $f$ is the *generative* direction; following the direction of $f^{-1}$ is the *normalising* direction (as well as being the *inference*/*encoding* direction in the context of training).
-
-If $f$ were a series of individual transformation $f = f_N \circ f_{N-1} \circ \cdots \circ f_1$, then it naturally follows that:
-
-$$
+\]</span></p>
+<p>where <span class="math inline">\(\vec{x} = f^{-1}(\vec{y})\)</span> and <span class="math inline">\(\nabla\)</span> represents the Jacobian operator. Note the use of <span class="math inline">\(\vec{x}\)</span> to denote vectors instead of the usual <span class="math inline">\(\mathbf{x}\)</span> which on-screen is easily read as a scalar.</p>
+<p>Following the direction of <span class="math inline">\(f\)</span> is the <em>generative</em> direction; following the direction of <span class="math inline">\(f^{-1}\)</span> is the <em>normalising</em> direction (as well as being the <em>inference</em>/<em>encoding</em> direction in the context of training).</p>
+<p>If <span class="math inline">\(f\)</span> were a series of individual transformation <span class="math inline">\(f = f_N \circ f_{N-1} \circ \cdots \circ f_1\)</span>, then it naturally follows that:</p>
+<p><span class="math display">\[
 \begin{aligned}
 \det\nabla f(\vec{x})      &amp; = \prod_{i=1}^N{\det \nabla f_i(\vec{x}_i)} \\
 \det\nabla f^{-1}(\vec{x}) &amp; = \prod_{i=1}^N{\det \nabla f_i^{-1}(\vec{x}_i)}
 \end{aligned}
-$$
-
-In order to make clear that the Jacobian is *not* taken wrt the starting latent variables $x$, we use the notation:
-
-$$
+\]</span></p>
+<p>In order to make clear that the Jacobian is <em>not</em> taken wrt the starting latent variables <span class="math inline">\(x\)</span>, we use the notation:</p>
+<p><span class="math display">\[
 \vec{x}_i = f_{i-1}(\vec{x}_{i-1})
-$$
-
-
-## Training loss optimisation and information flow
-
-Before moving into examples of normalising flows, we need to comment on the loss function optimisation. How do we determine the generative model&#39;s parameters so that the generated distribution is as close as possible to the real distribution (or at least to the distribution of the samples drawn from that true distribution)?
-
-A standard way to do this is to calculate the Kullback-Leibler divergence between the two. Recall that the KL divergence $\mathbb{KL}(P \vert \vert Q)$ is *not* a distance as it is not symmetric. I personally read $\mathbb{KL}(P \vert \vert Q)$ as &quot;the loss of information on the true $P$ if using the approximation $Q$&quot; as a way to keep the two distributions at their right place (writing $\mathbb{KL}(P_{true} \vert \vert Q_{est.})$ will help clarify the proper order).
-
-The KL divergence is defined as:
-
-$$
+\]</span></p>
+</div>
+<div id="training-loss-optimisation-and-information-flow" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Training loss optimisation and information flow</h2>
+<p>Before moving into examples of normalising flows, we need to comment on the loss function optimisation. How do we determine the generative model’s parameters so that the generated distribution is as close as possible to the real distribution (or at least to the distribution of the samples drawn from that true distribution)?</p>
+<p>A standard way to do this is to calculate the Kullback-Leibler divergence between the two. Recall that the KL divergence <span class="math inline">\(\mathbb{KL}(P \vert \vert Q)\)</span> is <em>not</em> a distance as it is not symmetric. I personally read <span class="math inline">\(\mathbb{KL}(P \vert \vert Q)\)</span> as “the loss of information on the true <span class="math inline">\(P\)</span> if using the approximation <span class="math inline">\(Q\)</span>” as a way to keep the two distributions at their right place (writing <span class="math inline">\(\mathbb{KL}(P_{true} \vert \vert Q_{est.})\)</span> will help clarify the proper order).</p>
+<p>The KL divergence is defined as:</p>
+<p><span class="math display">\[
 \begin{aligned}
 \mathbb{KL}(P_{true} \vert \vert Q_{est.}) = \mathbb{E}_{P_{true}(\vec{x})} \left[ \log \frac{P_{true}(\vec{x})}{Q_{est.}(\vec{x})} \right]
 \end{aligned}
-$$
-
-Or for a discrete distribution:
-
-$$
+\]</span></p>
+<p>Or for a discrete distribution:</p>
+<p><span class="math display">\[
 \begin{aligned}
 \mathbb{KL}(P_{true} \vert \vert Q_{est}) &amp; =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{Q_{est}(\vec{x})} \\
                                           &amp; =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log Q_{est}(\vec{x}) \right]
 \end{aligned}
-$$
-
-In our particular case, this becomes:
-
-$$
+\]</span></p>
+<p>In our particular case, this becomes:</p>
+<p><span class="math display">\[
 \begin{aligned}
 \mathbb{KL}(P_{true} \vert \vert P_Y) &amp; = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{P_Y(\vec{y})}} \\
                                       &amp; = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log P_Y(\vec{y}) \right] }
 \end{aligned}
-$$
-
-Recalling that we have a transformation from $\vec{x}$ to $\vec{y}$:
-
-$$
+\]</span></p>
+<p>Recalling that we have a transformation from <span class="math inline">\(\vec{x}\)</span> to <span class="math inline">\(\vec{y}\)</span>:</p>
+<p><span class="math display">\[
 \begin{aligned}
 P_Y(\vec{y}) &amp; = P_X(\vec{x}) \left| det \nabla f^{-1}(\vec{y})  \right| \\
 &amp; = P_X(\vec{x}) \left| det\nabla f(\vec{x}) \right|^{-1}
 \end{aligned}
-$$
-
-We end up with:
-
-$$
+\]</span></p>
+<p>We end up with:</p>
+<p><span class="math display">\[
 \mathbb{KL}(P_{true} \vert \vert P_Y) = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log \left( P_X(\vec{x}) \left| det \nabla f(\vec{x})  \right|^{-1} \right) \right] }
-$$
-
-Minimising this divergence is achieved by changing the parameter which generate $f$.
-
-The divergence is one of many loss formulae that can be used to measure the distance (in the loose sense of the word) between the true and generated distributions. But the KL divergence illustrates how logarithms of the probability distributions naturally appear. Another common formulation of the loss is the Wasserstein distance. 
-
-In the setting of the normalising flows (and VAEs), we have two transformations: the inference direction (the encoder) and the generative direction (the decoder). Given the back-and-forth nature, it makes sense to *not* favour one direction over the other. Instead of using the KL divergence which is not symmetric, we can use the mutual information (this is equivalent to using free energy as in [@rezendeVariationalInferenceNormalizing2016]).
-
-Regardless of the choice of loss function, it is obvious that optimising $\mathbb{KL}(P_{true} \vert \vert P_Y)$ cannot be contemplated without serious optimisations. Finding more tractable alternative distance measurements is an active research topic [^2].
-
-[^2]: Incidentally, this observation is made in the last sentence of the last paragraph of the last chapter of the [Deep Learning Book](https://www.deeplearningbook.org/) [@GoodfellowDeepLearning2016]
-
-## Basic flows
-
-In their paper, [@rezendeVariationalInferenceNormalizing2016] experimented with simple transformations: a linear transformation (with a simple non-linear function) called *planar flows* and flows within a space centered on a reference latent variable called *radial flows*.
-
-### Planar Flows
-
-A planar flow is formulated as a residual transformation:
-
-$$
+\]</span></p>
+<p>Minimising this divergence is achieved by changing the parameter which generate <span class="math inline">\(f\)</span>.</p>
+<p>The divergence is one of many loss formulae that can be used to measure the distance (in the loose sense of the word) between the true and generated distributions. But the KL divergence illustrates how logarithms of the probability distributions naturally appear. Another common formulation of the loss is the Wasserstein distance.</p>
+<p>In the setting of the normalising flows (and VAEs), we have two transformations: the inference direction (the encoder) and the generative direction (the decoder). Given the back-and-forth nature, it makes sense to <em>not</em> favour one direction over the other. Instead of using the KL divergence which is not symmetric, we can use the mutual information (this is equivalent to using free energy as in <span class="citation">(<a href="#ref-rezendeVariationalInferenceNormalizing2016" role="doc-biblioref">Rezende and Mohamed 2016</a>)</span>).</p>
+<p>Regardless of the choice of loss function, it is obvious that optimising <span class="math inline">\(\mathbb{KL}(P_{true} \vert \vert P_Y)\)</span> cannot be contemplated without serious optimisations. Finding more tractable alternative distance measurements is an active research topic.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+</div>
+<div id="basic-flows" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Basic flows</h2>
+<p>In their paper, <span class="citation">(<a href="#ref-rezendeVariationalInferenceNormalizing2016" role="doc-biblioref">Rezende and Mohamed 2016</a>)</span> experimented with simple transformations: a linear transformation (with a simple non-linear function) called <em>planar flows</em> and flows within a space centered on a reference latent variable called <em>radial flows</em>.</p>
+<div id="planar-flows" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Planar Flows</h3>
+<p>A planar flow is formulated as a residual transformation:</p>
+<p><span class="math display">\[
 f_i(\vec{x}_i) = \vec{x}_i + \vec{u_i}  h(\vec{w}_i^\intercal \vec{x}_i + b_i)
-$$
-
-where $\vec{u}_i$ and $\vec{w}_i$ are vectors, $h(\cdot)$ is a non-linear real function and $b_i$ is a scalar.
-
-By defining:
-
-$$
+\]</span></p>
+<p>where <span class="math inline">\(\vec{u}_i\)</span> and <span class="math inline">\(\vec{w}_i\)</span> are vectors, <span class="math inline">\(h(\cdot)\)</span> is a non-linear real function and <span class="math inline">\(b_i\)</span> is a scalar.</p>
+<p>By defining:</p>
+<p><span class="math display">\[
 \psi_i(\vec{z}) = h&#39;(\vec{w}^\intercal \vec{z} + b_i) \vec{w}_i
-$$
-
-the determinant required to normalize the flow can be simplified to (see original paper for the short steps involved):
-
-$$
+\]</span></p>
+<p>the determinant required to normalize the flow can be simplified to (see original paper for the short steps involved):</p>
+<p><span class="math display">\[
 \left| \det \frac{\partial f_i}{\partial x_i}  \right| = \left| \det \left( \mathbb{I} + \vec{u_i} \psi_i(\vec{x}_i)^\intercal \right) \right| = \left| 1 + \vec{u_i}^\intercal \psi_i(\vec{x}_i)  \right|
-$$
-
-This is a more tractable expression.
-
-### Planar flow example
-
-This is an example inspired by [https://github.com/abdulfatir/planar-flow-pytorch](https://github.com/abdulfatir/planar-flow-pytorch.git).
-
-#### Imports
-
-
-```python
-# https://github.com/abdulfatir/planar-flow-pytorch
+\]</span></p>
+<p>This is a more tractable expression.</p>
+</div>
+<div id="planar-flow-example" class="section level3" number="2.5.2">
+<h3><span class="header-section-number">2.5.2</span> Planar flow example</h3>
+<p>This is an example inspired by <a href="https://github.com/abdulfatir/planar-flow-pytorch.git">https://github.com/abdulfatir/planar-flow-pytorch</a>.</p>
+<div id="imports" class="section level4" number="2.5.2.1">
+<h4><span class="header-section-number">2.5.2.1</span> Imports</h4>
+<pre class="python"><code># https://github.com/abdulfatir/planar-flow-pytorch
 
 %matplotlib inline
 
@@ -1513,8 +1483,8 @@ device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;c
 
 from tqdm.notebook import tqdm</code></pre>
 </div>
-<div id="constants-and-parameters" class="section level4" number="2.2.8.3">
-<h4><span class="header-section-number">2.2.8.3</span> Constants and parameters</h4>
+<div id="constants-and-parameters" class="section level4" number="2.5.2.2">
+<h4><span class="header-section-number">2.5.2.2</span> Constants and parameters</h4>
 <pre class="python"><code># Constants
 
 # Size of a layer. We operate on a plane =&gt; 2D
@@ -1526,8 +1496,8 @@ n_layers = 16
 # Number of samples drawn
 n_samples = 500</code></pre>
 </div>
-<div id="densities-to-be-learned" class="section level4" number="2.2.8.4">
-<h4><span class="header-section-number">2.2.8.4</span> Densities to be learned</h4>
+<div id="densities-to-be-learned" class="section level4" number="2.5.2.3">
+<h4><span class="header-section-number">2.5.2.3</span> Densities to be learned</h4>
 <pre class="python"><code># Unnormalized Density Functions
 
 # As a torch object for training
@@ -1572,8 +1542,8 @@ Figure 2.6: True density
 </p>
 </div>
 </div>
-<div id="definition-of-a-single-layer" class="section level4" number="2.2.8.5">
-<h4><span class="header-section-number">2.2.8.5</span> Definition of a single layer</h4>
+<div id="definition-of-a-single-layer" class="section level4" number="2.5.2.4">
+<h4><span class="header-section-number">2.5.2.4</span> Definition of a single layer</h4>
 <pre class="python"><code>class PlanarTransform(nn.Module):
     def __init__(self, dim=2):
         super().__init__()
@@ -1616,8 +1586,8 @@ Figure 2.6: True density
         
         return z_next</code></pre>
 </div>
-<div id="definition-of-a-flow-as-a-concatenation-of-multiple-layers" class="section level4" number="2.2.8.6">
-<h4><span class="header-section-number">2.2.8.6</span> Definition of a flow as a concatenation of multiple layers</h4>
+<div id="definition-of-a-flow-as-a-concatenation-of-multiple-layers" class="section level4" number="2.5.2.5">
+<h4><span class="header-section-number">2.5.2.5</span> Definition of a flow as a concatenation of multiple layers</h4>
 <pre class="python"><code>class PlanarFlow(nn.Module):
     
     def __init__(self, dim=2, n_layers=16):
@@ -1641,15 +1611,15 @@ Figure 2.6: True density
             return zK, SLDJ
         return zK</code></pre>
 </div>
-<div id="setup-the-training-model" class="section level4" number="2.2.8.7">
-<h4><span class="header-section-number">2.2.8.7</span> Setup the training model</h4>
+<div id="setup-the-training-model" class="section level4" number="2.5.2.6">
+<h4><span class="header-section-number">2.5.2.6</span> Setup the training model</h4>
 <pre class="python"><code>pf = PlanarFlow(dim=n_dimensions, n_layers=n_layers).to(device)
 
 optimizer = torch.optim.Adam(pf.parameters(), lr=1e-2)
 base = torch.distributions.normal.Normal(0., 1.)</code></pre>
 </div>
-<div id="training-by-optimising-the-mathbbkl-divergence" class="section level4" number="2.2.8.8">
-<h4><span class="header-section-number">2.2.8.8</span> Training by optimising the <span class="math inline">\(\mathbb{KL}\)</span> divergence</h4>
+<div id="training-by-optimising-the-mathbbkl-divergence" class="section level4" number="2.5.2.7">
+<h4><span class="header-section-number">2.5.2.7</span> Training by optimising the <span class="math inline">\(\mathbb{KL}\)</span> divergence</h4>
 <pre class="python"><code>pbar = tqdm(range(10000))
 
 for i in pbar:
@@ -1668,8 +1638,8 @@ for i in pbar:
     if (i + 1) % 10 == 0:
         pbar.set_description(&#39;KL: %.3f&#39; % kl.item())</code></pre>
 </div>
-<div id="draw-samples-to-plot-the-resulting-model" class="section level4" number="2.2.8.9">
-<h4><span class="header-section-number">2.2.8.9</span> Draw samples to plot the resulting model</h4>
+<div id="draw-samples-to-plot-the-resulting-model" class="section level4" number="2.5.2.8">
+<h4><span class="header-section-number">2.5.2.8</span> Draw samples to plot the resulting model</h4>
 <pre class="python"><code>samples = []
 
 for _ in tqdm(range(n_samples)):
@@ -1715,8 +1685,8 @@ Figure 2.7: Learned density
 </div>
 </div>
 </div>
-<div id="radial-flows" class="section level3" number="2.2.9">
-<h3><span class="header-section-number">2.2.9</span> Radial flows</h3>
+<div id="radial-flows" class="section level3" number="2.5.3">
+<h3><span class="header-section-number">2.5.3</span> Radial flows</h3>
 <p>The formulation of the radial flows takes a reference hyper-ball centered at a reference point <span class="math inline">\(\vec{x}_0\)</span>. Any point <span class="math inline">\(\vec{x}\)</span> gets moved in the direction of <span class="math inline">\(\vec{x} - \vec{x}_0\)</span>. That move is dependent on <span class="math inline">\(\vec{x}\)</span>. In other words, imagine a plain hyper-ball, after many such transformations, you obtain a hyper-potato.</p>
 <p>The flows are defined as:</p>
 <p><span class="math display">\[
@@ -1731,10 +1701,10 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
 <p>Unfortunately, it was found that those transformations do not scale well to high-dimensional latent spaces.</p>
 </div>
 </div>
-<div id="more-complex-flows" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> More complex flows</h2>
-<div id="residual-flows-discrete-flows" class="section level3" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Residual flows (discrete flows)</h3>
+<div id="more-complex-flows" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> More complex flows</h2>
+<div id="residual-flows-discrete-flows" class="section level3" number="2.6.1">
+<h3><span class="header-section-number">2.6.1</span> Residual flows (discrete flows)</h3>
 <p>Various proposals were initially put forward with common aims: replacing <span class="math inline">\(f\)</span> by a series of sequentially composed simpler but expressive base functions and paying particular attention the computational costs. (see <span class="citation">(<a href="#ref-kobyzevNormalizingFlowsIntroduction2020a" role="doc-biblioref">Kobyzev, Prince, and Brubaker 2020</a>)</span> and <span class="citation">(<a href="#ref-papamakariosNormalizingFlowsProbabilistic2019" role="doc-biblioref">Papamakarios et al. 2019</a>)</span> for details).</p>
 <p>Generalised residual flows <span class="citation">(<a href="#ref-heDeepResidualLearning2015" role="doc-biblioref">He et al. 2015</a>)</span> were a key development. As the name suggests, the transformations alludes the RevNet neural network structure. Explicitly, <span class="math inline">\(f\)</span> is defined as <span class="math inline">\(f(\vec{x}) = \vec{x} + \phi(\vec{x})\)</span>. The left-hand side identity term is a matrix where all the eigenvalues are 1 (duh). If <span class="math inline">\(\phi(\vec{x})\)</span> represented a simple matrix multiplication, imposing the condition that all its eigenvalues of the righthand side term are strictly strictly between 0 and 1 ensure that <span class="math inline">\(f\)</span> remains invertible. An equivalent, and more general condition, is to impose that <span class="math inline">\(\phi\)</span> is Lipschitz-continuous with a constant below 1. That is:</p>
 <p><span class="math display">\[
@@ -1756,8 +1726,8 @@ f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec
 <p>Obviously a trace is much easier to calculate than a determinant. However, the expression now becomes an infinite series. One of the core result of the cited paper is an algorithm to limit the number of terms to calculate in this infinite series.</p>
 </div>
 </div>
-<div id="other-versions" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Other versions</h2>
+<div id="other-versions" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Other versions</h2>
 <p>[TODO] Table from Papamakorios</p>
 </div>
 </div>
@@ -1957,6 +1927,9 @@ Dupont, Emilien, Arnaud Doucet, and Yee Whye Teh. 2019. <span>“Augmented <span
 <div id="ref-erricoWhatAdjointModel1997" class="csl-entry">
 Errico, Ronald M. 1997. <span>“What <span>Is</span> an <span>Adjoint Model</span>?”</span> <em>Bulletin of the American Meteorological Society</em> 78 (11): 2577–92. <a href="https://doi.org/10.1175/1520-0477(1997)078&lt;2577:WIAAM&gt;2.0.CO;2">https://doi.org/10.1175/1520-0477(1997)078&lt;2577:WIAAM&gt;2.0.CO;2</a>.
 </div>
+<div id="ref-GoodfellowDeepLearning2016" class="csl-entry">
+Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. 2016. <em>Deep Learning</em>. MIT Press.
+</div>
 <div id="ref-heDeepResidualLearning2015" class="csl-entry">
 He, Kaiming, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. 2015. <span>“Deep <span>Residual Learning</span> for <span>Image Recognition</span>.”</span> December 10, 2015. <a href="http://arxiv.org/abs/1512.03385">http://arxiv.org/abs/1512.03385</a>.
 </div>
@@ -2015,6 +1988,12 @@ Zhang, Huaguang, Zhanshan Wang, and Derong Liu. 2014. <span>“A Comprehensive R
 <li><p>Julia bijectors in <a href="https://github.com/TuringLang/Bijectors.jl">Turing</a> <a href="https://github.com/tpapp/TransformVariables.jl"></a> and <a href="https://diffeqflux.sciml.ai/dev/">neural ODEs</a> which also covers normalising flows and FFJORD.</p></li>
 </ul>
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Incidentally, this observation is made in the last sentence of the last paragraph of the last chapter of the <a href="https://www.deeplearningbook.org/">Deep Learning Book</a> <span class="citation">(<a href="#ref-GoodfellowDeepLearning2016" role="doc-biblioref">Goodfellow, Bengio, and Courville 2016</a>)</span><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
 
     </div>

@@ -4,57 +4,12 @@
   
   <url>
     <loc>https://emmanuel-r8.github.io/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://emmanuel-r8.github.io/categories/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/tag/julia/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/category/julia/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/tag/machine-learning/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/category/machine-learning/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/tag/neural-odes/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/category/neural-odes/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/post/2020/09/11/normalising-flows/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/post/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://emmanuel-r8.github.io/tags/</loc>
-    <lastmod>2020-09-11T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -69,6 +24,16 @@
   
   <url>
     <loc>https://emmanuel-r8.github.io/category/miscellaneous/</loc>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/post/</loc>
+    <lastmod>2020-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/tags/</loc>
     <lastmod>2020-08-12T00:00:00+00:00</lastmod>
   </url>
   
@@ -90,6 +55,26 @@
   <url>
     <loc>https://emmanuel-r8.github.io/talk/</loc>
     <lastmod>2020-04-30T20:17:27+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/tag/julia/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/category/julia/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/tag/machine-learning/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/category/machine-learning/</loc>
+    <lastmod>2020-04-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -230,6 +215,10 @@
   <url>
     <loc>https://emmanuel-r8.github.io/tag/rstudio/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://emmanuel-r8.github.io/post/1/01/01/</loc>
   </url>
   
   <url>
