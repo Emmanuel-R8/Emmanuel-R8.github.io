@@ -1,2 +1,12 @@
 .Rhistory
 
+# Normalising Flows notebooks
+post/2020/09/11/normalising-flows/Normalising-Flows/
+
+# data saves
+post/2020/09/11/normalising-flows/data
+
+# Python
+*.lock
+
+
