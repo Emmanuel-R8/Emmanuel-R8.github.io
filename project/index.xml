@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects | Back2Numbers</title>
-    <link>https://emmanuel-r8.github.io/project/</link>
-      <atom:link href="https://emmanuel-r8.github.io/project/index.xml" rel="self" type="application/rss+xml" />
+    <link>/project/</link>
+      <atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Thu, 12 Dec 2019 16:17:27 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2021</copyright><lastBuildDate>Thu, 12 Dec 2019 16:17:27 +0800</lastBuildDate>
     <image>
-      <url>https://emmanuel-r8.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Projects</title>
-      <link>https://emmanuel-r8.github.io/project/</link>
+      <link>/project/</link>
     </image>
     
     <item>
       <title>Lending Club peer-to-peer loans scoring</title>
-      <link>https://emmanuel-r8.github.io/project/lendingclub/</link>
+      <link>/project/lendingclub/</link>
       <pubDate>Thu, 12 Dec 2019 16:17:27 +0800</pubDate>
-      <guid>https://emmanuel-r8.github.io/project/lendingclub/</guid>
+      <guid>/project/lendingclub/</guid>
       <description>&lt;p&gt;Click on the &lt;code&gt;pdf&lt;/code&gt; or &lt;code&gt;slides&lt;/code&gt; buttons above to access the materials.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Movielens Recommender System</title>
-      <link>https://emmanuel-r8.github.io/project/movielens/</link>
+      <link>/project/movielens/</link>
       <pubDate>Thu, 12 Dec 2019 16:07:46 +0800</pubDate>
-      <guid>https://emmanuel-r8.github.io/project/movielens/</guid>
+      <guid>/project/movielens/</guid>
       <description>&lt;p&gt;Click on the &lt;code&gt;pdf&lt;/code&gt; or &lt;code&gt;slides&lt;/code&gt; buttons above to access the materials.&lt;/p&gt;
 </description>
     </item>

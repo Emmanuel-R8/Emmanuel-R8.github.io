@@ -1,0 +1,1201 @@
+<script src="index_files/header-attrs-2.5/header-attrs.js"></script>
+<link href="index_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections-1.0/anchor-sections.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#a-few-words-about-generative-models"><span class="toc-section-number">1</span> A few words about Generative Models</a>
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">1.1</span> Introduction</a></li>
+<li><a href="#latent-variables"><span class="toc-section-number">1.2</span> Latent variables</a></li>
+<li><a href="#examples-of-generative-models"><span class="toc-section-number">1.3</span> Examples of generative models</a>
+<ul>
+<li><a href="#generative-adversarial-networks-gans"><span class="toc-section-number">1.3.1</span> Generative Adversarial Networks (<strong>GANS</strong>)</a></li>
+<li><a href="#variational-autoencoders"><span class="toc-section-number">1.3.2</span> Variational autoencoders</a></li>
+</ul></li>
+<li><a href="#limitations"><span class="toc-section-number">1.4</span> Limitations</a></li>
+</ul></li>
+<li><a href="#normalising-flows"><span class="toc-section-number">2</span> Normalising flows</a>
+<ul>
+<li><a href="#introduction-1"><span class="toc-section-number">2.1</span> Introduction</a></li>
+<li><a href="#short-example"><span class="toc-section-number">2.2</span> Short example</a>
+<ul>
+<li><a href="#preamble"><span class="toc-section-number">2.2.1</span> Preamble</a></li>
+<li><a href="#dataset"><span class="toc-section-number">2.2.2</span> Dataset</a></li>
+<li><a href="#data-loaders"><span class="toc-section-number">2.2.3</span> Data loaders</a></li>
+<li><a href="#normalising-flow-module"><span class="toc-section-number">2.2.4</span> Normalising flow module</a></li>
+<li><a href="#layer-definition"><span class="toc-section-number">2.2.5</span> Layer definition</a></li>
+<li><a href="#latent-space"><span class="toc-section-number">2.2.6</span> Latent space</a></li>
+<li><a href="#training"><span class="toc-section-number">2.2.7</span> Training</a></li>
+<li><a href="#sampling"><span class="toc-section-number">2.2.8</span> Sampling</a></li>
+</ul></li>
+<li><a href="#into-the-maths"><span class="toc-section-number">2.3</span> Into the maths</a></li>
+<li><a href="#training-loss-optimisation-and-information-flow"><span class="toc-section-number">2.4</span> Training loss optimisation and information flow</a></li>
+<li><a href="#basic-flows"><span class="toc-section-number">2.5</span> Basic flows</a>
+<ul>
+<li><a href="#planar-flows"><span class="toc-section-number">2.5.1</span> Planar Flows</a></li>
+<li><a href="#planar-flow-example"><span class="toc-section-number">2.5.2</span> Planar flow example</a></li>
+<li><a href="#radial-flows"><span class="toc-section-number">2.5.3</span> Radial flows</a></li>
+</ul></li>
+<li><a href="#more-complex-flows"><span class="toc-section-number">2.6</span> More complex flows</a>
+<ul>
+<li><a href="#residual-flows-discrete-flows"><span class="toc-section-number">2.6.1</span> Residual flows (discrete flows)</a></li>
+</ul></li>
+<li><a href="#other-versions"><span class="toc-section-number">2.7</span> Other versions</a></li>
+</ul></li>
+<li><a href="#continuous-flows-and-neural-ordinary-differential-equations"><span class="toc-section-number">3</span> Continuous Flows and Neural ordinary differential equations</a>
+<ul>
+<li><a href="#introduction-2"><span class="toc-section-number">3.1</span> Introduction</a></li>
+<li><a href="#continuous-flows-means-no-crossover"><span class="toc-section-number">3.2</span> Continuous flows means no-crossover</a></li>
+<li><a href="#training-solving-the-ode"><span class="toc-section-number">3.3</span> Training / Solving the ODE</a></li>
+<li><a href="#what-parameters-to-optimise"><span class="toc-section-number">3.4</span> What parameters to optimise?</a></li>
+<li><a href="#increase-the-complexity-of-a-flow-augmented-flows"><span class="toc-section-number">3.5</span> Increase the complexity of a flow: Augmented flows</a></li>
+<li><a href="#decrease-the-complexity-of-a-flow-regularisation-and-stability"><span class="toc-section-number">3.6</span> Decrease the complexity of a flow: Regularisation and stability</a></li>
+<li><a href="#other"><span class="toc-section-number">3.7</span> Other</a></li>
+</ul></li>
+<li><a href="#references">References</a>
+<ul>
+<li><a href="#literature">Literature</a></li>
+<li><a href="#web-references">Web references</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p><em><strong>[UPDATE 1: Code comments. Julia version.]</strong></em></p>
+<p>One of the three best papers awarded at NIPS 2018 was <em>Neural Ordinary Differential Equations</em> by Tian Qi Chen, Yulia Rubanova, Jesse Bettencourt and David Duvenaud <span class="citation">(<a href="#ref-chenNeuralOrdinaryDifferential2019" role="doc-biblioref">Chen et al. 2019</a>)</span>. Since then, the field has developed in multiple directions. This post goes through some background about generative models, normalising flows and finally a few of the underlying ideas of the paper. The form does not intend to be mathematically rigorous but convey some intuitions.</p>
+<hr />
+<div id="a-few-words-about-generative-models" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> A few words about Generative Models</h1>
+<div id="introduction" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Introduction</h2>
+<p><strong>Generative models</strong> are about learning simple <strong>representations</strong> of a complex datasets; how to, from a few parameters, generate realistic samples that are similar to a given dataset with similar probabilities of occurence. Those few parameters usually follow simple distributions (e.g. uniform or Gaussian), and are transformed through complex transformations into the more complex dataset distribution. This is an unsupervised procedure which, in a sense, mirrors clustering methods: clustering starts from the dataset and summarises it into few parameters.</p>
+<p>Although unsupervised, the result of this learning can be used as a <strong>pretraining</strong> step in a later supervised context, or where that dataset is a mix of labelled and un-labelled data. The properties of the well-understood starting probability distributions can then help draw conclusions about the dataset’s distribution or generate synthetic datasets.</p>
+<p>The same methods can also be used in supervised learning to learn the representation of a target dataset (categorical or continuous) as a transformation of the features dataset. The unsupervised becomes supervised.</p>
+<p>What does <em>representation learning</em> actually mean? It is the automatic search for a few parameters that encapsulate rich enough information to generate a dataset. Generative models learn those parameters and, starting from them, how to re-create samples similar to the original dataset.</p>
+<p>Let’s use cars as an analogy.</p>
+<p>All cars have 4 wheels, an engine, brakes, seats. One could be interested in comfort or racing them or lugging things around or safety or fitting as many kids as possible. Each base vector could be express any one of those characteristics, but they will all have an engine, breaks and seats. The generation function recreates everything that is common. It doesn’t matter if the car is comfy or not; it needs seats and a driving wheel. The generative function has to create those features. However, the exact number of cylinders, its shape, the seats fabric, or stiffness of the suspension all depend on the type of car.</p>
+<p>The true fundamentals are not obvious. For a long time, American cars had softer suspension than European cars. The definition of comfortable is relative. The performance of an old car is objectively not the same as compared to new ones. Maybe other characteristics are more relevant to generate. Maybe price? Consumption? Year of coming to market? All those factors are obviously inter-related.</p>
+<p>Generative models are more than generating samples from a few fundamental parameters. They also learn what those parameters should be.</p>
+</div>
+<div id="latent-variables" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Latent variables</h2>
+<p>Still using the car analogy, if the year of a model was not given, the generative process might still be able to conclude that the model year <em>should</em> be an implicit parameter to be learned since relevant to generate the dataset: year is an unstated parameter that explains the dataset. Both the Lamborghini Miura and Lamborghini Countach [^1] were similar in terms of perceived performance and exclusivity at the time they were created. But actual performances and styling where incredibly different.</p>
+<p>If looking at the stock market: take a set of market prices at a given date; it would have significantly different meanings in a bull or a bear market. Market regime would be a reasonable latent variable.</p>
+</div>
+<div id="examples-of-generative-models" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Examples of generative models</h2>
+<p>There are quite a number of generative models. such restricted Boltzmann machines, deep belief networks. Refer to <span class="citation">(<a href="#ref-theodoridisMachineLearningBayesian2020" role="doc-biblioref">Theodoridis 2020</a>)</span> and <span class="citation">(<a href="#ref-russellArtificialIntelligenceModern2020" role="doc-biblioref">Russell and Norvig 2020</a>)</span> for example. Let’s consider generative adversarial networks and variational auto-encoders.</p>
+<div id="generative-adversarial-networks-gans" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Generative Adversarial Networks (<strong>GANS</strong>)</h3>
+<p>Recently, GANs have risen to the fore as a way to generate artificial datasets that are, for some definition, indistinguishable from a real dataset. They consist of two parts:</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-GAN"></span>
+<img src="assets/generative-adversarial-network.png" alt="**Generative Adversarial Networks** *(source: [@hitawalaComparativeStudyGenerative2018]))*" width="456" />
+<p class="caption">
+Figure 1.1: <strong>Generative Adversarial Networks</strong> <em>(source: <span class="citation">(<a href="#ref-hitawalaComparativeStudyGenerative2018" role="doc-biblioref">Hitawala 2018</a>)</span>))</em>
+</p>
+</div>
+<ul>
+<li><p>A generator which is the generative model itself: given a simple representation, the generator proposes samples that aim to be undistinguishable from the dataset sample.</p></li>
+<li><p>A discriminator whose job is to identify whether a sample comes from the generator or from the dataset.</p></li>
+</ul>
+<p>Both are trained simultaneously:</p>
+<ul>
+<li><p>if the discriminator finds it obvious to guess, the generator is not doing a good job and needs to improve;</p></li>
+<li><p>if the discriminator guesses 50/50 (does no better than flipping a coin), it has to discover which true dataset features are truly relevant.</p></li>
+</ul>
+</div>
+<div id="variational-autoencoders" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Variational autoencoders</h3>
+<p>A successful GAN can replicate the richness of a dataset, but not its probability distribution. A GAN can generate a large number of correct sentences, but will not tell how likely to occur that sentence is (or at least guarantee that the distributions match). <em>‘The dog chases the cat’</em> and <em>‘The Chihuahua chases the cat’</em> are both perfectly valid, but the latter less unlikely to appear.</p>
+<p>Generally speaking, autoencoders learn an <em>encoder</em> that takes a sample to generate a vector in a latent space, and a <em>decoder</em> that generates samples from latent state variables. The encoder and the decoder really mirror each other. However, this general approach does not learn how to sample from the latent space. Sampling randomly from the latent space may generate perfectly valid data (i.e. very similar to that in the training dataset), but the distribution of a generated datasest and the training dataset would likely be very different. This is the same problem GANs face.</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-VAE"></span>
+<img src="assets/VAE.png" alt="**Variational Auto-Encoder** *(source: [Shenlong Wang](http://www.cs.toronto.edu/~urtasun/courses/CSC2541_Winter17/Deep_generative_models.pdf))*" width="679" />
+<p class="caption">
+Figure 1.2: <strong>Variational Auto-Encoder</strong> <em>(source: <a href="http://www.cs.toronto.edu/~urtasun/courses/CSC2541_Winter17/Deep_generative_models.pdf">Shenlong Wang</a>)</em>
+</p>
+</div>
+<p>Variable autoencoders (VAEs) take another approach. Instead of just learning a function representing the data, they learn the parameters of a probability distribution representing the data. We can then sample from the distribution and generate new input data samples. The decoder and the encoder are trained simultaneously on the dataset samples, proposing a generated sample from that projection and training on the reconstruction loss. The encoder actually learns means and standard deviations of the each latent variable, each being a normal distribution. The samples generated will be as rich as the GAN’s, but the probability of a sample being generated will depend on the learned distributions.</p>
+<p>See <span class="citation">(<a href="#ref-kingmaIntroductionVariationalAutoencoders2019" role="doc-biblioref">Kingma and Welling 2019</a>)</span> for an approachable extensive introduction. The details include implementation aspects (in particular the <em>reparametrisation trick</em>) that are critical to the success of this approach.</p>
+</div>
+</div>
+<div id="limitations" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Limitations</h2>
+<p>We limited the introduction to those two techniques to merely highlight two fundamental aspect that generative models aim at:</p>
+<ul>
+<li><p>find a simple representation;</p></li>
+<li><p>explore and replicate the richness of the dataset;</p></li>
+<li><p>replicate the probability distribution of the dataset.</p></li>
+</ul>
+<p>Note that depending on the circumstances, the last aim may not necessarily be important.</p>
+<p>As usual, training and optimisation methods are at risk of getting stuck at local optima. In the case of those two techniques, this manifests itself in different ways:</p>
+<ul>
+<li><p><em>GANs Mode collapse</em>: Mode collapse occurs in GANs when the generator only explores limited domains. Imagine training a GAN to recognise mammals (the dataset would contain kangaroos, whales, dogs and cats…). If the generator proposes everything but kangaroos, it is still properly generate mammals, but obviously misses out on a few possibilities. Essentially, the generator reaches a local minimum where a vanishing gradient becomes too small to explore alternatives. This is in part due to the difficulty of progressing the training of both the generator and the discriminator in a way that does not lock any one of them in a local optimum while the other still needs improving: if either converges too rapidly, the other will struggle to catch up.</p></li>
+<li><p><em>VAEs Posterior collapse</em>: Posterior collapse in VAEs arises when the generative model learns to ignore a subset of the latent variables (although the encoder generates those variables) <span class="citation">(<a href="#ref-lucasDonBlameELBO2019" role="doc-biblioref">Lucas et al. 2019</a>)</span>. This happens when (1) a subset of the latent variable space is good enough to generate a reasonable approximation of the dataset and its distribution, and (2) the loss function does not yield large enough gradients to explore other latent variables to further improve the encoder. (More technically, it happens when the variational distribution closely matches the uninformative prior for a subset of latent variables <span class="citation">(<a href="#ref-tuckerUnderstandingPosteriorCollapse2019" role="doc-biblioref">Tucker et al. 2019</a>)</span>.) The exact reasons for this are not entirely understood and this remains an active area of research (refer this extensive list of <a href="https://github.com/sajadn/posterior-collapse-list">papers</a> on the topic).</p></li>
+</ul>
+<p>In the next section, we will get into another approach called <em>Normalising Flows</em> which, as we will see, address those two difficulties. Intuitively:</p>
+<ul>
+<li><p>Mode collapse reflects that the generative process does not generate enough possibilities; that the spectrum of possibilities is not as rich as that of the dataset. Normalising flows attempt to address this in two ways. Firstly, their optimising process aims at optimising (and matching) the amount of information captured by the learned representation to that of the dataset (in the sense of information theory). Secondly, we will see that normalising flows allow to start from a sample in the dataset, flow back to the simple distribution and estimate how (un)likely the generative model would have generated this sample.</p></li>
+<li><p>The posterior collapse could simply be a mismatch between the number of latent variables and the dimensionality of the dataset. As we will see, normalising flows impose that the generative model be a bijection which takes away the choice of of a number of dimensions (although this shifts the issue to become one of parameters regularisation).</p></li>
+</ul>
+<p>On a final note, it will not be surprising that GANs and VAEs have been combined (see <span class="citation">(<a href="#ref-larsenAutoencodingPixelsUsing2016" role="doc-biblioref">Larsen et al. 2016</a>)</span>).</p>
+<hr />
+</div>
+</div>
+<div id="normalising-flows" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Normalising flows</h1>
+<p>Normalising Flows became popular around 2015 with two papers on density estimation <span class="citation">(<a href="#ref-dinhNICENonlinearIndependent2015" role="doc-biblioref">Dinh, Krueger, and Bengio 2015</a>)</span> and use of variational inference <span class="citation">(<a href="#ref-rezendeVariationalInferenceNormalizing2016" role="doc-biblioref">Rezende and Mohamed 2016</a>)</span>. However, one should note that the concepts predated those papers. See <span class="citation">(<a href="#ref-kobyzevNormalizingFlowsIntroduction2020a" role="doc-biblioref">Kobyzev, Prince, and Brubaker 2020</a>)</span> and <span class="citation">(<a href="#ref-papamakariosNormalizingFlowsProbabilistic2019" role="doc-biblioref">Papamakarios et al. 2019</a>)</span> for recent survey papers.</p>
+<div id="introduction-1" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction</h2>
+<p>One important limitations of the approaches described above is that the generation/decoding flow is unidirectional: one starts from a source distribution, sometimes with well-known properties, and generates a richer target distribution. However, given a particular sample in the target distribution, there is no guaranteed way to identify where it would fall in the latent space distribution. That flow of transformation from source to target is not guaranteed to be bijective or invertible (same meaning, different crowds).</p>
+<p>Normalising flows are a generic solution to that issue: it is a transformation from a simple distribution (e.g. uniform or normal) to a more complex distribution by an invertible and differentiable mapping, where the probability density of a sample can be evaluated by transforming it back to the original distribution. The density is evaluated by computing the density of the normalised inverse-transformed sample. The word <em>normalising</em> refers to the normalisation of the transformation, and not to the fact that the original distribution <em>could</em> be normal.</p>
+<p>In practice, this is a bit too general to be of any use. Let’s break this down:</p>
+<ul>
+<li><p>The original distribution is simple with well-known statistical properties: i.i.d. Gaussian or uniform distributions.</p></li>
+<li><p>The transformation function is expected to be complicated, and is normally specified as a series of successive transformations, each simpler (though expressive enough) and easy to parametrise.</p></li>
+<li><p>Each simple transformation is itself invertible and differentiable, therefore guaranteeing that the overall transformation is too.</p></li>
+<li><p>We want the transformation to be <em>normalised</em>: the cumulative probability density of the generated targets from latent variables has to be equal 1. Otherwise, flowing backwards to use the properties of the original would make no sense.</p></li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:fig-NF"></span>
+<img src="assets/normalizing-flows-rezende2015.png" alt="**Normalizing Flows** *(Source: [@rezendeVariationalInferenceNormalizing2016])*" width="617" />
+<p class="caption">
+Figure 2.1: <strong>Normalizing Flows</strong> <em>(Source: <span class="citation">(<a href="#ref-rezendeVariationalInferenceNormalizing2016" role="doc-biblioref">Rezende and Mohamed 2016</a>)</span>)</em>
+</p>
+</div>
+<ul>
+<li><p>Geometrically, the probability distribution around each point in the latent variables space is a small volume that is successively transformed with each transformation. Keeping track of all the volume changes ensures that we can relate probability density functions in the original space and the target space.</p></li>
+<li><p>How to keep track? This is where the condition of having invertible and differentiable transformation becomes important. (Math-speak: we have a series of diffeomorphisms which are transformations from one infinitesimal volume to another. They are invertible and differentiable, and their inverses are also differentiable.) If one imagines that small volume of space around a starting point, that volume gets distorted along the way. At each point, the transformation is differentiable and can be approximated by a linear transformation (a matrix). That matrix is the Jacobian of the transformation at that point (diffeomorphims also means that the Jacobian matrix exists and is invertible). Being invertible, the matrix has no zero eigenvalues and the change of volume is locally equal to the product of all the eigenvalues (more precisely, their absolute values): the volume gets squeezed along some dimensions, expanded along others. Rotations are irrelevant. The product of the eigenvalues is the determinant of the matrix. A negative eigenvalue would mean that the infinitesimal volume is ‘flipped’ along that direction. That sign is irrelevant: the local volume change is therefore the absolute value of the determinant.</p></li>
+<li><p>We can already anticipate a computation nightmare: determinants are computationally very heavy. Additionally, in order to backpropagate a loss to optimise the transformations’ parameters, we will need the Jacobians of the inverse transformations (the inverse of the transformation Jacobian). Without further simplifying assumptions or tricks, normalising flows would be impractical for large dimensions.</p></li>
+</ul>
+</div>
+<div id="short-example" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Short example</h2>
+<p>We will use examples from the <a href="https://torchdyn.readthedocs.io/en/latest/"><code>Torchdyn</code> library</a>. <code>Torchdyn</code> builds on <code>Pytorch</code> and the polish of the <a href="https://pytorch-lightning.readthedocs.io/en/latest/"><code>Pytorch Lightning</code> library</a> which streamlines a lot of the <code>Pytorch</code> boilerplate.</p>
+<p>In this example, we try to model a dataset distribution which is the superposition of 6 bivariate normal distribution centred on the summits of an hexagon. The idea is to learn how to map and transform a simple distribution (a simple bivariate normal distribution) into that distribution with 6 modes.</p>
+<div id="preamble" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Preamble</h3>
+<p>First some usual imports.</p>
+<div id="python-version" class="section level4" number="2.2.1.1">
+<h4><span class="header-section-number">2.2.1.1</span> Python version</h4>
+<pre class="python"><code>import sys 
+
+import matplotlib.pyplot as plt
+
+# Pytorch provides the autodifferentation and the neural networks
+import torch
+import torch.utils.data as data
+from torch.distributions import MultivariateNormal
+
+import torchdyn
+from torchdyn.models import CNF, NeuralDE, REQUIRES_NOISE
+from torchdyn.datasets import ToyDataset
+
+import pytorch_lightning.core.lightning as pl
+
+device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)</code></pre>
+</div>
+<div id="julia-version" class="section level4" number="2.2.1.2">
+<h4><span class="header-section-number">2.2.1.2</span> Julia version</h4>
+<pre class="julia"><code>using Random, Distributions, Plots, GR, LinearAlgebra
+
+# Getting ready for GPUs is OK given the automatic fallback to CPU
+using CUDA</code></pre>
+</div>
+</div>
+<div id="dataset" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Dataset</h3>
+<p>For this simple example, we will work with several Gaussians each centred on a hexagon.</p>
+<div id="python-version-1" class="section level4" number="2.2.2.1">
+<h4><span class="header-section-number">2.2.2.1</span> Python version</h4>
+<pre class="python"><code># The dataset has about 16k samples
+n_samples = 1 &lt;&lt; 14
+
+# That will be spread across 6 Gaussians on a plave. 
+n_gaussians = 6
+
+# Torchdyn has a helper funciton to generate the dataset.
+X, yn = ToyDataset().generate(n_samples // n_gaussians, 
+                              &#39;gaussians&#39;, 
+                              n_gaussians=n_gaussians, 
+                              std_gaussians=0.5, 
+                              radius=4, dim=2)
+
+# Z-score the generated dataset.
+X = (X - X.mean())/X.std()
+
+# Let&#39;s look what we have
+plt.figure(figsize=(5, 5))
+plt.scatter(X[:,0], X[:,1], c=&#39;black&#39;, alpha=0.2, s=1.)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-cnf-datasest"></span>
+<img src="assets/cnf-1.png" alt="Toy dataset" width="2050" />
+<p class="caption">
+Figure 2.2: Toy dataset
+</p>
+</div>
+</div>
+<div id="julia-version-1" class="section level4" number="2.2.2.2">
+<h4><span class="header-section-number">2.2.2.2</span> Julia version</h4>
+<pre class="julia"><code># The Julia version closely follows the Python one but we do not have the benefit of the helper function.
+
+n_samples = 1 &lt;&lt; 14
+n_gaussians = 6
+n_dims = 2
+
+t_span = (0., 1.)
+t_steps = 50
+
+x_span = y_span = -2.5:0.1:2.5
+
+X_span = repeat(x_span&#39;, length(y_span), 1)
+Y_span = repeat(y_span,  1,              length(x_span))
+
+
+function generate_gaussians(; n_dims = n_dims, n_samples=100, n_gaussians=7, 
+        radius=1.f0, std_gaussians=0.2f0, noise=0.001f0)
+
+    x = zeros(Float64, n_dims, n_samples * n_gaussians)
+    y = zeros(Float64, n_samples * n_gaussians)
+    incremental_angle = 2 * π / n_gaussians
+    
+    dist_gaussian = MvNormal(n_dims, sqrt(std_gaussians))
+
+    if n_dims &gt; 2
+        dist_noise = MvNormal(n_dims - 2, sqrt(noise))
+    end
+    
+    current_angle = 0.f0
+    for i ∈ 1:n_gaussians
+        current_loc = zeros(Float32, n_dims, 1)
+        if n_dims &gt;= 1
+            current_loc[1] = radius * cos(current_angle)
+        end
+        
+        if n_dims &gt;= 2
+            current_loc[2] = radius * sin(current_angle)
+        end
+        
+        x[1:n_dims, (i-1)*n_samples+1:i*n_samples] = current_loc[1:n_dims] .+ rand(dist_gaussian, n_samples)
+        if n_dims &gt; 2
+            x[1:n_dims-2, (i-1)*n_samples+1:i*n_samples] = rand(noise, n_samples)
+        end
+        
+        
+        y[   (i-1)*n_samples+1:i*n_samples] = Float32(i) .* ones(Float32, n_samples)
+        
+        current_angle = current_angle + incremental_angle
+    end
+    
+    return Float64.(x), Float64.(y)
+end
+
+
+X, Y = generate_gaussians(; n_samples = n_samples ÷ n_gaussians, 
+                            n_gaussians = n_gaussians, 
+                            radius = 4.0f0, 
+                            std_gaussians = 0.5f0)
+X = (X .- mean(X)) ./ std(X)
+X_SIZE = size(X)[2]
+
+
+# We will continue onward using the Plotly backend
+plotly() 
+if n_dims == 1
+    histogram(X[1, :], title = &quot;Sample from the true density&quot;)
+else
+    scatter!(X[1, :], X[2, :], title = &quot;Sample from the true density&quot;, markershape=:cross, markersize=1)
+end</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-julia-datasest"></span>
+<img src="assets/Julia_Hexagon.png" alt="Toy dataset" width="300" />
+<p class="caption">
+Figure 2.3: Toy dataset
+</p>
+</div>
+</div>
+</div>
+<div id="data-loaders" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Data loaders</h3>
+<div id="python-version-2" class="section level4" number="2.2.3.1">
+<h4><span class="header-section-number">2.2.3.1</span> Python version</h4>
+<p>We create data loaders for batches of 1,024:</p>
+<pre class="python"><code>X_train = torch.Tensor(X).to(device)
+y_train = torch.LongTensor(yn).long().to(device)
+
+train = data.TensorDataset(X_train, y_train)
+trainloader = data.DataLoader(train, batch_size=1024, shuffle=True)</code></pre>
+</div>
+<div id="julia-version-2" class="section level4" number="2.2.3.2">
+<h4><span class="header-section-number">2.2.3.2</span> Julia version</h4>
+<p>Not needed.</p>
+</div>
+</div>
+<div id="normalising-flow-module" class="section level3" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> Normalising flow module</h3>
+<div id="python-version-3" class="section level4" number="2.2.4.1">
+<h4><span class="header-section-number">2.2.4.1</span> Python version</h4>
+<pre class="python"><code># Continuous Normalisising Flows require an estimate of the trace of the Jacobian matrix. 
+# This will be explained further down.
+def autograd_trace(x_out, x_in, **kwargs):
+    &quot;&quot;&quot;Standard brute-force means of obtaining trace of the Jacobian, O(d) calls to autograd&quot;&quot;&quot;
+    trJ = 0.
+    for i in range(x_in.shape[1]):
+        trJ += torch.autograd.grad(x_out[:, i].sum(), x_in, allow_unused=False, create_graph=True)[0][:, i]
+    return trJ
+
+# Continuous Normalisising Flows 
+class CNF(nn.Module):
+    def __init__(self, net, trace_estimator=None, noise_dist=None):
+        super().__init__()
+
+        self.net = net
+        self.noise_dist, self.noise = noise_dist, None
+
+        self.trace_estimator = trace_estimator if trace_estimator is not None else autograd_trace;
+        if self.trace_estimator in REQUIRES_NOISE:
+            assert self.noise_dist is not None, &#39;This type of trace estimator requires specification of a noise distribution&#39;
+
+    def forward(self, x):
+        with torch.set_grad_enabled(True):
+            # first dimension reserved to divergence propagation
+            x_in = torch.autograd.Variable(x[:,1:], requires_grad=True).to(x) 
+            
+            # the neural network will handle the data-dynamics here
+            x_out = self.net(x_in)
+
+            trJ = self.trace_estimator(x_out, x_in, noise=self.noise)
+        
+        # `+ 0*x` has the only purpose of connecting x[:, 0] to autograd graph
+        return torch.cat([-trJ[:, None], x_out], 1) + 0*x </code></pre>
+</div>
+<div id="julia-version-3" class="section level4" number="2.2.4.2">
+<h4><span class="header-section-number">2.2.4.2</span> Julia version</h4>
+<p>Not needed.</p>
+</div>
+</div>
+<div id="layer-definition" class="section level3" number="2.2.5">
+<h3><span class="header-section-number">2.2.5</span> Layer definition</h3>
+<div id="python-version-4" class="section level4" number="2.2.5.1">
+<h4><span class="header-section-number">2.2.5.1</span> Python version</h4>
+<p>We build a <code>NeuralDE</code> model with a single transformation modelled as a multi-layer perceptron. As we will see, this transformation expresses infinitesimal changes of states. It is the same transformation that is applied from the starting state (the input) all the way to the output.</p>
+<pre class="python"><code>f = nn.Sequential(
+        nn.Linear(2, 64),
+        nn.Softplus(),
+        nn.Linear(64, 64),
+        nn.Softplus(),
+        nn.Linear(64, 64),
+        nn.Softplus(),
+        nn.Linear(64, 2),
+    )
+
+# cnf wraps the net as with other energy models
+# default trace_estimator, when not specified, is autograd_trace
+cnf = CNF(f, trace_estimator=autograd_trace)
+nde = NeuralDE(cnf, solver=&#39;dopri5&#39;, s_span=torch.linspace(0, 1, 2), sensitivity=&#39;adjoint&#39;, atol=1e-4, rtol=1e-4)
+
+multi_gauss_model = nn.Sequential(Augmenter(augment_idx=1, augment_dims=1), nde).to(device)</code></pre>
+</div>
+<div id="julia-version-4" class="section level4" number="2.2.5.2">
+<h4><span class="header-section-number">2.2.5.2</span> Julia version</h4>
+<pre class="julia"><code>using DiffEqFlux, Optim, OrdinaryDiffEq, Zygote, Flux, JLD2, Dates, Serialization
+
+# The NN is defined with the Flux package. 32 neurons per dimensions.
+f = Chain(Dense(n_dims, 32 * n_dims, tanh), 
+          Dense(32 * n_dims, 32 * n_dims, tanh), 
+          Dense(32 * n_dims, 32 * n_dims, tanh), 
+          Dense(32 * n_dims, n_dims)) |&gt; gpu
+
+
+# The CNF is defined as a differential equation AND the method used for its optimisation (FFJORD)
+cnf_ffjord = FFJORD(f, t_span, Tsit5(), basedist = MvNormal(n_dims, 1.), monte_carlo = true)
+
+# The optimisation will be to maximise the negative log loss  
+function loss_adjoint(θ)
+    logpx = cnf_ffjord(X, θ)[1]
+    return -mean(logpx)[1]
+end
+</code></pre>
+</div>
+</div>
+<div id="latent-space" class="section level3" number="2.2.6">
+<h3><span class="header-section-number">2.2.6</span> Latent space</h3>
+<div id="python-version-5" class="section level4" number="2.2.6.1">
+<h4><span class="header-section-number">2.2.6.1</span> Python version</h4>
+<p>The latent space is defined as a 2-dimensional multivariate independent Gaussians with <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\sigma=0\)</span>.</p>
+<pre class="python"><code>multi_gauss_prior = MultivariateNormal(torch.zeros(2).to(device), torch.eye(2).to(device))</code></pre>
+</div>
+<div id="julia-version-5" class="section level4" number="2.2.6.2">
+<h4><span class="header-section-number">2.2.6.2</span> Julia version</h4>
+<p>This was already done via the parameter <code>basedist</code> of the <code>cnf_ffjord</code> definition with <code>basedist = MvNormal(n_dims, 1.)</code>.</p>
+</div>
+</div>
+<div id="training" class="section level3" number="2.2.7">
+<h3><span class="header-section-number">2.2.7</span> Training</h3>
+<div id="python-version-6" class="section level4" number="2.2.7.1">
+<h4><span class="header-section-number">2.2.7.1</span> Python version</h4>
+<p><code>Pytorch Lightning</code> also takes care of the training loops, logging and general bookkeeping: a <code>LightningModule</code> is a <code>Pytorch</code> module on steroids.</p>
+<pre class="python"><code>class LearnerMultiGauss(pl.LightningModule):
+    
+    def __init__(self, model:nn.Module):
+        super().__init__()
+        
+        self.model = model
+        self.iters = 0
+
+    
+    def forward(self, x):
+        return self.model(x)
+
+    
+    def training_step(self, batch, batch_idx):
+        self.iters += 1
+        x, _ = batch
+        xtrJ = self.model(x)
+        logprob = multi_gauss_prior.log_prob(xtrJ[:,1:]).to(x) - xtrJ[:,0] # logp(z_S) = logp(z_0) - \int_0^S trJ
+        loss = -torch.mean(logprob)
+        nde.nfe = 0
+        return {&#39;loss&#39;: loss}
+
+    
+    def configure_optimizers(self):
+        return torch.optim.AdamW(self.model.parameters(), lr=2e-3, weight_decay=1e-5)
+
+    
+    def train_dataloader(self):
+        return trainloader</code></pre>
+<p><code>PytorchLightning</code> handles the training:</p>
+<pre class="python"><code>learn = LearnerMultiGauss(multi_gauss_model)
+trainer = pl.Trainer(max_epochs=300)
+trainer.fit(learn)</code></pre>
+</div>
+<div id="julia-version-6" class="section level4" number="2.2.7.2">
+<h4><span class="header-section-number">2.2.7.2</span> Julia version</h4>
+<pre class="julia"><code># First define a callback function that will keep a record of losses and plot the learned distribution
+callback = function(params, loss)
+    
+    store_all = true
+    store_loss = false
+    store_plot = false
+    
+    global iter += 1
+    
+    # Print the current loss
+    println(&quot;Iteration $iter  -- Loss: $loss&quot;)
+    
+    
+    # Keep a record of everything
+
+    if store_all || store_loss
+        push!(losses, loss)
+    end
+        
+    if store_all || store_plot
+        # Plot the transformation
+        vals = map( (x, y) -&gt; cnf_ffjord([x, y], params; monte_carlo=false)[1][], 
+                    X_span, Y_span)    
+    
+        p = Plots.contour(x_span, y_span, vals, fill=true)
+        p
+        push!(list_plots, p)
+    
+        push!(min_maxes, 
+              (minimum(vals), maximum(vals)))
+    end
+        
+    return false
+end
+
+
+# Train using the ADAM optimizer. 
+
+# List accumulators for the results
+iter = 0; list_plots = []; min_maxes = []; losses = []
+
+res1 = DiffEqFlux.sciml_train(
+        loss_adjoint, 
+        cnf_ffjord.p,
+        ADAM(0.002), 
+        cb = callback,
+        maxiters = 100)
+</code></pre>
+</div>
+</div>
+<div id="sampling" class="section level3" number="2.2.8">
+<h3><span class="header-section-number">2.2.8</span> Sampling</h3>
+<div id="python-version-7" class="section level4" number="2.2.8.1">
+<h4><span class="header-section-number">2.2.8.1</span> Python version</h4>
+<p>We can now sample from the independent Gaussians to see what is generated from them.</p>
+<pre class="python"><code># Let&#39;s draw 16k samples
+sample = multi_gauss_prior.sample(torch.Size([n_samples]))
+
+# integrating from 1 to 0
+multi_gauss_model[1].s_span = torch.linspace(1, 0, 2)
+new_x = multi_gauss_model(sample).cpu().detach()
+sample = sample.cpu()</code></pre>
+<pre class="python"><code>plt.figure(figsize=(12, 4))
+
+plt.subplot(121)
+plt.scatter(new_x[:,1], new_x[:,2], s=2.3, alpha=0.2, linewidths=0.3, c=&#39;blue&#39;, edgecolors=&#39;black&#39;)
+plt.xlim(-2, 2) ; plt.ylim(-2, 2)
+plt.title(&#39;Samples&#39;)
+
+plt.subplot(122)
+plt.scatter(X[:,0], X[:,1], s=2.3, alpha=0.2, c=&#39;red&#39;,  linewidths=0.3, edgecolors=&#39;black&#39;)
+plt.xlim(-2, 2) ; plt.ylim(-2, 2)
+plt.title(&#39;Data&#39;)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-cnf-comparison"></span>
+<img src="assets/cnf-2.png" alt="Training result" width="3944" />
+<p class="caption">
+Figure 2.4: Training result
+</p>
+</div>
+<pre class="python"><code>trajectories = model[1].trajectory(Augmenter(1, 1)(sample.to(device)), s_span=torch.linspace(1,0,100)).detach().cpu()
+
+trajectories = trajectories[:, :, 1:] # scrapping first dimension := jacobian trace</code></pre>
+<pre class="python"><code>n = 1000
+plt.figure(figsize=(6, 6))
+
+# Plot the sample
+plt.scatter(sample[:n, 0],   sample[:n, 1],   s=4,  alpha=0.8, c=&#39;red&#39;)
+
+# Dram a line from the sample to the generated data
+plt.scatter(trajectories[:,:n, 0],   trajectories[:,:n, 1],   s=0.2, alpha=0.1, c=&#39;olive&#39;)
+
+# Plot the generated data
+plt.scatter(trajectories[-1, :n, 0], trajectories[-1, :n, 1], s=4,   alpha=1.0, c=&#39;blue&#39;)
+
+plt.legend([&#39;Prior sample z(S)&#39;, &#39;Flow&#39;, &#39;z(0)&#39;])</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-cnf-traj"></span>
+<img src="assets/cnf-3.png" alt="Flows" width="2010" />
+<p class="caption">
+Figure 2.5: Flows
+</p>
+</div>
+<p>We can see that the flow is smooth having sampled 1,000 points. For each sampled point in red), we trace its flow (in olive) to its final destination (in blue). The initial sample follows a 2D Gaussian and sort of explodes towards the direction of each mode. It is important to emphasise how economical this is in terms of parameters. We have become accustomed to deep learning networks with a staggering numbers of cascaded layers, each with its parameters to be optimised. This Neural ODE is a <em>single</em> perceptron with 2 hidden layers that is applied an infinite numbers of times (within the approximation of the ODE solver).</p>
+</div>
+<div id="julia-version-7" class="section level4" number="2.2.8.2">
+<h4><span class="header-section-number">2.2.8.2</span> Julia version</h4>
+<p>We plot the progress of the 100 iterations:</p>
+<pre class="julia"><code>anim = @animate for i ∈ 1:length(list_plots)
+    # Necessary to create a new plot for each frame
+    Plots.plot(1)
+    Plots.plot!(list_plots[i])
+end
+
+gif(anim) # GIF converted to mp4 to reduce animation file size</code></pre>
+<video width="320" height="240" controls>
+<source src="assets/plots.mp4" type="video/mp4">
+</video>
+</div>
+</div>
+</div>
+<div id="into-the-maths" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Into the maths</h2>
+<p>The starting distribution is a random variable <span class="math inline">\(X\)</span> with a support in <span class="math inline">\(\mathbb{R}^D\)</span>. For simplicity, we will assume just assume that the support is <span class="math inline">\(\mathbb{R}^D\)</span> since using measurable supports does not change the results. If <span class="math inline">\(X\)</span> is transformed into <span class="math inline">\(Y\)</span> by an invertible function/mapping <span class="math inline">\(f: \mathbb{R}^D \rightarrow \mathbb{R}^D\)</span> (<span class="math inline">\(Y=f(X)\)</span>), then the density function of <span class="math inline">\(Y\)</span> is:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P_Y(\vec{y}) &amp; = P_X(\vec{x}) \left| \det \nabla f^{-1}(\vec{y})  \right| \\
+                &amp; = P_X(\vec{x}) \left| \det\nabla f(\vec{x}) \right|^{-1}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\vec{x} = f^{-1}(\vec{y})\)</span> and <span class="math inline">\(\nabla\)</span> represents the Jacobian operator. Note the use of <span class="math inline">\(\vec{x}\)</span> to denote vectors instead of the usual <span class="math inline">\(\mathbf{x}\)</span> which on-screen is easily read as a scalar.</p>
+<p>Following the direction of <span class="math inline">\(f\)</span> is the <em>generative</em> direction; following the direction of <span class="math inline">\(f^{-1}\)</span> is the <em>normalising</em> direction (as well as being the <em>inference</em>/<em>encoding</em> direction in the context of training).</p>
+<p>If <span class="math inline">\(f\)</span> were a series of individual transformation <span class="math inline">\(f = f_N \circ f_{N-1} \circ \cdots \circ f_1\)</span>, then it naturally follows that:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\det\nabla f(\vec{x})      &amp; = \prod_{i=1}^N{\det \nabla f_i(\vec{x}_i)} \\
+\det\nabla f^{-1}(\vec{x}) &amp; = \prod_{i=1}^N{\det \nabla f_i^{-1}(\vec{x}_i)}
+\end{aligned}
+\]</span></p>
+<p>In order to make clear that the Jacobian is <em>not</em> taken wrt the starting latent variables <span class="math inline">\(x\)</span>, we use the notation:</p>
+<p><span class="math display">\[
+\vec{x}_i = f_{i-1}(\vec{x}_{i-1})
+\]</span></p>
+</div>
+<div id="training-loss-optimisation-and-information-flow" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Training loss optimisation and information flow</h2>
+<p>Before moving into examples of normalising flows, we need to comment on the loss function optimisation. How do we determine the generative model’s parameters so that the generated distribution is as close as possible to the real distribution (or at least to the distribution of the samples drawn from that true distribution)?</p>
+<p>A standard way to do this is to calculate the Kullback-Leibler divergence between the two. Recall that the KL divergence <span class="math inline">\(\mathbb{KL}(P \vert \vert Q)\)</span> is <em>not</em> a distance as it is not symmetric. I personally read <span class="math inline">\(\mathbb{KL}(P \vert \vert Q)\)</span> as “the loss of information on the true <span class="math inline">\(P\)</span> if using the approximation <span class="math inline">\(Q\)</span>” as a way to keep the two distributions at their right place (writing <span class="math inline">\(\mathbb{KL}(P_{true} \vert \vert Q_{est.})\)</span> will help clarify the proper order).</p>
+<p>The KL divergence is defined as:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{KL}(P_{true} \vert \vert Q_{est.}) = \mathbb{E}_{P_{true}(\vec{x})} \left[ \log \frac{P_{true}(\vec{x})}{Q_{est.}(\vec{x})} \right]
+\end{aligned}
+\]</span></p>
+<p>Or for a discrete distribution:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{KL}(P_{true} \vert \vert Q_{est}) &amp; =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{Q_{est}(\vec{x})} \\
+                                          &amp; =  \sum_{\vec{x} \in X} P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log Q_{est}(\vec{x}) \right]
+\end{aligned}
+\]</span></p>
+<p>In our particular case, this becomes:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{KL}(P_{true} \vert \vert P_Y) &amp; = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \log \frac{P_{true}(\vec{x})}{P_Y(\vec{y})}} \\
+                                      &amp; = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log P_Y(\vec{y}) \right] }
+\end{aligned}
+\]</span></p>
+<p>Recalling that we have a transformation from <span class="math inline">\(\vec{x}\)</span> to <span class="math inline">\(\vec{y}\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P_Y(\vec{y}) &amp; = P_X(\vec{x}) \left| det \nabla f^{-1}(\vec{y})  \right| \\
+&amp; = P_X(\vec{x}) \left| det\nabla f(\vec{x}) \right|^{-1}
+\end{aligned}
+\]</span></p>
+<p>We end up with:</p>
+<p><span class="math display">\[
+\mathbb{KL}(P_{true} \vert \vert P_Y) = \sum_{\vec{x} \in X} {P_{true}(\vec{x}) \left[ \log P_{true}(\vec{x}) - \log \left( P_X(\vec{x}) \left| det \nabla f(\vec{x})  \right|^{-1} \right) \right] }
+\]</span></p>
+<p>Minimising this divergence is achieved by changing the parameter which generate <span class="math inline">\(f\)</span>.</p>
+<p>The divergence is one of many loss formulae that can be used to measure the distance (in the loose sense of the word) between the true and generated distributions. But the KL divergence illustrates how logarithms of the probability distributions naturally appear. Another common formulation of the loss is the Wasserstein distance.</p>
+<p>In the setting of the normalising flows (and VAEs), we have two transformations: the inference direction (the encoder) and the generative direction (the decoder). Given the back-and-forth nature, it makes sense to <em>not</em> favour one direction over the other. Instead of using the KL divergence which is not symmetric, we can use the mutual information (this is equivalent to using free energy as in <span class="citation">(<a href="#ref-rezendeVariationalInferenceNormalizing2016" role="doc-biblioref">Rezende and Mohamed 2016</a>)</span>).</p>
+<p>Regardless of the choice of loss function, it is obvious that optimising <span class="math inline">\(\mathbb{KL}(P_{true} \vert \vert P_Y)\)</span> cannot be contemplated without serious optimisations. Finding more tractable alternative distance measurements is an active research topic.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+</div>
+<div id="basic-flows" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Basic flows</h2>
+<p>In their paper, <span class="citation">(<a href="#ref-rezendeVariationalInferenceNormalizing2016" role="doc-biblioref">Rezende and Mohamed 2016</a>)</span> experimented with simple transformations: a linear transformation (with a simple non-linear function) called <em>planar flows</em> and flows within a space centered on a reference latent variable called <em>radial flows</em>.</p>
+<div id="planar-flows" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Planar Flows</h3>
+<p>A planar flow is formulated as a residual transformation:</p>
+<p><span class="math display">\[
+f_i(\vec{x}_i) = \vec{x}_i + \vec{u_i}  h(\vec{w}_i^\intercal \vec{x}_i + b_i)
+\]</span></p>
+<p>where <span class="math inline">\(\vec{u}_i\)</span> and <span class="math inline">\(\vec{w}_i\)</span> are vectors, <span class="math inline">\(h(\cdot)\)</span> is a non-linear real function and <span class="math inline">\(b_i\)</span> is a scalar.</p>
+<p>By defining:</p>
+<p><span class="math display">\[
+\psi_i(\vec{z}) = h&#39;(\vec{w}^\intercal \vec{z} + b_i) \vec{w}_i
+\]</span></p>
+<p>the determinant required to normalize the flow can be simplified to (see original paper for the short steps involved):</p>
+<p><span class="math display">\[
+\left| \det \frac{\partial f_i}{\partial x_i}  \right| = \left| \det \left( \mathbb{I} + \vec{u_i} \psi_i(\vec{x}_i)^\intercal \right) \right| = \left| 1 + \vec{u_i}^\intercal \psi_i(\vec{x}_i)  \right|
+\]</span></p>
+<p>This is a more tractable expression.</p>
+</div>
+<div id="planar-flow-example" class="section level3" number="2.5.2">
+<h3><span class="header-section-number">2.5.2</span> Planar flow example</h3>
+<p>This is an example inspired by <a href="https://github.com/abdulfatir/planar-flow-pytorch.git">https://github.com/abdulfatir/planar-flow-pytorch</a>.</p>
+<div id="imports" class="section level4" number="2.5.2.1">
+<h4><span class="header-section-number">2.5.2.1</span> Imports</h4>
+<pre class="python"><code># https://github.com/abdulfatir/planar-flow-pytorch
+
+%matplotlib inline
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+import torch
+import torch.nn as nn
+device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+
+from tqdm.notebook import tqdm</code></pre>
+</div>
+<div id="constants-and-parameters" class="section level4" number="2.5.2.2">
+<h4><span class="header-section-number">2.5.2.2</span> Constants and parameters</h4>
+<pre class="python"><code># Constants
+
+# Size of a layer. We operate on a plane =&gt; 2D
+n_dimensions = 2
+
+# Number of layers
+n_layers = 16
+
+# Number of samples drawn
+n_samples = 500</code></pre>
+</div>
+<div id="densities-to-be-learned" class="section level4" number="2.5.2.3">
+<h4><span class="header-section-number">2.5.2.3</span> Densities to be learned</h4>
+<pre class="python"><code># Unnormalized Density Functions
+
+# As a torch object for training
+def true_density(z):
+    z1, z2 = z[:, 0], z[:, 1]
+    norm = torch.sqrt(z1 ** 2 + z2 ** 2)
+    exp1 = torch.exp(-0.5 * ((z1 - 2) / 0.8) ** 2)
+    exp2 = torch.exp(-0.5 * ((z1 + 2) / 0.8) ** 2)
+    u = 0.5 * ((norm - 4) / 0.4) ** 2 - torch.log(exp1 + exp2)
+    return torch.exp(-u)
+
+# As a Numpy object for plotting
+def true_density_np(z):
+    z1, z2 = z[:, 0], z[:, 1]
+    norm = np.sqrt(z1 ** 2 + z2 ** 2)
+    exp1 = np.exp(-0.5 * ((z1 - 2) / 0.8) ** 2)
+    exp2 = np.exp(-0.5 * ((z1 + 2) / 0.8) ** 2)
+    u = 0.5 * ((norm - 4) / 0.4) ** 2 - np.log(exp1 + exp2)
+    return np.exp(-u)</code></pre>
+<pre class="python"><code>figure, axes = plt.subplots(1, 1, figsize=(8, 8))
+
+# True Density
+x = np.linspace(-5, 5, 500)
+y = np.linspace(-5, 5, 500)
+
+X, Y = np.meshgrid(x, y)
+
+data = np.vstack([X.flatten(), Y.flatten()]).T
+
+# Unnormalized density
+density = true_density_np(data) 
+
+axes.pcolormesh(X, Y, density.reshape(X.shape), cmap=&#39;Blues&#39;, shading=&#39;auto&#39;)
+axes.set_title(&#39;True density&#39;)
+axes.axis(&#39;square&#39;)
+axes.set_xlim([-5, 5])
+axes.set_ylim([-5, 5])</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-pf-true-density"></span>
+<img src="assets/pf-1.png" alt="True density" width="236" />
+<p class="caption">
+Figure 2.6: True density
+</p>
+</div>
+</div>
+<div id="definition-of-a-single-layer" class="section level4" number="2.5.2.4">
+<h4><span class="header-section-number">2.5.2.4</span> Definition of a single layer</h4>
+<pre class="python"><code>class PlanarTransform(nn.Module):
+    def __init__(self, dim=2):
+        super().__init__()
+        
+        self.u = nn.Parameter(torch.randn(1, dim) * 0.01)
+        self.w = nn.Parameter(torch.randn(1, dim) * 0.01)
+        self.b = nn.Parameter(torch.randn(()) * 0.01)
+    
+    def m(self, x):
+        return -1 + torch.log(1 + torch.exp(x))
+    
+    def h(self, x):
+        return torch.tanh(x)
+    
+    def h_prime(self, x):
+        return 1 - torch.tanh(x) ** 2
+    
+    def forward(self, z, logdet=False):
+        # z.size() = batch x dim
+        u_dot_w = (self.u @ self.w.t()).view(())
+        
+        # Unit vector in the direction of w
+        w_hat = self.w / torch.norm(self.w, p=2) 
+        
+        # 1 x dim
+        u_hat = (self.m(u_dot_w) - u_dot_w) * (w_hat) + self.u 
+        affine = z @ self.w.t() + self.b
+        
+        # batch x dim
+        z_next = z + u_hat * self.h(affine) 
+    
+        if logdet:
+            
+            # batch x dim
+            psi = self.h_prime(affine) * self.w 
+            
+            # batch x 1
+            LDJ = -torch.log(torch.abs(psi @ u_hat.t() + 1) + 1e-8) 
+            return z_next, LDJ
+        
+        return z_next</code></pre>
+</div>
+<div id="definition-of-a-flow-as-a-concatenation-of-multiple-layers" class="section level4" number="2.5.2.5">
+<h4><span class="header-section-number">2.5.2.5</span> Definition of a flow as a concatenation of multiple layers</h4>
+<pre class="python"><code>class PlanarFlow(nn.Module):
+    
+    def __init__(self, dim=2, n_layers=16):
+        super().__init__()
+        
+        self.transforms = nn.ModuleList([PlanarTransform(dim) for k in range(n_layers)])
+    
+    def forward(self, z, logdet=False):
+        zK = z
+        SLDJ = 0.0
+        
+        for transform in self.transforms:
+            out = transform(zK, logdet=logdet)
+            if logdet:
+                SLDJ += out[1]
+                zK = out[0]
+            else:
+                zK = out
+                
+        if logdet:
+            return zK, SLDJ
+        return zK</code></pre>
+</div>
+<div id="setup-the-training-model" class="section level4" number="2.5.2.6">
+<h4><span class="header-section-number">2.5.2.6</span> Setup the training model</h4>
+<pre class="python"><code>pf = PlanarFlow(dim=n_dimensions, n_layers=n_layers).to(device)
+
+optimizer = torch.optim.Adam(pf.parameters(), lr=1e-2)
+base = torch.distributions.normal.Normal(0., 1.)</code></pre>
+</div>
+<div id="training-by-optimising-the-mathbbkl-divergence" class="section level4" number="2.5.2.7">
+<h4><span class="header-section-number">2.5.2.7</span> Training by optimising the <span class="math inline">\(\mathbb{KL}\)</span> divergence</h4>
+<pre class="python"><code>pbar = tqdm(range(10000))
+
+for i in pbar:
+    optimizer.zero_grad()
+
+    z0 = torch.randn(500, 2).to(device)
+    zK, SLDJ = pf(z0, True)
+    
+    log_qk = base.log_prob(z0).sum(-1) + SLDJ.view(-1)
+    log_p = torch.log(true_density(zK))
+    
+    kl = torch.mean(log_qk - log_p, 0)
+    kl.backward()
+    
+    optimizer.step()
+    if (i + 1) % 10 == 0:
+        pbar.set_description(&#39;KL: %.3f&#39; % kl.item())</code></pre>
+</div>
+<div id="draw-samples-to-plot-the-resulting-model" class="section level4" number="2.5.2.8">
+<h4><span class="header-section-number">2.5.2.8</span> Draw samples to plot the resulting model</h4>
+<pre class="python"><code>samples = []
+
+for _ in tqdm(range(n_samples)):
+    
+    # 500 starting sampled points
+    z0 = torch.randn(500, 2)
+    
+    # Transformed 
+    zK = pf(z0).detach().numpy()
+
+    samples.append(zK)
+
+samples = np.concatenate(samples)</code></pre>
+<pre class="python"><code>figure, axes = plt.subplots(1, 2, figsize=(16, 8))
+
+# True Density (unnormalised)
+x = np.linspace(-5, 5, 500)
+y = np.linspace(-5, 5, 500)
+
+X, Y = np.meshgrid(x, y)
+data = np.vstack([X.flatten(), Y.flatten()]).T
+density = true_density_np(data) 
+
+axes[0].set_title(&#39;True density&#39;)
+axes[0].axis(&#39;square&#39;)
+axes[0].set_xlim([-5, 5])
+axes[0].set_ylim([-5, 5])
+axes[0].pcolormesh(X, Y, density.reshape(X.shape), cmap=&#39;Blues&#39;, shading=&#39;auto&#39;)
+
+# Learned Density
+axes[1].set_title(&#39;Learned density&#39;)
+axes[1].axis(&#39;square&#39;)
+axes[1].set_xlim([-5, 5])
+axes[1].set_ylim([-5, 5])
+axes[1].hist2d(samples[:, 0], samples[:, 1], bins=100, cmap=&#39;Blues&#39;, shading=&#39;auto&#39;)
+
+plt.savefig(&#39;assets/2ddensity.png&#39;)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-pf-learned-density"></span>
+<img src="assets/pf-2.png" alt="Learned density" width="464" />
+<p class="caption">
+Figure 2.7: Learned density
+</p>
+</div>
+</div>
+</div>
+<div id="radial-flows" class="section level3" number="2.5.3">
+<h3><span class="header-section-number">2.5.3</span> Radial flows</h3>
+<p>The formulation of the radial flows takes a reference hyper-ball centered at a reference point <span class="math inline">\(\vec{x}_0\)</span>. Any point <span class="math inline">\(\vec{x}\)</span> gets moved in the direction of <span class="math inline">\(\vec{x} - \vec{x}_0\)</span>. That move is dependent on <span class="math inline">\(\vec{x}\)</span>. In other words, imagine a plain hyper-ball, after many such transformations, you obtain a hyper-potato.</p>
+<p>The flows are defined as:</p>
+<p><span class="math display">\[
+f_i(\vec{x}_i) = \vec{x}_i + \beta_i h(\alpha_i, \rho_i) \left( \vec{x}_i - \vec{x}_0 \right)
+\]</span></p>
+<p>where <span class="math inline">\(\alpha_i\)</span> is a strictly positive scalar, <span class="math inline">\(\beta_i\)</span> is a scalar, <span class="math inline">\(\rho_i = \left|| \vec{x}_i - \vec{x}_0 \right||\)</span> and <span class="math inline">\(h(\alpha_i, \rho_i) = \frac{1}{\alpha_i + \rho_i}\)</span>.</p>
+<p>This family of functions gives the following expression of the determinant:</p>
+<p><span class="math display">\[
+\left| \det \nabla f_i(\vec{x}_i) \right| = \left[ 1 + \beta_i h(\alpha_i, \rho_i) \right] ^{D-1} \left[ 1 + \beta_i h(\alpha_i, \rho_i) +  \beta_i \rho_i h&#39;(\alpha_i, \rho_i) \right]
+\]</span></p>
+<p>Again, this is a more tractable expression since <span class="math inline">\(h(\cdot)\)</span> is relatively simple.</p>
+<p>Unfortunately, it was found that those transformations do not scale well to high-dimensional latent spaces.</p>
+</div>
+</div>
+<div id="more-complex-flows" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> More complex flows</h2>
+<div id="residual-flows-discrete-flows" class="section level3" number="2.6.1">
+<h3><span class="header-section-number">2.6.1</span> Residual flows (discrete flows)</h3>
+<p>Various proposals were initially put forward with common aims: replacing <span class="math inline">\(f\)</span> by a series of sequentially composed simpler but expressive base functions and paying particular attention the computational costs. (see <span class="citation">(<a href="#ref-kobyzevNormalizingFlowsIntroduction2020a" role="doc-biblioref">Kobyzev, Prince, and Brubaker 2020</a>)</span> and <span class="citation">(<a href="#ref-papamakariosNormalizingFlowsProbabilistic2019" role="doc-biblioref">Papamakarios et al. 2019</a>)</span> for details).</p>
+<p>Generalised residual flows <span class="citation">(<a href="#ref-heDeepResidualLearning2015" role="doc-biblioref">He et al. 2015</a>)</span> were a key development. As the name suggests, the transformations alludes the RevNet neural network structure. Explicitly, <span class="math inline">\(f\)</span> is defined as <span class="math inline">\(f(\vec{x}) = \vec{x} + \phi(\vec{x})\)</span>. The left-hand side identity term is a matrix where all the eigenvalues are 1 (duh). If <span class="math inline">\(\phi(\vec{x})\)</span> represented a simple matrix multiplication, imposing the condition that all its eigenvalues of the righthand side term are strictly strictly between 0 and 1 ensure that <span class="math inline">\(f\)</span> remains invertible. An equivalent, and more general condition, is to impose that <span class="math inline">\(\phi\)</span> is Lipschitz-continuous with a constant below 1. That is:</p>
+<p><span class="math display">\[
+\forall \vec{x}, \vec{y} \qquad  0 &lt; \left| \phi(\vec{x}) - \phi(\vec{y}) \right| &lt; \left| \vec{x} - \vec{y} \right|
+\]</span></p>
+<p>and therefore:</p>
+<p><span class="math display">\[
+\forall \vec{x}, \vec{h} \neq 0 \qquad  0 &lt; \frac{\left| \phi(\vec{x}+\vec{h}) - \phi(\vec{x}) \right|}{\left| \vec{h} \right|} &lt; 1
+\]</span></p>
+<p>Thanks to this condition, not only <span class="math inline">\(f\)</span> is invertible, but all the eigenvalues of <span class="math inline">\(\nabla f = \nabla \left( \mathbb{I} + \phi(x) \right)\)</span> are strictly positive (adding a transformation with unity eigenvalues (i.e. <span class="math inline">\(\mathbb{I}\)</span>) and a transformation with eigenvalues strictly below unity (in norm) cannot result in a transformation with nil eigenvalues). Therefore, we can be certain that <span class="math inline">\(\left| \det \nabla f \right| = \det \left( \nabla (\mathbb{I} + \phi \right)\)</span> (no negative or nil eigenvalues).</p>
+<p>Recalling that <span class="math inline">\(det(e^A) = e^{tr(A)}\)</span> and the Taylor expansion of <span class="math inline">\(\log\)</span>, we obtain the following simplification:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\log \enspace \vert \det \nabla f \vert &amp; = \log \enspace \det(\nabla \phi) \\
+                                        &amp; = Tr(\log (\nabla \phi)) \\
+\log \enspace \vert \det \nabla f \vert &amp; = \sum_{k=1}^{\infty}{(-1)^{k+1} \frac{tr(\nabla \phi)^k}{k}}
+\end{aligned}
+\]</span></p>
+<p>Obviously a trace is much easier to calculate than a determinant. However, the expression now becomes an infinite series. One of the core result of the cited paper is an algorithm to limit the number of terms to calculate in this infinite series.</p>
+</div>
+</div>
+<div id="other-versions" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Other versions</h2>
+<p>[TODO] Table from Papamakorios</p>
+</div>
+</div>
+<div id="continuous-flows-and-neural-ordinary-differential-equations" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Continuous Flows and Neural ordinary differential equations</h1>
+<div id="introduction-2" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Introduction</h2>
+<p>Up to now, the normalising flows were defined as a <em>discrete</em> series of transformations. If we go back to the reversible formulation of the flows, the internal state of the flow evolve as</p>
+<p><span class="math display">\[\vec{x}_{i+1} = f(\vec{x}_{i}) = \vec{x}_{i} + \phi(\vec{x}_{i})\]</span></p>
+<p>or</p>
+<p><span class="math display">\[\vec{x}_{i+1} - \vec{x}_{i} = \phi_i(\vec{x}_{i})\]</span></p>
+<p>This can be read as the Euler discretisation of the following ordinary differential equation:</p>
+<p><span class="math display">\[\frac{d\vec{x}(t)}{dt} = \phi\left( \vec{x}(t), \theta \right)\]</span></p>
+<p>In other words, as the steps between layers becoming infinitesimal, the flows become continuous, where <span class="math inline">\(\theta\)</span> represent the layer’s parameters. Note that the parameters do not depend on the depth <span class="math inline">\(t\)</span>. As remarked by <span class="citation">(<a href="#ref-massaroliDissectingNeuralODEs2020" role="doc-biblioref">Massaroli et al. 2020</a>)</span>, this formulation with a constant <span class="math inline">\(\theta\)</span> (instead of a depth-dependent <span class="math inline">\(\theta(t)\)</span>) is the deep limit of a residual network with constant layer. We could be more general by using depth-dependent <span class="math inline">\(\theta(t)\)</span> to create truly continuous neural networks.</p>
+<p>Since <span class="math inline">\(\phi(\cdot)\)</span> only depends on <span class="math inline">\(t\)</span>, we can define <span class="math inline">\(\vec{x}(t_1) = \phi^{t_1 - t_0}(\vec{x}(t_0)) = \vec{x}(t_0) + \int_{t_0}^{t_1}{\phi(\vec{x}(t))dt}\)</span> and see that <span class="math inline">\(\phi^{t} \circ \phi^{s} = \phi^{t+s}\)</span>. Assuming, without loss of generality that <span class="math inline">\(t \in \left[ 0, 1 \right]\)</span>, <span class="math inline">\(\phi^1\)</span> is a smooth flow called a <em>time one map</em>. Note that under the assumptions that <span class="math inline">\(\phi^t(\cdot)\)</span> is continuous in <span class="math inline">\(t\)</span> and Lipschitz-continuous in <span class="math inline">\(\vec{x}\)</span>, the solution is unique (Picard–Lindelöf-Cauchy–Lipschitz theorem).</p>
+<p>This presentation of continuous flows is what <span class="citation">(<a href="#ref-chenNeuralOrdinaryDifferential2019" role="doc-biblioref">Chen et al. 2019</a>)</span> named <strong>Neural Ordinary Differential Equation</strong>.</p>
+<p>Surprisingly, the log probability density becomes simpler in this continuous setting. The discrete formulation:</p>
+<p><span class="math display">\[\log(P_Y(\vec{y})) = \log(P_X(\vec{x}))  - \log(\left| \det\nabla \left( \mathbb{I} + \phi(\vec{x}) \right) \right|)\]</span></p>
+<p>becomes</p>
+<p><span class="math display">\[\frac{\partial \log(P(\vec{x}(t)))}{\partial t}=-Tr \left( \frac{\partial \phi(\vec{x}(t))}{\partial \vec{x}(t)} \frac{\partial \vec{x}(t)}{\partial t} \right)\]</span>
+(See Appendix A of the paper for details.)</p>
+</div>
+<div id="continuous-flows-means-no-crossover" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Continuous flows means no-crossover</h2>
+<p>Previously, in the context of discrete transformations, the transformation matrix (the Jacobian) could have strictly positive or strictly negative eigenvalues. This is not the case in a continuous context.</p>
+<p>Let’s consider at a simple case in one dimension where we are simply trying to change the sign of a distribution.</p>
+<p>For any value of <span class="math inline">\(t\)</span>, a transformation is only a function of the distribution density at that depth. The transformation does not depend on the trajectories reaching that depth. Therefore at the point of crossing, a transformation would not be able to create crossing trajectories.</p>
+<p>Another way to look at this is to realise that at (or infinitesimally around) the point of crossing, the Jacobian of the transformation must have a negative eigenvalue to flip the volume. Starting from strictly positive eigenvalues, given that <span class="math inline">\(\phi(\cdot)\)</span> is sufficiently smooth, reaching a negative eigenvalue implies going through 0, at which point the transformation ceases to be a diffeomorphim. This is contrary to the design of normalising flows.</p>
+<p>Let’s look at what <code>Torchdyn</code> would produce. The dataset contains pairs of <code>(-1, 1)</code> and <code>(1, -1)</code>.</p>
+<pre class="python"><code>n_points = 100
+
+# The inputs
+X = torch.linspace(-1, 1, n_points).reshape(-1,1)
+
+# The reflected values
+y = -X
+
+X_train = torch.Tensor(X).to(device)
+y_train = torch.Tensor(y).to(device)
+
+# We train in a single batch
+train = data.TensorDataset(X_train, y_train)
+trainloader = data.DataLoader(train, batch_size=len(X), shuffle=False)</code></pre>
+<p>We define a <code>LightningModule</code>:</p>
+<pre class="python"><code>class LearnerReflect(pl.LightningModule):
+    def __init__(self, model:nn.Module, settings:dict={}):
+        super().__init__()
+        self.model = model
+    
+    def forward(self, x):
+        return self.model(x)
+    
+    def training_step(self, batch, batch_idx):
+        x, y = batch      
+        y_hat = self.model(x)   
+        loss = nn.MSELoss()(y_hat, y)
+        logs = {&#39;train_loss&#39;: loss}
+        return {&#39;loss&#39;: loss, &#39;log&#39;: logs}   
+    
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.model.parameters(), lr=0.01)
+
+    def train_dataloader(self):
+        return trainloader</code></pre>
+<p>The ODE is a single perceptron:</p>
+<pre class="python"><code># vanilla depth-invariant
+f = nn.Sequential(
+  nn.Linear(1, 64),
+  nn.Tanh(),
+  nn.Linear(64,1)
+  )
+
+# define the model
+model = NeuralDE(f, solver=&#39;dopri5&#39;).to(device)
+
+# train the neural ODE
+learn = LearnerReflect(model)
+trainer = pl.Trainer(min_epochs=100, max_epochs=200)
+trainer.fit(learn)</code></pre>
+<pre class="python"><code># Trace the trajectories
+s_span = torch.linspace(0, 1, 100)
+reflection_trajectory = model.trajectory(X_train, s_span).cpu().detach()</code></pre>
+<pre class="python"><code>plt.figure(figsize=(12,4))
+plot_settings = {
+  &#39;n_grid&#39;:30, 
+  &#39;x_span&#39;: [-1, 1], 
+  &#39;device&#39;: device}
+
+# Plot the learned flows
+plot_traj_vf_1D(model, 
+                s_span, reflection_trajectory, 
+                n_grid=30, 
+                x_span=[-1,1], 
+                device=device);</code></pre>
+<pre class="python"><code># evaluate vector field
+plot_n_pts = 50
+x = torch.linspace(reflection_trajectory[:,:, 0].min(), 
+                   reflection_trajectory[:,:, 0].max(), 
+                   plot_n_pts)
+y = torch.linspace(reflection_trajectory[:,:, 1].min(), 
+                   reflection_trajectory[:,:, 1].max(), 
+                   plot_n_pts)
+X, Y = torch.meshgrid(x, y) 
+
+z = torch.cat([X.reshape(-1,1), Y.reshape(-1,1)], 1)</code></pre>
+<pre class="python"><code># Field vectors
+model_f = model.defunc(0,z.to(device)).cpu().detach()
+
+fx = model_f[:, 0].reshape(plot_n_pts , plot_n_pts)
+fx = model_f[:, 1].reshape(plot_n_pts , plot_n_pts)</code></pre>
+<pre class="python"><code># plot vector field and its intensity
+fig = plt.figure(figsize=(4, 4))
+ax = fig.add_subplot(111)
+
+# Draws vector field itself
+ax.streamplot(X.numpy().T, Y.numpy().T, 
+              fx.numpy().T, fy.numpy().T, 
+              color=&#39;black&#39;)
+
+# Contour plot of the field&#39;s intensity 
+ax.contourf(X.T, Y.T, 
+            torch.sqrt(fx.T**2 + fy.T**2), 
+            cmap=&#39;RdYlBu&#39;)</code></pre>
+<p>This simple example shows that in this form, Neural ODEs are not general enough.</p>
+</div>
+<div id="training-solving-the-ode" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Training / Solving the ODE</h2>
+<p>When optimising the parameters of discrete layers, we use backpropagation. What is the equivalent in a continuous setting?</p>
+<p>Backpropagation works in a discrete context by propagate backward training losses which are allocated to parameters in proportion to their contribution to the loss and adjusting the parameters accordingly. The equivalent in a continuous context is the <strong>adjoint sensitivity method</strong> which originates from optimal control theory (see <span class="citation">(<a href="#ref-erricoWhatAdjointModel1997" role="doc-biblioref">Errico 1997</a>)</span> for example).</p>
+<p>Given a loss defined as:</p>
+<p><span class="math display">\[
+\mathcal{L(\vec{x}(t_1))} = \mathcal{L} \left( \vec{x}(t_0) + \int_{t_0}^{t_1} \phi(\vec{x}(t), t, \theta) dt \right)
+\]</span></p>
+<p>the adjoint <span class="math inline">\(a(\cdot)\)</span> is defined as the gradient of the loss for a given hidden state evaluated at <span class="math inline">\(\vec{x} = \vec{x}(t)\)</span>:</p>
+<p><span class="math display">\[
+a(t) = \frac{\partial \mathcal{L}}{\partial \vec{x}(t)} = \frac{\partial \mathcal{L}}{\partial \vec{x}} \frac{\partial  \vec{x}(t)}{\partial t}  
+\]</span></p>
+<p>The following figure explains what <span class="math inline">\(a(\cdot)\)</span> represents: as <span class="math inline">\(t\)</span> changes, so does the transformation <span class="math inline">\(\vec{x}(t)\)</span> of the input (if looking from <span class="math inline">\(\vec{x}(t_0)\)</span>). At a given step <span class="math inline">\(t\)</span>, the loss <span class="math inline">\(\mathcal{L}(\vec{x}(t))\)</span> is a function only of that given state. The adjoint expresses (1) the changes of that loss and (2) expresses it as a function of the progress through the flow <span class="math inline">\(t\)</span> instead of the value of the hidden state.</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-adjoint"></span>
+<img src="assets/adjoint_curve.png" alt="**Backpropagation in time of the adjoint sensitivity** *(Source: [@chenNeuralOrdinaryDifferential2019])*" width="171" />
+<p class="caption">
+Figure 3.1: <strong>Backpropagation in time of the adjoint sensitivity</strong> <em>(Source: <span class="citation">(<a href="#ref-chenNeuralOrdinaryDifferential2019" role="doc-biblioref">Chen et al. 2019</a>)</span>)</em>
+</p>
+</div>
+<p>A first order of approximation gives the following ODE (see <span class="citation">(<a href="#ref-chenNeuralOrdinaryDifferential2019" role="doc-biblioref">Chen et al. 2019</a>)</span> Appendix B.1. for details):</p>
+<p><span class="math display">\[
+- \frac{da(t)}{dt} = {a(t)}^\intercal \frac{\partial \phi(\vec{x}(t), t, \theta}{\partial \vec{x}(t)}
+\]</span></p>
+<p>We write the negative sign in front of the derivative to make it more apparent that the adjoint sensitivity method is interested in tracking the backward changes of the loss: a positive derivative as <span class="math inline">\(t\)</span> increases becomes a negative derivative as <span class="math inline">\(t\)</span> decreases.</p>
+<p>Deep learning libraries such a Pytorch, TensorFlow in Python, or Zygote.jl/Flux.jl/DiffEqFlux.jl in Julia provide automatic differentiation and a collection of bijections (to express the diffeomorphisms and loss function). They provide the infrastructure to express <span class="math inline">\(a(\cdot)\)</span> and its derivative, track its changes and optimise the parametrisation <span class="math inline">\(\theta\)</span> of the transformations. R has bindings to the Python libraries.</p>
+</div>
+<div id="what-parameters-to-optimise" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> What parameters to optimise?</h2>
+<p>Recall that, unlike the initial introduction of the Neural ODEs, the general case has depth-dependent parameters <span class="math inline">\(\theta(t)\)</span>. There is no practical <em>general</em> implementation of those continuous networks. <span class="citation">(<a href="#ref-massaroliDissectingNeuralODEs2020" role="doc-biblioref">Massaroli et al. 2020</a>)</span> describes two different approaches: hyper-networks where the parameters are generated by a neural network (one of the inputs being the depth), and what the paper calls Gälerkin-style approach. This approach uses a weighted basis of functions (think polynomials of a Taylor expansion or sine/cosine of a Fourier transform) limited to a few terms.</p>
+</div>
+<div id="increase-the-complexity-of-a-flow-augmented-flows" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Increase the complexity of a flow: Augmented flows</h2>
+<p>As mentioned above, the basic continuous flows are not able to express something as simple as a change of sign of a distribution. This can be addressed with augmented flows (see <span class="citation">(<a href="#ref-dupontAugmentedNeuralODEs2019" role="doc-biblioref">Dupont, Doucet, and Teh 2019</a>)</span>). The idea is to increase the dimension of the input: simply put, it embeds the flow into a space of higher dimension. <!-- The following figure shows how flipping the sign of the input distribution could be achieved. --></p>
+<p><span class="citation">(<a href="#ref-dupontAugmentedNeuralODEs2019" role="doc-biblioref">Dupont, Doucet, and Teh 2019</a>)</span> demonstrate that this augmentation is efficient enough to achieve any transformation.</p>
+<p>CHECK Appendix B.3 of <span class="citation">(<a href="#ref-massaroliDissectingNeuralODEs2020" role="doc-biblioref">Massaroli et al. 2020</a>)</span></p>
+</div>
+<div id="decrease-the-complexity-of-a-flow-regularisation-and-stability" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Decrease the complexity of a flow: Regularisation and stability</h2>
+<p>Despite its advantages, continuous flows suffer from potential instability: it does not take much for a dynamic systems to exhibit a chaotic behaviour. This is all the more possible since the latent space dimension is the same as the dataset’s. A larger number of dimensions means more possible flows within that space. Depth-dependent parameters <span class="math inline">\(\theta(t)\)</span>, instead of a constant <span class="math inline">\(\theta\)</span>, increases that risk (using a constant being a form of regularisation). (See <span class="citation">(<a href="#ref-zhang2014comprehensive" role="doc-biblioref">Zhang, Wang, and Liu 2014</a>)</span> for a comprehensive review of the stability of neural networks.) Greater stability can be achieved by penalising extreme or sudden flow divergences where small changes in inputs yield large changes in output.</p>
+<p>To quantify the propensity for chaotic behaviour, the literature is focused on the <em>Lyapunov exponents</em> (<strong>LEs</strong>) of the flows. What does LEs represent? Intuitively, you can imagine a point in space surrounded by a small volume <span class="math inline">\(V_1\)</span>. When that volume is carried by the flow (with time changing from <span class="math inline">\(t_1\)</span> to <span class="math inline">\(t_2\)</span>), it contracts and/or dilates to <span class="math inline">\(V_2\)</span>. LEs is a measure of this change <span class="math inline">\(V_2 / V_1\)</span> expressed as a logarithm: if the volume is unchanged, the LE <span class="math inline">\(\lambda\)</span> is 0 (<span class="math inline">\(e^\lambda = e^0 = 1\)</span>). A contraction (resp. dilatation) has a negative (resp. positive) exponent. This is formulation has two benefits:</p>
+<ul>
+<li><p>An exponent can be of any sign, but the change of volume is always positive (a negative volume makes no sense); and,</p></li>
+<li><p>for time changing from <span class="math inline">\(t_1\)</span> to <span class="math inline">\(t_2\)</span>, the exponent <span class="math inline">\(\lambda\)</span> is consistently expressed as an instantaneous change independent of time: <span class="math inline">\(V_2/V_1 = e^{\lambda (t_2 - t_1)}\)</span>.</p></li>
+</ul>
+<p>Adding a penalty term to the cost function are a natural solution:</p>
+<ul>
+<li><p><span class="citation">(<a href="#ref-yanRobustnessNeuralOrdinary2020" role="doc-biblioref">Yan et al. 2020</a>)</span> proposes using an estimate of the Lyapunov exponent. However, their proposal is to make this estimation along the flows; in essence, they regularise each flow (from an infinitesimal volume to another along segments of that flow) to avoid successive cycles of contraction/dilatation. Intuitively, this favours flows in the form of funnels (contraction) or horns (dilatation). It is however computationally expensive.</p></li>
+<li><p><span class="citation">(<a href="#ref-massaroliDissectingNeuralODEs2020" role="doc-biblioref">Massaroli et al. 2020</a>)</span> proposes to only calculate between <span class="math inline">\(t=0\)</span> and <span class="math inline">\(t=1\)</span> (with <span class="math inline">\(\mathcal{L}_{reg} = \sum\limits_{i}^N \left|| \phi^1(t, x(1), \theta(1)) \right||_2\)</span> for a training batch of size <span class="math inline">\(N\)</span>). If <span class="math inline">\(\phi^1\)</span> is zero, there is no change between the initial and final volume of a flow line.</p></li>
+</ul>
+</div>
+<div id="other" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Other</h2>
+<p>Previously mentioned generative models can be improved with normalising flows</p>
+<p>Flow-GAN Grover, Dhan Ermon, Flow-GAN combining max Likelihood and adversarial learning and generative model</p>
+<hr />
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="literature" class="section level2 unnumbered">
+<h2>Literature</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-chenNeuralOrdinaryDifferential2019" class="csl-entry">
+Chen, Ricky T. Q., Yulia Rubanova, Jesse Bettencourt, and David Duvenaud. 2019. <span>“Neural <span>Ordinary Differential Equations</span>.”</span> December 13, 2019. <a href="http://arxiv.org/abs/1806.07366">http://arxiv.org/abs/1806.07366</a>.
+</div>
+<div id="ref-dinhNICENonlinearIndependent2015" class="csl-entry">
+Dinh, Laurent, David Krueger, and Yoshua Bengio. 2015. <span>“<span>NICE</span>: <span>Non</span>-Linear <span>Independent Components Estimation</span>.”</span> April 10, 2015. <a href="http://arxiv.org/abs/1410.8516">http://arxiv.org/abs/1410.8516</a>.
+</div>
+<div id="ref-dupontAugmentedNeuralODEs2019" class="csl-entry">
+Dupont, Emilien, Arnaud Doucet, and Yee Whye Teh. 2019. <span>“Augmented <span>Neural ODEs</span>.”</span> October 26, 2019. <a href="http://arxiv.org/abs/1904.01681">http://arxiv.org/abs/1904.01681</a>.
+</div>
+<div id="ref-erricoWhatAdjointModel1997" class="csl-entry">
+Errico, Ronald M. 1997. <span>“What <span>Is</span> an <span>Adjoint Model</span>?”</span> <em>Bulletin of the American Meteorological Society</em> 78 (11): 2577–92. <a href="https://doi.org/10.1175/1520-0477(1997)078&lt;2577:WIAAM&gt;2.0.CO;2">https://doi.org/10.1175/1520-0477(1997)078&lt;2577:WIAAM&gt;2.0.CO;2</a>.
+</div>
+<div id="ref-GoodfellowDeepLearning2016" class="csl-entry">
+Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. 2016. <em>Deep Learning</em>. MIT Press.
+</div>
+<div id="ref-heDeepResidualLearning2015" class="csl-entry">
+He, Kaiming, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. 2015. <span>“Deep <span>Residual Learning</span> for <span>Image Recognition</span>.”</span> December 10, 2015. <a href="http://arxiv.org/abs/1512.03385">http://arxiv.org/abs/1512.03385</a>.
+</div>
+<div id="ref-hitawalaComparativeStudyGenerative2018" class="csl-entry">
+Hitawala, Saifuddin. 2018. <span>“Comparative <span>Study</span> on <span>Generative Adversarial Networks</span>.”</span> January 11, 2018. <a href="http://arxiv.org/abs/1801.04271">http://arxiv.org/abs/1801.04271</a>.
+</div>
+<div id="ref-kingmaIntroductionVariationalAutoencoders2019" class="csl-entry">
+Kingma, Diederik P., and Max Welling. 2019. <span>“An <span>Introduction</span> to <span>Variational Autoencoders</span>.”</span> <em>Foundations and Trends<span></span> in Machine Learning</em> 12 (4): 307–92. <a href="https://doi.org/ggfm34">https://doi.org/ggfm34</a>.
+</div>
+<div id="ref-kobyzevNormalizingFlowsIntroduction2020a" class="csl-entry">
+Kobyzev, Ivan, Simon J. D. Prince, and Marcus A. Brubaker. 2020. <span>“Normalizing <span>Flows</span>: <span>An Introduction</span> and <span>Review</span> of <span>Current Methods</span>.”</span> <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, 1–1. <a href="https://doi.org/10.1109/TPAMI.2020.2992934">https://doi.org/10.1109/TPAMI.2020.2992934</a>.
+</div>
+<div id="ref-larsenAutoencodingPixelsUsing2016" class="csl-entry">
+Larsen, Anders Boesen Lindbo, Søren Kaae Sønderby, Ole Winther, and Hugo Larochelle. 2016. <span>“Autoencoding Beyond Pixels Using a Learned Similarity Metric.”</span> February 10, 2016. <a href="https://arxiv.org/abs/1512.09300">https://arxiv.org/abs/1512.09300</a>.
+</div>
+<div id="ref-lucasDonBlameELBO2019" class="csl-entry">
+Lucas, James, George Tucker, Roger Grosse, and Mohammad Norouzi. 2019. <span>“Don’t <span>Blame</span> the <span>ELBO</span>! <span>A Linear VAE Perspective</span> on <span>Posterior Collapse</span>.”</span> November 6, 2019. <a href="http://arxiv.org/abs/1911.02469">http://arxiv.org/abs/1911.02469</a>.
+</div>
+<div id="ref-massaroliDissectingNeuralODEs2020" class="csl-entry">
+Massaroli, Stefano, Michael Poli, Jinkyoo Park, Atsushi Yamashita, and Hajime Asama. 2020. <span>“Dissecting <span>Neural ODEs</span>.”</span> June 20, 2020. <a href="http://arxiv.org/abs/2002.08071">http://arxiv.org/abs/2002.08071</a>.
+</div>
+<div id="ref-papamakariosNormalizingFlowsProbabilistic2019" class="csl-entry">
+Papamakarios, George, Eric Nalisnick, Danilo Jimenez Rezende, Shakir Mohamed, and Balaji Lakshminarayanan. 2019. <span>“Normalizing <span>Flows</span> for <span>Probabilistic Modeling</span> and <span>Inference</span>.”</span> December 5, 2019. <a href="http://arxiv.org/abs/1912.02762">http://arxiv.org/abs/1912.02762</a>.
+</div>
+<div id="ref-rezendeVariationalInferenceNormalizing2016" class="csl-entry">
+Rezende, Danilo Jimenez, and Shakir Mohamed. 2016. <span>“Variational <span>Inference</span> with <span>Normalizing Flows</span>.”</span> June 14, 2016. <a href="http://arxiv.org/abs/1505.05770">http://arxiv.org/abs/1505.05770</a>.
+</div>
+<div id="ref-russellArtificialIntelligenceModern2020" class="csl-entry">
+Russell, Stuart, and Peter Norvig. 2020. <em>Artificial <span>Intelligence</span>: A <span>Modern Approach</span></em>. 4th ed. Pearson <span>Series</span> on <span>Artificial Intelligence</span>. <span>Pearson</span>. <a href="http://aima.cs.berkeley.edu/">http://aima.cs.berkeley.edu/</a>.
+</div>
+<div id="ref-theodoridisMachineLearningBayesian2020" class="csl-entry">
+Theodoridis, Sergios. 2020. <em>Machine Learning: A <span>Bayesian</span> and Optimization Perspective</em>. <span>Amsterdam Boston Heidelberg London New York Oxford Paris San Diego San Francisco Singapore Sydney Tokyo</span>: <span>Elsevier, AP</span>. <a href="https://doi.org/10.1016/C2019-0-03772-7">https://doi.org/10.1016/C2019-0-03772-7</a>.
+</div>
+<div id="ref-tuckerUnderstandingPosteriorCollapse2019" class="csl-entry">
+Tucker, George, Roger Grosse, Mohammad Norouzi, and James Lucas. 2019. <span>“Understanding <span>Posterior Collapse</span> in <span>Generative Latent Variable Models</span>.”</span> In <em><span>DeepGenStruct Worshop</span></em>. <a href="https://www.semanticscholar.org/paper/Understanding-Posterior-Collapse-in-Generative-Lucas-Tucker/7e2f5af5d44890c08ef72a5070340e0ffd3643ea">https://www.semanticscholar.org/paper/Understanding-Posterior-Collapse-in-Generative-Lucas-Tucker/7e2f5af5d44890c08ef72a5070340e0ffd3643ea</a>.
+</div>
+<div id="ref-yanRobustnessNeuralOrdinary2020" class="csl-entry">
+Yan, Hanshu, Jiawei Du, Vincent Y. F. Tan, and Jiashi Feng. 2020. <span>“On <span>Robustness</span> of <span>Neural Ordinary Differential Equations</span>.”</span> January 1, 2020. <a href="http://arxiv.org/abs/1910.05513">http://arxiv.org/abs/1910.05513</a>.
+</div>
+<div id="ref-zhang2014comprehensive" class="csl-entry">
+Zhang, Huaguang, Zhanshan Wang, and Derong Liu. 2014. <span>“A Comprehensive Review of Stability Analysis of Continuous-Time Recurrent Neural Networks.”</span> <em>IEEE Transactions on Neural Networks and Learning Systems</em> 25 (7): 1229–62. <a href="https://doi.org/10.1109/TNNLS.2014.2317880">https://doi.org/10.1109/TNNLS.2014.2317880</a>.
+</div>
+</div>
+<hr />
+</div>
+<div id="web-references" class="section level2 unnumbered">
+<h2>Web references</h2>
+<ul>
+<li><p>Difficulties of <a href="https://medium.com/@jonathan_hui/gan-why-it-is-so-hard-to-train-generative-advisory-networks-819a86b3750b">training GANs</a>.</p></li>
+<li><p>A blog post by Adam Kosiorek on <a href="http://akosiorek.github.io/ml/2018/04/03/norm_flows.html">Normalizing Flows</a>.</p></li>
+<li><p>A two-part <a href="https://blog.evjang.com/2018/01/nf1.html">Normalizing Flows Tutorial</a> by Eric Jang.</p></li>
+<li><p>A <a href="https://www.shakirm.com/slides/DeepGenModelsTutorial.pdf">Tutorial on Deep Generative Models</a> by Shakir Mohamed and Danilo Rezende.</p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Picard%E2%80%93Lindel%C3%B6f_theorem">Picard–Lindelöf-Cauchy–Lipschitz theorem</a></p></li>
+<li><p>TensorFlow <a href="https://www.tensorflow.org/probability/api_docs/python/tfp/bijectors/Bijector">bijectors</a> and <a href="https://github.com/titu1994/tfdiffeq">continuous models</a></p></li>
+<li><p>Pytorch <a href="https://pytorch.org/docs/stable/distributions.html">bijectors</a> and <a href="https://torchdyn.readthedocs.io/en/latest/">continuous models</a></p></li>
+<li><p>Julia bijectors in <a href="https://github.com/TuringLang/Bijectors.jl">Turing</a> <a href="https://github.com/tpapp/TransformVariables.jl"></a> and <a href="https://diffeqflux.sciml.ai/dev/">neural ODEs</a> which also covers normalising flows and FFJORD.</p></li>
+</ul>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Incidentally, this observation is made in the last sentence of the last paragraph of the last chapter of the <a href="https://www.deeplearningbook.org/">Deep Learning Book</a> <span class="citation">(<a href="#ref-GoodfellowDeepLearning2016" role="doc-biblioref">Goodfellow, Bengio, and Courville 2016</a>)</span><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

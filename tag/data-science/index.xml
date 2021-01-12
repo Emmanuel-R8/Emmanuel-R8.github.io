@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Data Science | Back2Numbers</title>
-    <link>https://emmanuel-r8.github.io/tag/data-science/</link>
-      <atom:link href="https://emmanuel-r8.github.io/tag/data-science/index.xml" rel="self" type="application/rss+xml" />
+    <link>/tag/data-science/</link>
+      <atom:link href="/tag/data-science/index.xml" rel="self" type="application/rss+xml" />
     <description>Data Science</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2020</copyright><lastBuildDate>Wed, 25 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Emmanuel Rialland 2021</copyright><lastBuildDate>Wed, 25 Mar 2020 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://emmanuel-r8.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Data Science</title>
-      <link>https://emmanuel-r8.github.io/tag/data-science/</link>
+      <link>/tag/data-science/</link>
     </image>
     
     <item>
       <title>Forecasting the progression of COVID-19</title>
-      <link>https://emmanuel-r8.github.io/post/2020/03/25/2020-03-25-forecasting-covid-19/</link>
+      <link>/post/2020/03/25/2020-03-25-forecasting-covid-19/</link>
       <pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate>
-      <guid>https://emmanuel-r8.github.io/post/2020/03/25/2020-03-25-forecasting-covid-19/</guid>
+      <guid>/post/2020/03/25/2020-03-25-forecasting-covid-19/</guid>
       <description>
 &lt;script src=&#34;../../rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
@@ -763,9 +763,9 @@ PyPlot.savefig(&amp;quot;images/BedUsage.png&amp;quot;);
     
     <item>
       <title>HarvardX Gitbooks available</title>
-      <link>https://emmanuel-r8.github.io/post/2019/12/12/harvardx-gitbooks-available/</link>
+      <link>/post/2019/12/12/harvardx-gitbooks-available/</link>
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>https://emmanuel-r8.github.io/post/2019/12/12/harvardx-gitbooks-available/</guid>
+      <guid>/post/2019/12/12/harvardx-gitbooks-available/</guid>
       <description>
 &lt;script src=&#34;../../rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
@@ -778,9 +778,9 @@ PyPlot.savefig(&amp;quot;images/BedUsage.png&amp;quot;);
     
     <item>
       <title>HarvardX Final Report - LendingClub dataset</title>
-      <link>https://emmanuel-r8.github.io/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</link>
+      <link>/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</link>
       <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>https://emmanuel-r8.github.io/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</guid>
+      <guid>/post/2019/12/11/harvardx-final-report-lendingclub-dataset/</guid>
       <description>
 &lt;script src=&#34;../../rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
@@ -804,9 +804,9 @@ PyPlot.savefig(&amp;quot;images/BedUsage.png&amp;quot;);
     
     <item>
       <title>HarvardX Data Science course - First final project</title>
-      <link>https://emmanuel-r8.github.io/post/2019/10/05/harvardx-data-science-course-first-final-project/</link>
+      <link>/post/2019/10/05/harvardx-data-science-course-first-final-project/</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>https://emmanuel-r8.github.io/post/2019/10/05/harvardx-data-science-course-first-final-project/</guid>
+      <guid>/post/2019/10/05/harvardx-data-science-course-first-final-project/</guid>
       <description>
 &lt;script src=&#34;../../rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
